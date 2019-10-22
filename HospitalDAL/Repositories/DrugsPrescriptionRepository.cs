@@ -25,12 +25,30 @@ namespace HospitalDAL.Repositories
 
         public DrugsPrescription Get(int idDP)
         {
-            return db.DrugsPrescriptions.Where(d => d.IdDrugsPrescription == idDP).FirstOrDefault();
+            var dp= db.DrugsPrescriptions.Where(d => d.IdDrugsPrescription == idDP).FirstOrDefault();
+            db.Entry(dp).Reference(r => r.Drugs);
+            dp.Drugs = db.Drugs.Where(d => d.IdDrugs == dp.DrugsIdDrugs).FirstOrDefault();
+            db.Entry(dp).Reference(r => r.Complaint);
+            db.Entry(dp).Reference(r => r.Doctor);
+            dp.Doctor = db.Doctors.Where(d => d.ClientProfile.IdClientProfile == dp.DoctorIdDoctor)
+                .FirstOrDefault();
+            return dp;
         }
 
         public IEnumerable<DrugsPrescription> GetAll()
         {
-            return db.DrugsPrescriptions.ToList();
+           var dps= db.DrugsPrescriptions.ToList();
+            foreach (var dp in dps)
+            {
+                db.Entry(dp).Reference(r => r.Drugs);
+                dp.Drugs = db.Drugs.Where(d => d.IdDrugs == dp.DrugsIdDrugs).FirstOrDefault();
+                db.Entry(dp).Reference(r => r.Complaint);
+                db.Entry(dp).Reference(r => r.Doctor);
+                dp.Doctor = db.Doctors.Where(d => d.ClientProfile.IdClientProfile == dp.DoctorIdDoctor)
+               .FirstOrDefault();
+            }
+
+            return dps;
         }
     }
 }

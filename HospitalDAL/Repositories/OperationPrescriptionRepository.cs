@@ -24,12 +24,32 @@ namespace HospitalDAL.Repositories
 
         public OperationPrescription Get(int idOP)
         {
-            return db.OperationPrescriptions.Where(obj => obj.IdOperationPrescription == idOP).FirstOrDefault();
+            var dp= db.OperationPrescriptions.Where(obj => obj.IdOperationPrescription == idOP).FirstOrDefault();
+            db.Entry(dp).Reference(r => r.Operation);
+            dp.Operation = db.Operations.Where(o => o.IdOperation == dp.OperationIdOperation).
+                FirstOrDefault();
+            db.Entry(dp).Reference(r => r.Complaint);
+            db.Entry(dp).Reference(r => r.Doctor);
+            dp.Doctor = db.Doctors.Where(d => d.ClientProfile.IdClientProfile == dp.DoctorIdDoctor)
+               .FirstOrDefault();
+            return dp;
         }
 
         public IEnumerable<OperationPrescription> GetAll()
         {
-            return db.OperationPrescriptions.ToList();
+            var dps= db.OperationPrescriptions.ToList();
+            foreach (var dp in dps)
+            {
+                db.Entry(dp).Reference(r => r.Operation);
+                dp.Operation = db.Operations.Where(o => o.IdOperation == dp.OperationIdOperation).
+              FirstOrDefault();
+                db.Entry(dp).Reference(r => r.Complaint);
+                db.Entry(dp).Reference(r => r.Doctor);
+                dp.Doctor = db.Doctors.Where(d => d.ClientProfile.IdClientProfile == dp.DoctorIdDoctor)
+              .FirstOrDefault();
+            }
+
+            return dps;
         }
     }
 }

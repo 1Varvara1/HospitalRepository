@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HospitalDAL.Repositories
 {
-    public class ProcedurePrescriptionRepository: IProcedurePrescriptionRepository
+    public class ProcedurePrescriptionRepository : IProcedurePrescriptionRepository
     {
         ApplicationContext db;
         public ProcedurePrescriptionRepository(ApplicationContext context)
@@ -25,12 +25,35 @@ namespace HospitalDAL.Repositories
 
         public ProcedurePrescription Get(int idProcedurePrescription)
         {
-            return db.ProcedurePrescriptions.Where(pp => pp.IdProcedurePrescription == idProcedurePrescription).FirstOrDefault();
+            var dp = db.ProcedurePrescriptions.Where(pp => pp.IdProcedurePrescription == idProcedurePrescription).FirstOrDefault();
+
+            db.Entry(dp).Reference(r => r.Procedure);
+            dp.Procedure = db.Procedures.Where(p => p.IdProcedure == dp.ProcedureIdProcedure).
+                FirstOrDefault();
+            db.Entry(dp).Reference(r => r.Complaint);
+            db.Entry(dp).Reference(r => r.Doctor);
+            dp.Doctor = db.Doctors.Where(d => d.ClientProfile.IdClientProfile == dp.DoctorIdDoctor)
+              .FirstOrDefault();
+
+
+            return dp;
         }
 
         public IEnumerable<ProcedurePrescription> GetAll()
         {
-            return db.ProcedurePrescriptions.ToList();
+            var dps = db.ProcedurePrescriptions.ToList();
+            foreach (var dp in dps)
+            {
+                db.Entry(dp).Reference(r => r.Procedure);
+                dp.Procedure = db.Procedures.Where(p => p.IdProcedure == dp.ProcedureIdProcedure).
+               FirstOrDefault();
+                db.Entry(dp).Reference(r => r.Complaint);
+                db.Entry(dp).Reference(r => r.Doctor);
+                dp.Doctor = db.Doctors.Where(d => d.ClientProfile.IdClientProfile == dp.DoctorIdDoctor)
+              .FirstOrDefault();
+            }
+
+            return dps;
         }
     }
 }

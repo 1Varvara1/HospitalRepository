@@ -221,21 +221,48 @@ namespace HospitalBLL.Services
                     });
                 }
 
-                var diagnos = Database.Patient_DiagnosisRepository.GetAll().
+                Diagnosis diagnos = null;
+
+                // if the diagnosis for patient was mached
+                if (Database.Patient_DiagnosisRepository.GetAll().
+                    Where(d => d.Complaint.IdComplaint == item.ComplaintIdComplaint).
+                    FirstOrDefault()!= null)
+                {
+                    diagnos = Database.Patient_DiagnosisRepository.GetAll().
                     Where(d => d.Complaint.IdComplaint == item.ComplaintIdComplaint).
                     FirstOrDefault().Diagnosis;
 
-                patients.Add(new PatientBLL
+                    patients.Add(new PatientBLL
+                    {
+                        ClientProfile = new ClientProfileBLL(patient.IdClientProfile, patient.Name,
+                 patient.Surname, patient.SecondName, patient.Birth, "", "user"),
+                        IdComplaint = item.ComplaintIdComplaint,
+                        DrugsPrescriptions = drugPrescriplionsBll,
+                        ProcedurePrescriptions = procedurePrescriplionsBll,
+                        OperatonPrescriptions = operationPrescriptionsBll,
+                        Diagnosis = new DiagnosisBLL
+                        {
+                            IdDiagnosis = diagnos.IdDiagnosis,
+                            DiagnosisName = diagnos.DiagnosisName
+                        }
+                    }); ;
+                }
+
+                // If doctor  didnt match diagnosis for a patient 
+                else
                 {
-                    ClientProfile = new ClientProfileBLL(patient.IdClientProfile, patient.Name,
-                    patient.Surname, patient.SecondName, patient.Birth, "", "user"),
-                    IdComplaint = item.ComplaintIdComplaint,
-                    DrugsPrescriptions= drugPrescriplionsBll,
-                    ProcedurePrescriptions= procedurePrescriplionsBll,
-                    OperatonPrescriptions= operationPrescriptionsBll,
-                    Diagnosis= new DiagnosisBLL { IdDiagnosis= diagnos.IdDiagnosis,
-                        DiagnosisName= diagnos.DiagnosisName}
-                });; 
+                    patients.Add(new PatientBLL
+                    {
+                        ClientProfile = new ClientProfileBLL(patient.IdClientProfile, patient.Name,
+                                           patient.Surname, patient.SecondName, patient.Birth, "", "user"),
+                        IdComplaint = item.ComplaintIdComplaint,
+                        DrugsPrescriptions = drugPrescriplionsBll,
+                        ProcedurePrescriptions = procedurePrescriplionsBll,
+                        OperatonPrescriptions = operationPrescriptionsBll,
+                        Diagnosis = null
+                    }); 
+                }
+                   
 
 
             }

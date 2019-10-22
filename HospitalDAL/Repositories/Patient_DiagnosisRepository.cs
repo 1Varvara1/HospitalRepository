@@ -30,6 +30,7 @@ namespace HospitalDAL.Repositories
                 FirstOrDefault();
             db.Entry(pd).Reference(c => c.Complaint);
             db.Entry(pd).Reference(c => c.Diagnosis);
+          //  pd.Diagnosis = db.Diagnoses.Where(d=>d.IdDiagnosis==pd.DiagnosisIdDiagnosis).FirstOrDefault();
             return pd;
         }
 
@@ -40,6 +41,7 @@ namespace HospitalDAL.Repositories
             {
                 db.Entry(item).Reference(c => c.Complaint);
                 db.Entry(item).Reference(c => c.Diagnosis);
+            //    item.Diagnosis = db.Diagnoses.Where(d => d.IdDiagnosis == item.DiagnosisIdDiagnosis).FirstOrDefault();
             }
             return dps;
         }
