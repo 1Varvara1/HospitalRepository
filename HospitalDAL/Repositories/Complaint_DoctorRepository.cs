@@ -19,23 +19,26 @@ namespace HospitalDAL.Repositories
         public void Create(Complaint_Doctor complaint_doctor)
         {
             db.Complaint_Doctors.Add(complaint_doctor);
+            db.SaveChanges();
         }
 
         public void Delete(int idComplaint)
         {
             db.Complaint_Doctors.
-                Remove(db.Complaint_Doctors.Where(obj => obj.IdComplaint_Doctor == idComplaint).
+                Remove(db.Complaint_Doctors.Where(obj => obj.ComplaintIdComplaint == idComplaint).
                 FirstOrDefault());
+            db.SaveChanges();
         }
 
         public Complaint_Doctor Get(int idComplaint)
         {
            var complaint_d= db.Complaint_Doctors.
-                Where(obj => obj.IdComplaint_Doctor == idComplaint).
+                Where(obj => obj.ComplaintIdComplaint == idComplaint).
                 FirstOrDefault();
 
             db.Entry(complaint_d).Reference(c => c.Complaint).Load();
             db.Entry(complaint_d).Reference(c => c.Doctor).Load();
+            db.Entry(complaint_d.Complaint).Reference(c => c.ClientProfile).Load();
 
             return complaint_d;
         }
@@ -47,6 +50,7 @@ namespace HospitalDAL.Repositories
             {
                 db.Entry(cd).Reference(c => c.Complaint).Load();
                 db.Entry(cd).Reference(c => c.Doctor).Load();
+                db.Entry(cd.Complaint).Reference(c => c.ClientProfile).Load();
             }
 
             return comp_doctors;

@@ -1,0 +1,102 @@
+﻿@model IEnumerable<HospitalBLL.Models.UserBLL>
+
+
+<div id="resultSearch">
+    <div class="container">
+
+        <table class="table table-hover">
+            <thead class="thead-ligth">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Surname)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.SecondName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Birth)
+                    </th>
+                    <th>
+
+                    </th>
+
+
+                    <th>
+                      
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.NeedDoctor)
+                    {
+                        <tr class="table-warning">
+                            <td>
+                               <b>@Html.DisplayFor(modelItem => item.Surname)</b> 
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SecondName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Birth)
+                            </td>
+
+                            <td>
+
+                                <button type="submit" class="btn btn-primary">Больничная карта</button>
+                                @if (item.NeedDoctor)
+                                {
+                                    <button type="submit" class="btn btn-warning">Назначить доктора</button>
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class="table-success">
+                            <td>
+                                <b>@Html.DisplayFor(modelItem => item.Surname)</b>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SecondName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Birth)
+                            </td>
+
+                            <td>
+                                <button type="submit" class="btn btn-primary">Больничная карта</button>
+                                @if (item.NeedDoctor)
+                                {
+                                    <button type="submit" class="btn btn-warning">Назначить доктора</button>
+                                }
+
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+
+
+    </div>
+
+</div>

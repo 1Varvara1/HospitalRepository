@@ -21,7 +21,7 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             @Html.LabelFor(m => m.Name, "Имя")
-            @Html.TextBoxFor(m => m.Name,new { placeholder = "Введите имя пациента", id = "Name" })
+            @Html.TextBoxFor(m => m.Name, new { placeholder = "Введите имя пациента", id = "Name" })
 
             @Html.LabelFor(m => m.Surname, "Фамилия")
             @Html.TextBoxFor(m => m.Surname, new { placeholder = "Введите фамилию пациента", id = "Surname" })
@@ -30,19 +30,58 @@
             @Html.TextBoxFor(m => m.SecondName, new { placeholder = "Введите отчество пациента", id = "SecondName" })
 
             @Html.LabelFor(m => m.Birth, "Дата рождения")
-            @Html.TextBoxFor(m => m.Birth, new {  id = "Name", type = "date" })
+            @Html.TextBoxFor(m => m.Birth, new { id = "Birth", type = "date" })
             <br />
             @Html.LabelFor(m => m.Address, "Адрес")
             @Html.TextBoxFor(m => m.Address, new { placeholder = "Введите адрес пациента", id = "Address" })
 
             @Html.LabelFor(m => m.Email, "Email")
-            @Html.TextBoxFor(m => m.Email, new { placeholder = "Введите email пациента", id = "Email",type="email" })
-            <button type="submit">Login</button>
+            @Html.TextBoxFor(m => m.Email, new { placeholder = "Введите email пациента", id = "Email", type = "email" })
+            <br />
+            @*<span>
+                    <input type="checkbox" name="redirect" value="true" />
+                    Перейти к оформлению жалобы
+                </span>*@
+            <label for="redirect">Перейти к оформлению жалобы</label>
+            <label class="switch">
+                <input id="redirect" type="checkbox" name="redirect" value="true" onchange="ChangeRedirectValue()" checked>
+
+                <span class="slider round"></span>
+            </label>
+
+            <button type="submit">Зарегистрировать</button>
         </div>
     }
 
 
 </div>
+
+
+@if (ViewBag.Succes == true)
+{
+    <script>
+        Swal.fire({
+            type:'success',
+            title: 'Отлично, пацент зарегистрирован',
+
+        })
+    </script>
+}
+
+<script>
+
+    function ChangeRedirectValue() {
+        var val = $('#redirect').attr('value');
+        if (val == "false") {
+            alert('alert');
+            $('#redirect').attr('value', 'true');
+        }
+        else if (val == "true") {
+            $('#redirect').attr('value', 'false');
+        }
+    }
+
+</script>
 
 
 

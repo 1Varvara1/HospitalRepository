@@ -1,22 +1,72 @@
 ﻿@model IEnumerable<HospitalBLL.Models.DoctorBLL>
 
-    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-2">
+@section Style{
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/CardFonts.css">
+    <style>
+
+        .chPhoto {
+            float: left;
+            margin: 0 10px 0 -25px;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+    </style>
+}
+<script>
+
+    function Load() {
+            alert('@ViewBag.Sp[0].NameSpeciality');
+    }
+</script>
+
+<div onload="Load()">
+    <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-2">
         <div class="row">
             @foreach (var item in Model)
             {
                 <div class="card col-lg-3 col-md-4 col-sm-4 col-xs-6">
-                    <img src="~/Images/ico.png" alt="Avatar" style="width:100%">
+                    <img src="~/Images/doctor.png" alt="Avatar" style="width:100%">
                     <div class="container">
-                        <h3><b>@item.ClientProfile.Surname</b></h3>
-                        <h4>@item.ClientProfile.Name @item.ClientProfile.SecondName</h4>
-                        <p>Специализвция: <b>@item.Speciality.NameSpeciality</b></p>
-                        <p>Кол-во пациентов <b>@item.Speciality.NameSpeciality</b></p>
+                        <span class="surnameFont"><b>@item.ClientProfile.Surname</b></span><br />
+                        <span class="nameFont">
+
+                            @item.ClientProfile.Name @item.ClientProfile.SecondName
+                        </span>
+                        <div class="titleFont">
+                            Специализация:
+                            <p class="spec">
+                                @* <img class="chPhoto" src="@Url.Content(item.PathPhoto)" alt="Person" width="96" height="96">*@
+                                <b>@item.Speciality.NameSpeciality</b>
+                            </p>
+                        </div>
+                        <div>
+                            Кол-во пациентов
+                            <span class="numberFont"><b>@item.AmountPatients</b></span>
+                        </div>
+                        <div>
+                            Находяться на лечении
+                            <span class="numberFont"><b>@item.AmountBeingTreated</b></span>
+                        </div>
                     </div>
                 </div>
             }
         </div>
 
-    
+
 
     </div>
+</div>
+
+
+
+@section scripts{
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+
+
+}
 

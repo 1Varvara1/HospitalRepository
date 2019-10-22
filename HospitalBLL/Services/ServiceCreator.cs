@@ -1,4 +1,5 @@
 ﻿using HospitalBLL.Interfaces;
+using HospitalBLL.Models;
 using HospitalDAL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,10 @@ namespace HospitalBLL.Services
         public ServiceCreator()
         {
             connection = "DefaultConnection";
+        }
+        
+        public DoctorFilterService CreateDoctorFilterService() {
+            return new DoctorFilterService(new IdentityUnitOfWork(connection));
         }
 
         public IUserService CreateUserService()

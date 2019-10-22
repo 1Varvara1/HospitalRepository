@@ -31,6 +31,7 @@ namespace HospitalDAL.Repositories
         IProcedureRepository procedureRepository;
         ISpecialityRepository specialityRepository;
         IComplaint_DoctorRepository complaint_DoctorRepository;
+        IDischargeRepository dischargeRepository;
 
         public IdentityUnitOfWork(string connectionString)
         {
@@ -51,12 +52,20 @@ namespace HospitalDAL.Repositories
             procedureRepository=new ProcedureRepository(db);
             specialityRepository = new SpecialityRepository(db);
             complaint_DoctorRepository = new Complaint_DoctorRepository(db);
+            dischargeRepository = new DischargeRepository(db);
 
+
+          //  db.Entry(Complaint).Reference()
         }
 
         public IComplaint_DoctorRepository Complaint_DoctorRepository {
 
             get { return complaint_DoctorRepository; }
+        }
+        public IDischargeRepository DischargeRepository
+        {
+
+            get { return dischargeRepository; }
         }
 
 

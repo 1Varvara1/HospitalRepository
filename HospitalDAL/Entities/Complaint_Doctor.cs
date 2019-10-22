@@ -11,15 +11,13 @@ namespace HospitalDAL.Entities
     public class Complaint_Doctor
     {
         [Key]
-        public int IdComplaint_Doctor { get; set;}
-       
+        [ForeignKey("Complaint")]
         public int ComplaintIdComplaint { get; set; }
-        public  Complaint Complaint { get; set; }
-
     
-        public string DoctorIdDoctor { get; set; }
+        public virtual Complaint Complaint { get; set; }
+        public int DoctorIdDoctor { get; set; }
 
-        public ClientProfile Doctor { get; set; }
+        public Doctor Doctor { get; set; }
        
 
 

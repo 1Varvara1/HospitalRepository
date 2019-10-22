@@ -10,5 +10,6 @@ namespace HospitalDAL.Interfaces
     {
         void Create(ClientProfile item);
         List<ClientProfile> GetAll();
+        ClientProfile Get(string idClientProfile);
     }
 }

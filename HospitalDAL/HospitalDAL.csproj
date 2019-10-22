@@ -78,6 +78,7 @@
     <Compile Include="Interfaces\IComplaintRepository.cs" />
     <Compile Include="Interfaces\IComplaint_DoctorRepository.cs" />
     <Compile Include="Interfaces\IDiagnosisRepository.cs" />
+    <Compile Include="Interfaces\IDischargeRepository.cs" />
     <Compile Include="Interfaces\IDoctorRepository.cs" />
     <Compile Include="Interfaces\IDrugsPrescriptionRepository.cs" />
     <Compile Include="Interfaces\IDrugsRepository.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Interfaces\IPatient_DiagnosisRepository.cs" />
     <Compile Include="Interfaces\IProcedurePrescriptionRepository.cs" />
     <Compile Include="Interfaces\IProcedureRepository.cs" />
+    <Compile Include="Interfaces\ISave.cs" />
     <Compile Include="Interfaces\ISpecialityRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Repositories\ComplaintRepository.cs" />
     <Compile Include="Repositories\Complaint_DoctorRepository.cs" />
     <Compile Include="Repositories\DiagnosisRepository.cs" />
+    <Compile Include="Repositories\DischargeRepository.cs" />
     <Compile Include="Repositories\DoctorRepository.cs" />
     <Compile Include="Repositories\DrugsPrescriptionRepository.cs" />
     <Compile Include="Repositories\DrugsRepository.cs" />

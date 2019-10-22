@@ -15,9 +15,11 @@ namespace HospitalBLL.Models
         public string PathPhoto { get; set; }
         public List<Complaint_Doctor> Complaint_Doctors { get; set; }
         public int AmountPatients { get; set; }
+        public int AmountBeingTreated { get; set; }
 
 
-        public DoctorBLL(ClientProfile profile, Speciality speciality, List<Complaint_Doctor> complaint_Doctors, string pathPhoto="")
+        public DoctorBLL(ClientProfile profile, Speciality speciality,
+            List<Complaint_Doctor> complaint_Doctors,string pathPhoto="")
         {
             ClientProfile = profile;
             Speciality = speciality;
@@ -25,6 +27,11 @@ namespace HospitalBLL.Models
             Complaint_Doctors = complaint_Doctors;
             PathPhoto = pathPhoto;
             AmountPatients = 0;
+            AmountBeingTreated = 0;
+        }
+        public DoctorBLL()
+        {
+
         }
     }
 }

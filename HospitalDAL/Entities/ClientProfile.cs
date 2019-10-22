@@ -14,7 +14,7 @@ namespace HospitalDAL
         public string Name { get; set; }
         public string Surname { get; set; }
         public string SecondName { get; set; }
-        public DateTime? Birth { get; set; }
+        public DateTime Birth { get; set; }
         public string Address { get; set; }
         public  ICollection<Complaint> Complaints{ get; set; }
         public  ApplicationUser ApplicationUser { get; set; }

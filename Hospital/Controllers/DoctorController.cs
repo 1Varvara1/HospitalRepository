@@ -1,12 +1,16 @@
-﻿using HospitalBLL.Interfaces;
+﻿using Hospital.Models;
+using HospitalBLL.Interfaces;
+using HospitalBLL.Models;
 using HospitalBLL.Services;
 using Microsoft.AspNet.Identity.Owin;
+
 using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using SelectList = System.Web.Mvc.SelectList;
 
 namespace Hospital.Controllers
 {
@@ -48,6 +52,14 @@ namespace Hospital.Controllers
                 return creator.CreateSpecialityService();
             }
         }
+
+        private DoctorFilterService DoctorFilterService
+        {
+            get
+            {
+                return creator.CreateDoctorFilterService();
+            }
+        }
         public ActionResult Login()
         {
             return View();
@@ -62,20 +74,30 @@ namespace Hospital.Controllers
         {
             // Initial dropdown with specialities
             var specialities = SpecialityService.GetAllSpecialities();
-            ViewBag.Specialities = new SelectList(specialities, "IdSpeciality", "NameSpeciality");
+            var none = new List<SpecialityBLL> { new SpecialityBLL(0, "Специальность") };
 
+            ViewBag.Specialities = new SelectList(none.Concat(specialities), "IdSpeciality", "NameSpeciality");
+          //  var c = new SelectList(none.Concat(specialities), "IdSpeciality", "NameSpeciality");
             return View();
         }
 
         [HttpPost]
-        public ActionResult SearchPartial(string sort, int idSpeciality)
+        public ActionResult SearchPartial(DoctorSortModel ds)
         {
             var specialities = SpecialityService.GetAllSpecialities();
             ViewBag.Specialities = new SelectList(specialities, "IdSpeciality", "NameSpeciality");
-
-            var doctors = DoctorService.GetAll();
-
+            ViewBag.Sp = specialities;
+            //var doctors = DoctorService.GetAll();
+            var doctors = DoctorFilterService.ApplyFilter(ds);
             return PartialView(doctors);
+        }
+
+
+
+        public ActionResult DoctorsPatients()
+        {
+            var model = DoctorService.GetPatients(UserService.GetId(User.Identity.Name));
+            return View(model);
         }
     }   
 }

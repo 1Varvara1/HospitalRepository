@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HospitalDAL.Interfaces
 {
-    public interface IComplaintRepository
+    public interface IComplaintRepository: ISave
     {
         IEnumerable<Complaint> GetAll();
         Complaint Get(int idComplaint);

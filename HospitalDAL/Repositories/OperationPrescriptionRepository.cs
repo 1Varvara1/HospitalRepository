@@ -19,6 +19,7 @@ namespace HospitalDAL.Repositories
         public void Create(OperationPrescription op)
         {
             db.OperationPrescriptions.Add(op);
+            db.SaveChanges();
         }
 
         public OperationPrescription Get(int idOP)

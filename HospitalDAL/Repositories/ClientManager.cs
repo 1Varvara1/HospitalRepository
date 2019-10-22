@@ -40,7 +40,16 @@ namespace HospitalDAL.Repositories
             return profiles;
         }
 
-       
+        public ClientProfile Get(string idClientProfile)
+        {
+            var profile = Database.ClientProfiles.
+                Where(c=>c.IdClientProfile==idClientProfile).
+                FirstOrDefault();
+            Database.Entry(profile).Reference(p => p.ApplicationUser).Load();
+            Database.Entry(profile).Collection(p => p.Complaints).Load();
+
+            return profile;
+        }
     }
 }
 

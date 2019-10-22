@@ -15,7 +15,7 @@ namespace HospitalDAL.Entities
 
         public int ComplaintIdComplaint { get; set; }
         public Complaint Complaint { get; set; }
-        public DateTime? DateDisharged { get; set; }
+        public DateTime DateDisharged { get; set; }
         [ForeignKey("Diagnosis")]
         public int DiagnosisIdDiagnosis { get; set; }
         public Diagnosis Diagnosis { get; set; }

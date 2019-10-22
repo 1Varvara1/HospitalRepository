@@ -24,6 +24,7 @@ namespace HospitalDAL.Interfaces
         IProcedureRepository ProcedureRepository { get; }
         ISpecialityRepository SpecialityRepository { get; }
         IComplaint_DoctorRepository Complaint_DoctorRepository { get; }
+        IDischargeRepository DischargeRepository { get; }
         Task SaveAsync();
     }
 }

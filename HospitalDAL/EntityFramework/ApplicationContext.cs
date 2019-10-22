@@ -12,7 +12,7 @@ namespace HospitalDAL.EntityFramework
     public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationContext(string conectionString) : base(conectionString) {
-           
+          
         }
 
         public DbSet<ClientProfile> ClientProfiles { get; set; }
@@ -32,9 +32,14 @@ namespace HospitalDAL.EntityFramework
 
         public DbSet<Discharge>Discharges { get; set; }
 
-        public void ModelLoad()
-        {
+        //protected override void OnModelCreating(DbModelBuilder mb)
+        //{
+        //    mb.Entity<Complaint_Doctor>().HasRequired(cd => cd.Complaint).WithOptional(c=>c.Complaint_Doctor);
+        //}
 
+            public void ModelLoad()
+        {
+            
             ClientProfiles.Include(cp => cp.ApplicationUser);
             ClientProfiles.Include(cp => cp.Complaints);
             Complaints.Include(c => c.ClientProfile);

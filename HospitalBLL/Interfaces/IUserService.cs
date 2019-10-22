@@ -14,7 +14,13 @@ namespace HospitalBLL.Interfaces
         Task<OperationDetails> Create(UserBLL userBLL);
         Task<ClaimsIdentity> Authenticate(UserBLL userBLL);
         Task SetInitialData(UserBLL adminBLL, List<string> roles);
-       List<UserBLL> GetPatients();
-      //  Task<List<UserBLL>> GetPatientsByYear();
+        List<UserBLL> GetPatients();
+
+        string GetRole(string id);
+        string GetId(string UserName);
+
+        ClientProfileBLL GetProfile(string UserName);
+        List<UserBLL> GetPatientsAreBeingTreated();
+        //  Task<List<UserBLL>> GetPatientsByYear();
     }
 }

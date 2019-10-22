@@ -11,6 +11,10 @@ namespace HospitalBLL.Interfaces
    public interface IComplaintService
     {
         List<ComplaintBLL> GetAll();
+        Task<int> Create(string IdClientProfle,int idSpeciality);
+
+        void MatchComplaintDoctor(int idComplaint, string idDoctor);
+
 
     }
 }

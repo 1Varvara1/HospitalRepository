@@ -55,6 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Comparers\BirthUserComparer.cs" />
+    <Compile Include="Comparers\DoctorAmountPatientsBeingTreatedComparer.cs" />
+    <Compile Include="Comparers\DoctorAmountPatientsComparer.cs" />
+    <Compile Include="Comparers\SurnameDoctorComparer.cs" />
+    <Compile Include="Comparers\SurnameUserComparer.cs" />
     <Compile Include="Infrastructure\OperationDetails.cs" />
     <Compile Include="Interfaces\IComplaintService.cs" />
     <Compile Include="Interfaces\IDoctorService.cs" />
@@ -62,8 +67,18 @@
     <Compile Include="Interfaces\IServiceCreator.cs" />
     <Compile Include="Interfaces\ISpecialityService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="Models\ClientProfileBLL.cs" />
     <Compile Include="Models\ComplaintBLL.cs" />
+    <Compile Include="Models\DiagnosisBLL.cs" />
     <Compile Include="Models\DoctorBLL.cs" />
+    <Compile Include="Models\DoctorSortModel.cs" />
+    <Compile Include="Models\DrugPrescriptionBLL.cs" />
+    <Compile Include="Models\OperationBLL.cs" />
+    <Compile Include="Models\OperationPrescriptionsBLL.cs" />
+    <Compile Include="Models\PatientBLL.cs" />
+    <Compile Include="Models\ProcedureBLL.cs" />
+    <Compile Include="Models\ProcedurePrescriptonBLL.cs" />
+    <Compile Include="Services\DoctorFilterService.cs" />
     <Compile Include="Models\DrugBLL.cs" />
     <Compile Include="Models\SpecialityBLL.cs" />
     <Compile Include="Models\UserBLL.cs" />

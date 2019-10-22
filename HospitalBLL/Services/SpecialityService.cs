@@ -22,7 +22,7 @@ namespace HospitalBLL.Services
             List<SpecialityBLL> specialitiesBll = new List<SpecialityBLL>();
             foreach (var s in specialities)
             {
-                var item = new SpecialityBLL(s.IdSpeciality,s.NameSpeciality);
+                var item = new SpecialityBLL(s.IdSpeciality,s.NameSpeciality, s.PathPh);
                 specialitiesBll.Add(item);
             }
             return specialitiesBll;

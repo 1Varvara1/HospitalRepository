@@ -10,7 +10,7 @@ namespace HospitalBLL.Models
 {
     public class ComplaintBLL
     {
-        public ICollection<ClientProfile> ClientProfile { get; set; }
+        public ClientProfile ClientProfile { get; set; }
         public string ComplaintInformation { get; set; }
         public Speciality Speciality { get; set; }
         public DateTime Date { get; set; }
@@ -20,7 +20,7 @@ namespace HospitalBLL.Models
         {
 
         }
-        public ComplaintBLL(ICollection<ClientProfile> profile, Speciality speciality, string inform, DateTime date, bool? processed=false)
+        public ComplaintBLL(ClientProfile profile, Speciality speciality, string inform, DateTime date, bool? processed=false)
         {
             ClientProfile = profile;
             Speciality = speciality;

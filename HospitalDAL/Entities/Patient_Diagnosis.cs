@@ -12,12 +12,8 @@ namespace HospitalDAL.Entities
     {
         [Key]
         public int IdPatient_Diagnosis { get; set; }
-
-        
         public int ComplaintIdComplaint { get; set; }
         public Complaint Complaint { get; set; }
-
-      
         public int DiagnosisIdDiagnosis { get; set; }
         public Diagnosis Diagnosis { get; set; }
     }

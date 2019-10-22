@@ -20,6 +20,7 @@ namespace HospitalDAL.Repositories
         public void Create(ProcedurePrescription ProcedurePrescription)
         {
             db.ProcedurePrescriptions.Add(ProcedurePrescription);
+            db.SaveChanges();
         }
 
         public ProcedurePrescription Get(int idProcedurePrescription)

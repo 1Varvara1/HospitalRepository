@@ -5,16 +5,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Hospital</title>
+
     @Styles.Render("~/Content/navbar.css")
     @Styles.Render("~/Content/cards.css")
     @Styles.Render("~/fonts/font-awesome/css/font-awesome.min.css")
     @Styles.Render("~/Content/loginForm.css")
     @RenderSection("Style", required: false)
     @Scripts.Render("~/bundles/modernizr")
-   
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
 </head>
 <body>
-    <div class="navbar">
+    <div class="navbar" style="border-bottom-width: 0px;margin-bottom: 0px; border-right-width: 0px; border-left-width: 0px;border-top-width: 0px;">
+
 
         <div onclick="openNav()"><a class="active" href="#"><i class="fa fa-fw fa-bars">  </i></a></div>
 
@@ -59,9 +63,9 @@
 
 
         }
-        else if (User.IsInRole("admin"))
+        else
         {
-            <a href="#"><i class="fa fa-fw fa-user">Пользователь системы: администратор</i></a>
+            @Html.ActionLink("Личный кабинет", "PersonalPage", "Account")
             @Html.ActionLink("Logout", "Logout", "Account")
         }
 
@@ -72,36 +76,49 @@
         <img src="~/Images/hospital_sign.png" width="50%">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
+        @if (User.IsInRole("admin"))
+        {
+            <div class="dropdown">
+                <div class="dropbtn">
+                    @Html.ActionLink("Доктора", "Logout", "Account")
+                    <div class="dropdown-content">
+                        @Html.ActionLink("Добавить доктора", "DoctorRegister", "Account")
 
-        <div class="dropdown">
-            <div class="dropbtn">
-                @Html.ActionLink("Доктора", "Logout", "Account")
-                <div class="dropdown-content">
-                    @Html.ActionLink("Добавить доктора", "DoctorRegister", "Account")
+                        @Html.ActionLink("Поиск доктора", "DoctorSearch", "Doctor")
 
-                    @Html.ActionLink("Поиск доктора", "DoctorSearch", "Doctor")
-
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="dropdown">
-            <div class="dropbtn">
-                @Html.ActionLink("Пациенты", "Logout", "Account")
-                <div class="dropdown-content">
-                    @Html.ActionLink("Регистрация пациента", "Register", "Account")
-                    @Html.ActionLink("Оформление жалобы и назначение врача", "Logout", "Account")
-                    @Html.ActionLink("Поиск пациентов", "PatientSearch", "Patient")
+
+
+            <div class="dropdown">
+                <div class="dropbtn">
+                    @Html.ActionLink("Пациенты", "Logout", "Account")
+                    <div class="dropdown-content">
+                        @Html.ActionLink("Регистрация пациента", "Register", "Account")
+                        @Html.ActionLink("Оформление жалобы и назначение врача", "ComplaintRegstration", "Patient")
+                        @Html.ActionLink("Поиск пациентов", "PatientSearch", "Patient")
+                    </div>
                 </div>
             </div>
-        </div>
-        <div>
-            @Html.ActionLink("Виписка пациентов", "Logout", "Account")
-        </div>
 
+        }
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div>
+                @Html.ActionLink("Личный кабинет", "PersonalPage", "Account")
+            </div>
+        }
+        @if (User.IsInRole("doctor"))
+        {
+            <div>
+                @Html.ActionLink("Мои пациенты", "DoctorPatients", "Doctor")
+            </div>
+        }
 
 
     </div>
-    <div class="container body-content">
+    <div>
         @RenderBody()
         <hr />
         <footer>
@@ -131,7 +148,7 @@
     </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/scripts/jquery-3.3.1.js")
+    @Scripts.Render("~/scripts/jquery-3.4.1.js")
     @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
     @RenderSection("scripts", required: false)
 </body>

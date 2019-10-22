@@ -12,6 +12,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Hospital.Controllers
 {
@@ -96,27 +97,40 @@ namespace Hospital.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Register(RegisterModel model)
+        public async Task<ActionResult> Register(RegisterModel model, string redirect)
         {
-         
+
             if (ModelState.IsValid)
             {
-                UserBLL user= new UserBLL(model.Name,model.Surname,model.SecondName,model.Birth,model.Address,model.Email,"user","999999");
+                UserBLL user = new UserBLL(model.Name, model.Surname, model.SecondName, model.Birth, model.Address, model.Email, "user", "999999");
                 OperationDetails operationDetails = await UserService.Create(user);
+               
+
                 if (operationDetails.Succedeed)
                 {
-                    ViewBag.Succes = true;
-                    return View(model) ;
-                }
+                   var userBll = UserService.GetPatients().
+                   Where(u => u.Name == model.Name && u.Surname == model.Surname
+                   && u.SecondName == model.SecondName && u.Birth == model.Birth).
+                   FirstOrDefault();
 
-                else
-                {
-                    ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
                     ViewBag.Succes = true;
+                    if (redirect=="true")
+                    {
+                        return RedirectToActionPermanent("ComplaintRegstration", "Patient",
+                            new { Idpatient = userBll.IdClientProfile }) ;
+                    }
                 }
-                  
+          
+            else
+            {
+                ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
+                ViewBag.Succes = true;
             }
-            return View(model);
+
+        }
+
+            // return RedirectToAction("PatientSearch", "Patient");
+            return View();
         }
 
         public ActionResult DoctorRegister()
@@ -155,6 +169,15 @@ namespace Hospital.Controllers
 
             }
             return View(model);
+        }
+
+
+        public ActionResult PersonalPage()
+        {
+            var name = User.Identity.Name;
+            // UserService.
+            var user = UserService.GetProfile(name);
+            return View(user);
         }
 
     }

@@ -21,6 +21,7 @@ namespace HospitalDAL.Repositories
         public void Create(Doctor doctor)
         {
             db.Doctors.Add(doctor);
+            db.SaveChanges();
         }
 
         public Doctor Get(string idDoctor)
@@ -28,6 +29,8 @@ namespace HospitalDAL.Repositories
             var doc= db.Doctors.Where(d => d.ClientProfileIdClientProfile==idDoctor).FirstOrDefault();
             db.Entry(doc).Reference("ClientProfile").Load();
             db.Entry(doc).Collection("Complaint_Doctors").Load();
+            //  db.Entry(doc).Reference(d => d.Complaint_Doctors.Select(cd => cd.Complaint).Select(cp => cp.ClientProfile));
+           // db.Entry(doc.)
             db.Entry(doc).Reference("Speciality").Load();
             return doc;
         }
@@ -39,6 +42,12 @@ namespace HospitalDAL.Repositories
             {
                 db.Entry(d).Reference("ClientProfile").Load();
                 db.Entry(d).Collection("Complaint_Doctors").Load();
+                //db.Entry(d).Reference(d => d.Complaint_Doctors.
+                //Select(cd => cd.Complaint).Select(cp => cp.ClientProfile));
+                //db.Entry(d).Collection(cd => cd.Complaint_Doctors).
+                //    Query().Select(cd => cd.Complaint).Load();
+                db.Entry(d).Collection(cd => cd.Complaint_Doctors).
+                  Query().Select(cd => cd.Complaint.ClientProfile).Load();
                 db.Entry(d).Reference("Speciality").Load();
             }
 

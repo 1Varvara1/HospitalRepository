@@ -12,15 +12,16 @@ namespace HospitalBLL.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string SecondName { get; set; }
-        public DateTime ? Birth { get; set; }
+        public DateTime  Birth { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
-        public bool NeedDoctor { get; set; }
+        public bool NeedDoctor { get; set;}
+        public bool IsBeingTreated { get; set; }
 
         public UserBLL(string id, string name, string surname,
-            string secondName, DateTime? birth, string address, string email, string role, string password="")
+            string secondName, DateTime birth, string address, string email, string role, string password="")
         {
             IdClientProfile = id;
             Name = name;
@@ -34,7 +35,7 @@ namespace HospitalBLL.Models
             NeedDoctor = false;
         }
         public UserBLL( string name, string surname,
-          string secondName, DateTime? birth, string address, string email, string role, string password = "")
+          string secondName, DateTime birth, string address, string email, string role, string password = "")
         {
             
             Name = name;
@@ -49,7 +50,7 @@ namespace HospitalBLL.Models
         }
         public UserBLL()
         {
-
+            IdClientProfile = "";
         }
     }
 }

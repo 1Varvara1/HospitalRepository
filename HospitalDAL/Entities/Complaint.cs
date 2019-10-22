@@ -12,12 +12,13 @@ namespace HospitalDAL.Entities
     public class Complaint
     {
         [Key]
+
         public int IdComplaint { get; set; }
       
         public string ClientProfileIdClientProfile { get; set; }
-        public  ICollection<ClientProfile> ClientProfile { get; set; }
+        public  ClientProfile ClientProfile { get; set; }
         public string ComplaintInformation { get; set; }
-      
+        public virtual Complaint_Doctor Complaint_Doctor { get; set; }
         public int SpecialityIdSpeciality { get; set; }
         public Speciality Speciality{ get; set; }
         public DateTime Date { get; set; }

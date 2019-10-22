@@ -4,102 +4,232 @@
     ViewBag.Title = "PatientSearch";
 }
 @section Style{
+
+    <link rel="stylesheet" href="~/Content/loader.css">
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('.preloader').addClass('complete')
+        })
+
+    </script>
+
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
-    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-       *@}
-    <h2>PatientSearch</h2>
+    <link rel="stylesheet" href="~/Content/patientSerch.css">
 
-    <div id="resultSearch">
-        <div class="container">
+}
+<h2>PatientSearch</h2>
 
-            <table class="table table-hover">
-                <thead class="thead-ligth">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Surname)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </th>
+<div class="preloader">
+    <div class="loader"></div>
+</div>
 
-                        <th>
-                            @Html.DisplayNameFor(model => model.SecondName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Birth)
-                        </th>
-                        <th>
-
-                        </th>
+<div class="container">
+    @using (Ajax.BeginForm("SearchPartial", "Patient",
+        new AjaxOptions
+        {
+            UpdateTargetId = "resultSearch",
+            HttpMethod = "Post",
+            LoadingElementId = "divload",
+            OnFailure = "OnFailure"
+        }))
+    {
+        <input type="hidden" id="s1" value="none" name="typeSearchS1" />
+        <input type="hidden" id="s2" value="none" name="typeSearchS2" />
 
 
-                        <th>
-                            @Html.DisplayNameFor(model => model.NeedDoctor)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        if (item.NeedDoctor)
-                        {
-                            <tr class="table-warning" >
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Surname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
+        <div>
+            <span> Сортировать по: </span>
+            <button class="s1 btn sortElement" type="button" value="none" name="typeSearch" onclick="ClickS1(this)">Не сортировать<span class="arrow"><i class="fa fa-fw fa-times"></i></span> </button>
+            <button class="s1 btn sortElement" type="button" value="SurnameA_Z" name="typeSearch" onclick="ClickS1(this)">По фамилии <span class="arrow"><i class="fa fa-fw fa-arrow-down"></i></span> </button>
+            <button class="s1 btn sortElement" type="button" value="SurnameZ_A" name="typeSearch" onclick="ClickS1(this)">По фамилии <span class="arrow"><i class="fa fa-fw fa-arrow-up"></i></span> </button>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.SecondName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Birth)
-                                </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NeedDoctor)
-                                </td>
-                                <td>
-                                </td>
-                            </tr>
-                        }
-                        else
-                        {
-                            <tr class="table-success" >
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Surname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.SecondName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Birth)
-                                </td>
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NeedDoctor)
-                                </td>
-                                <td>
-                                </td>
-                            </tr>
-                        }
-
-                    }
-                </tbody>
-            </table>
-
+            <button class="s1 btn sortElement" type="button" value="BirthMax_Min" name="typeSearch" onclick="ClickS1(this)">По году рождения  <span class="arrow"><i class="fa fa-fw fa-arrow-down"></i></span></button>
+            <button class="s1 btn sortElement" type="button" value="BirthMin_Max" name="typeSearch" onclick="ClickS1(this)">По году рождения  <span class="arrow"><i class="fa fa-fw fa-arrow-up"></i></span></button>
 
         </div>
+        <br />
+        <div>
+            <button class="btn sortElement s2" type="button" value="none" name="typeSearch" onclick="ClickS2(this)">Все <span class="arrow"><i class="fa fa-fw fa-users"></i></span> </button>
+            <button class="btn sortElement s2" type="button" value="NeedDoctor" name="typeSearch" onclick="ClickS2(this)">Нуждаються в назначении доктора <span class="arrow"><i class="fas fa-user-injured"></i></span> </button>@*<i class="fa fa-user-times"></i>*@
+            <button class="btn sortElement s2" type="button" value="AreBeingTreated" name="typeSearch" onclick="ClickS2(this)">Находятся на лечении<span class="arrow"><i class="fas fa-user-check"></i></span></button>
+        </div>
+        <button class="btn btn-success" type="submit">Поиск</button>
+    }
+
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+</div>
+
+
+<div id="divload" style="display:none">
+    <img src="~/Images/loadAnimation.gif" />
+</div>
+
+<div id="resultSearch">
+    <div class="container">
+
+        <table class="table table-hover" id="myTable">
+            <thead class="thead-ligth">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Surname)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.SecondName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Birth)
+                    </th>
+                    <th>
+
+                    </th>
+
+
+                    <th>
+
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.NeedDoctor)
+                    {
+                        <tr class="table-warning">
+                            <td>
+                                <b>@Html.DisplayFor(modelItem => item.Surname)</b>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SecondName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Birth)
+                            </td>
+
+                            <td>
+                                <button type="submit" class="btn btn-primary">Больничная карта</button>
+                                @if (item.NeedDoctor)
+                                {
+                                    <button type="submit" class="btn btn-warning">Назначить доктора</button>
+                                }
+
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class="table-success">
+                            <td>
+                                <b>@Html.DisplayFor(modelItem => item.Surname)</b>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SecondName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Birth)
+                            </td>
+
+                            <td>
+                                <button type="submit" class="btn btn-primary">Больничная карта</button>
+                                @if (item.NeedDoctor)
+                                {
+                                    <button type="submit" class="btn btn-warning">Назначить доктора</button>
+                                }
+
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+
 
     </div>
 
+</div>
+
+@section scripts{
+    <script>
+
+        //$(function () {
+        //    $(".s1").click(function () {
+
+        //        var filters = $('.s1');
+        //        for (let f of filters) {
+        //            f.css('border-color', 'rgba(48, 48, 48, 0)');
+        //        }
+        //        $(this).css('border', '2px solid #e20909');
+        //        $('#s1').value = this.value;
+        //    });
+        //});
+
+        function ClickS1(obj) {
+
+            // obj.style.border = " #e20909";
+            var filters = document.getElementsByClassName("s1");
+            for (let f of filters) {
+                f.style.borderColor = "rgba(205, 214, 219, 0.3)";
+            }
+            obj.style.borderColor = "rgb(0, 38, 255)";
+            var s1 = document.getElementById("s1");
+            s1.value = obj.value;
+        }
+
+        function ClickS2(obj) {
+            var filters = document.getElementsByClassName("s2");
+            for (let f of filters) {
+                f.style.borderColor = "rgba(205, 214, 219, 0.3)";
+            }
+            obj.style.borderColor = "rgb(0, 38, 255)";
+            var s2 = document.getElementById("s2");
+            s2.value = obj.value;
+        }
+
+
+
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+
+    </script>
+
+}

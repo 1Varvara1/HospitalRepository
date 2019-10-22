@@ -13,5 +13,6 @@ namespace HospitalBLL.Interfaces
         Task<OperationDetails> Create(UserBLL doctorBLL, SpecialityBLL speciality);
         List<DoctorBLL> GetDoctorsByIdSpeciality(int IdSpeciality);
         List<DoctorBLL> GetAll();
+        List<PatientBLL> GetPatients(string IdDoctor);
     }
 }

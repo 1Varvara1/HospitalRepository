@@ -20,17 +20,28 @@ namespace HospitalDAL.Repositories
         public void Create(Patient_Diagnosis Patient_Diagnosis)
         {
             db.Patient_Diagnoses.Add(Patient_Diagnosis);
+
+            db.SaveChanges();
         }
 
         public Patient_Diagnosis Get(int idPatient_Diagnosis)
         {
-            return db.Patient_Diagnoses.Where(pd => pd.IdPatient_Diagnosis == idPatient_Diagnosis).FirstOrDefault();
+            var pd=db.Patient_Diagnoses.Where(p => p.IdPatient_Diagnosis == idPatient_Diagnosis).
+                FirstOrDefault();
+            db.Entry(pd).Reference(c => c.Complaint);
+            db.Entry(pd).Reference(c => c.Diagnosis);
+            return pd;
         }
 
         public IEnumerable<Patient_Diagnosis> GetAll()
         {
-            return db.Patient_Diagnoses.ToList();
-            
+             var dps= db.Patient_Diagnoses.ToList();
+            foreach (var item in dps)
+            {
+                db.Entry(item).Reference(c => c.Complaint);
+                db.Entry(item).Reference(c => c.Diagnosis);
+            }
+            return dps;
         }
     }
 }

@@ -6,7 +6,8 @@
 
 @section Style{
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
-  
+    <link rel="stylesheet" href="~/Content/DropDown.css">
+
 }
 
 <div class="container">
@@ -19,14 +20,48 @@
             OnFailure = "OnFailure"
         }))
     {
-        @Html.DropDownList("Speciality", ViewBag.Specialities as SelectList)
-        <input name="sort" value="none" />
-        <input name="idspeciality" value="0" />
+        @Html.DropDownList("IdSpeciality", ViewBag.Specialities as SelectList)
+        <select name="SurnameField">
+            <option>none</option>
+            <option value="A-Z">А-Я</option>
+            <option value="Z-A">Я-А</option>
+
+        </select>
+        <select name="PatientField">
+            <option>none</option>
+            <option value="IncreaseAll">По возрастанию (все пациенты)</option>
+            <option value="DecreaseAll">По убыванию (все пациенты)</option>
+            <option value="IncreaseTreated">По возрастанию (только на лечении)</option>
+            <option value="DecreaseTreated">По убыванию (только на лечении)</option>
+
+        </select>
+
         <button type="submit" class="btn btn-offset-primary">Поиск</button>
+
+
+        @*<input name="SurnameField" value="none" />
+            <input name="PatientField" value="none" />
+            <input name="idspeciality" value="0" />
+            <button type="submit" class="btn btn-offset-primary">Поиск</button>*@
     }
 
 
 
+    @*<div class="dropdown">
+            <button class="dropbtn">Фамилия</button>
+            <div class="dropdown-content">
+                <a href="#">А-Я</a>
+                <a href="#">Я-А</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">Кол-во пациентов</button>
+            <div class="dropdown-content">
+                <a href="#">По возрастанию</a>
+                <a href="#">Поо убыванию</a>
+            </div>
+        </div>*@
 
 
     <div id="divload" style="display:none">
@@ -39,7 +74,6 @@
 
 
 @section scripts{
-    <script src="~/Scripts/jquery.min.js"></script>
-    <script src="~/Scripts/popper.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+
+
 }

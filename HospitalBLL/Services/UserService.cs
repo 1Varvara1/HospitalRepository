@@ -35,13 +35,14 @@ namespace HospitalBLL.Services
                 // добавляем роль
                 await Database.UserManager.AddToRoleAsync(user.Id, userBll.Role);
                 // создаем профиль клиента
-                ClientProfile clientProfile = new ClientProfile {
+                ClientProfile clientProfile = new ClientProfile
+                {
                     IdClientProfile = user.Id,
                     Address = userBll.Address,
                     Name = userBll.Name,
-                    Surname=userBll.Surname,
-                    SecondName=userBll.SecondName,
-                    Birth=userBll.Birth
+                    Surname = userBll.Surname,
+                    SecondName = userBll.SecondName,
+                    Birth = userBll.Birth
                 };
                 Database.ClientManager.Create(clientProfile);
                 await Database.SaveAsync();
@@ -85,7 +86,7 @@ namespace HospitalBLL.Services
             Database.Dispose();
         }
 
-        public  List<UserBLL>GetPatients()
+        public List<UserBLL> GetPatients()
         {
 
             var patients = new List<UserBLL>();
@@ -96,12 +97,13 @@ namespace HospitalBLL.Services
                 if (role.Contains("user"))
                 {
                     var uBll = new UserBLL(u.IdClientProfile, u.Name, u.Surname, u.SecondName,
-                        u.Birth, u.Address, u.ApplicationUser.Email,"user");
+                        u.Birth, u.Address, u.ApplicationUser.Email, "user");
                     if (IsNeedDoctor(u))
                     {
                         uBll.NeedDoctor = true;
                     }
-                   patients.Add(uBll);
+                    uBll.IsBeingTreated = IsBeingTreated(u);
+                    patients.Add(uBll);
                 }
             }
 
@@ -116,10 +118,83 @@ namespace HospitalBLL.Services
             //int count = Database.ClientManager.GetAll().Where(cl => cl.IdClientProfile == user.IdClientProfile).
             //    Where(cl => cl.Complaints.Any(c => c.IsProccesed == false)).Count();
             var count = Database.ComplaintRepository.GetAll().
-                Where(c => c.IsProccesed == false && c.ClientProfileIdClientProfile==user.IdClientProfile).
+                Where(c => c.IsProccesed == false && c.ClientProfileIdClientProfile == user.IdClientProfile).
                 Count();
             if (count >= 1) return true;
             return false;
         }
+
+        public List<UserBLL> GetPatientsAreBeingTreated()
+        {
+            List<UserBLL> usersBLL = new List<UserBLL>();
+            var users = Database.ClientManager.GetAll();
+
+            foreach (var user in users)
+            {
+                if (IsBeingTreated(user))
+                {
+                    usersBLL.Add(new UserBLL(user.IdClientProfile,user.Name,user.Surname, user.SecondName,user.Birth,
+                        user.Address, user.ApplicationUser.Email, user.ApplicationUser.Roles.ToList()[0].ToString()));
+                }
+            }
+            return usersBLL;
+        }
+
+        public bool IsBeingTreated(ClientProfile user)
+        {
+            if (user.Complaints.Count==0)
+            {
+                return false;
+            }
+            var complaints = user.Complaints.ToList();
+            var disch = Database.DischargeRepository.GetAll();
+            var discharges = Database.DischargeRepository.GetAll().
+                Where(d => d.Complaint.ClientProfile.IdClientProfile == user.IdClientProfile).ToList();
+
+            // Check if any patient wasn`t discharged
+            foreach (var item in complaints)
+            {
+               if (!discharges.Any(d => d.Complaint.IdComplaint == item.IdComplaint)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public string GetRole(string id)
+        {
+           return  Database.UserManager.GetRoles(id).FirstOrDefault();
+        }
+
+        public string GetId(string UserName)
+        {
+            return Database.UserManager.FindByName(UserName).Id;
+        }
+
+        //public UserBLL GetProfile(string id)
+        //{
+        //    var appUser=Database.UserManager.FindById(id);
+        //    var clientProfile = Database.ClientManager.GetAll().
+        //        Where(cp => cp.IdClientProfile == id)
+        //        .FirstOrDefault();
+        //}
+
+        ClientProfileBLL IUserService.GetProfile(string UserName)
+        {
+            string UserId = GetId(UserName);
+            string UserRole = GetRole(UserId);
+
+            var cp = Database.ClientManager.GetAll().
+              Where(c => c.IdClientProfile == UserId).FirstOrDefault();
+
+            var ClientProfileBll = new ClientProfileBLL(UserId,cp.Name,cp.Surname,cp.SecondName,
+                cp.Birth,UserName, UserRole);
+
+            return ClientProfileBll;
+
+        }
+
+       
     }
 }

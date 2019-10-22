@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Hospital.Controllers
 {
+   
     public class HomeController : Controller
     {
         ServiceCreator creator;
@@ -17,15 +18,11 @@ namespace Hospital.Controllers
             creator= new ServiceCreator();
             
         }
-        public IDrugsService DrugService {
-            get { return creator.CreateDrugService(); }
-        }
-
+  
         public ActionResult Index()
         {
            
-            ViewBag.Drugs= DrugService.GetAllDrags();
-
+           
             return View();
         }
 
