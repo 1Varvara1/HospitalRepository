@@ -1,0 +1,105 @@
+﻿@model IEnumerable<HospitalBLL.Models.UserBLL>
+
+@{
+    ViewBag.Title = "PatientSearch";
+}
+@section Style{
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+       *@}
+    <h2>PatientSearch</h2>
+
+    <div id="resultSearch">
+        <div class="container">
+
+            <table class="table table-hover">
+                <thead class="thead-ligth">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Surname)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.SecondName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Birth)
+                        </th>
+                        <th>
+
+                        </th>
+
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.NeedDoctor)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.NeedDoctor)
+                        {
+                            <tr class="table-warning" >
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Surname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SecondName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Birth)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NeedDoctor)
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class="table-success" >
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Surname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SecondName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Birth)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NeedDoctor)
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+            </table>
+
+
+        </div>
+
+    </div>
+

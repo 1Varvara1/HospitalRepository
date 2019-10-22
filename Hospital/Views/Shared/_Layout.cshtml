@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Hospital</title>
+    @Styles.Render("~/Content/navbar.css")
+    @Styles.Render("~/Content/cards.css")
+    @Styles.Render("~/fonts/font-awesome/css/font-awesome.min.css")
+    @Styles.Render("~/Content/loginForm.css")
+    @RenderSection("Style", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+   
+</head>
+<body>
+    <div class="navbar">
+
+        <div onclick="openNav()"><a class="active" href="#"><i class="fa fa-fw fa-bars">  </i></a></div>
+
+        @if (!User.Identity.IsAuthenticated)
+        {
+
+
+            <div class="w3-container">
+                <a onclick="document.getElementById('id01').style.display='block'" class="pointer">Login</a>
+
+                <div id="id01" class="w3-modal">
+                    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+                        <div class="w3-center">
+                            <br>
+                            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+                            <img src="~/Images/ico.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
+                        </div>
+
+                        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                        {
+                            <div class="w3-container">
+                                <div class="w3-section">
+                                    <label><b>Username</b></label>
+                                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Email" name="Email" required>
+                                    <label><b>Password</b></label>
+                                    <input class="w3-input w3-border" type="password" placeholder="Enter Password" name="Password" required>
+                                    <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">Login</button>
+
+                                </div>
+                            </div>
+                        }
+                        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                            <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-button w3-red">Cancel</button>
+                            <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        }
+        else if (User.IsInRole("admin"))
+        {
+            <a href="#"><i class="fa fa-fw fa-user">Пользователь системы: администратор</i></a>
+            @Html.ActionLink("Logout", "Logout", "Account")
+        }
+
+
+    </div>
+
+    <div id="mySidenav" class="sidenav">
+        <img src="~/Images/hospital_sign.png" width="50%">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+
+        <div class="dropdown">
+            <div class="dropbtn">
+                @Html.ActionLink("Доктора", "Logout", "Account")
+                <div class="dropdown-content">
+                    @Html.ActionLink("Добавить доктора", "DoctorRegister", "Account")
+
+                    @Html.ActionLink("Поиск доктора", "DoctorSearch", "Doctor")
+
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <div class="dropbtn">
+                @Html.ActionLink("Пациенты", "Logout", "Account")
+                <div class="dropdown-content">
+                    @Html.ActionLink("Регистрация пациента", "Register", "Account")
+                    @Html.ActionLink("Оформление жалобы и назначение врача", "Logout", "Account")
+                    @Html.ActionLink("Поиск пациентов", "PatientSearch", "Patient")
+                </div>
+            </div>
+        </div>
+        <div>
+            @Html.ActionLink("Виписка пациентов", "Logout", "Account")
+        </div>
+
+
+
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - мое приложение ASP.NET</p>
+        </footer>
+    </div>
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        /* Set the width of the side navigation to 0 */
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/scripts/jquery-3.3.1.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

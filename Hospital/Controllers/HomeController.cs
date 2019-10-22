@@ -1,0 +1,46 @@
+﻿using HospitalBLL.Interfaces;
+using HospitalBLL.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace Hospital.Controllers
+{
+    public class HomeController : Controller
+    {
+        ServiceCreator creator;
+      
+        public HomeController()
+        {
+            creator= new ServiceCreator();
+            
+        }
+        public IDrugsService DrugService {
+            get { return creator.CreateDrugService(); }
+        }
+
+        public ActionResult Index()
+        {
+           
+            ViewBag.Drugs= DrugService.GetAllDrags();
+
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+    }
+}

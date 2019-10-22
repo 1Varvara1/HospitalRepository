@@ -1,0 +1,22 @@
+﻿@model IEnumerable<HospitalBLL.Models.DoctorBLL>
+
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-2">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="card col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <img src="~/Images/ico.png" alt="Avatar" style="width:100%">
+                    <div class="container">
+                        <h3><b>@item.ClientProfile.Surname</b></h3>
+                        <h4>@item.ClientProfile.Name @item.ClientProfile.SecondName</h4>
+                        <p>Специализвция: <b>@item.Speciality.NameSpeciality</b></p>
+                        <p>Кол-во пациентов <b>@item.Speciality.NameSpeciality</b></p>
+                    </div>
+                </div>
+            }
+        </div>
+
+    
+
+    </div>
+

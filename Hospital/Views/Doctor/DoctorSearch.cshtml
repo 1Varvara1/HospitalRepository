@@ -1,0 +1,45 @@
+﻿@model IEnumerable<HospitalBLL.Models.DoctorBLL>
+
+@{
+    ViewBag.Title = "DoctorSearch";
+}
+
+@section Style{
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+  
+}
+
+<div class="container">
+    @using (Ajax.BeginForm("SearchPartial", "Doctor",
+        new AjaxOptions
+        {
+            UpdateTargetId = "results",
+            HttpMethod = "Post",
+            LoadingElementId = "divload",
+            OnFailure = "OnFailure"
+        }))
+    {
+        @Html.DropDownList("Speciality", ViewBag.Specialities as SelectList)
+        <input name="sort" value="none" />
+        <input name="idspeciality" value="0" />
+        <button type="submit" class="btn btn-offset-primary">Поиск</button>
+    }
+
+
+
+
+
+    <div id="divload" style="display:none">
+        <img src="~/Images/loadAnimation.gif" />
+    </div>
+
+    <div id="results"></div>
+</div>
+
+
+
+@section scripts{
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+}
