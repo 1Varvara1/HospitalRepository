@@ -2,6 +2,7 @@
 using HospitalBLL.Interfaces;
 using HospitalBLL.Models;
 using HospitalBLL.Services;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
 using Microsoft.Owin.Security;
@@ -27,6 +28,13 @@ namespace Hospital.Controllers
             get
             {
                 return HttpContext.GetOwinContext().GetUserManager<IUserService>();
+            }
+        }
+        private ITreatmentService TreatmentService
+        {
+            get
+            {
+                return creator.CreateTreatmentService();
             }
         }
 
@@ -96,8 +104,12 @@ namespace Hospital.Controllers
 
         public ActionResult DoctorsPatients()
         {
-            ViewBag.Diagnosis;
+            ViewBag.Diagnosis= TreatmentService.GetDiagnosis();
+            ViewBag.Drugs = TreatmentService.GetAllDrags();
+            ViewBag.Operations = TreatmentService.GetOperations();
+            ViewBag.Procedures = TreatmentService.GetProcedures();
             var model = DoctorService.GetPatients(UserService.GetId(User.Identity.Name));
+          
             return View(model);
         }
     }   

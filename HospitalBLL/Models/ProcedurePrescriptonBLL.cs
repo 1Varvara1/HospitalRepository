@@ -13,7 +13,7 @@ namespace HospitalBLL.Models
         public int ComplaintIdComplaint { get; set; }
     
         public ProcedureBLL procedure { get; set; }
-     
+        public int procedureId { get; set; }
         public string Recomendations { get; set; }
         public DateTime? Complited { get; set; }
 

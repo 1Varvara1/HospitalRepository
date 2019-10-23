@@ -10,6 +10,6 @@ namespace HospitalBLL.Interfaces
 {
     public interface ITreatmentService:IOperationService, IProcedureService, IDrugsService, IDiagnosisService
     {
-    
+        void MatchPatientDiagnosis(int idComplaint, int idDiagnosis);
     }
 }

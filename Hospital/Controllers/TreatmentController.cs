@@ -24,11 +24,37 @@ namespace Hospital.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<IUserService>();
             }
         }
-        //public ActionResult DoctorsPatients()
-        //{
-        //    return View();
-        //}
 
-        
+        private ITreatmentService TreatmentService
+        {
+            get
+            {
+                return creator.CreateTreatmentService();
+            }
+        }
+        private IDoctorService DoctorService
+        {
+            get
+            {
+                return creator.CreateDoctorService();
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult MatchDiagnosis(int idComplaint, int idDiagnosis)
+        {
+            TreatmentService.MatchPatientDiagnosis(idComplaint, idDiagnosis);
+
+            ViewBag.Diagnosis = TreatmentService.GetDiagnosis();
+
+            return RedirectToAction("DoctorsPatients", "Doctor");
+        }
+
+        [HttpPost]
+        public ActionResult AddProcedurePatient(int idComplaint, int idDiagnosis)
+        {
+
+        }
     }
 }

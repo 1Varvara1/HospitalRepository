@@ -13,5 +13,6 @@ namespace HospitalBLL.Interfaces
         IDoctorService CreateDoctorService();
         ISpecialityService CreateSpecialityService();
         IComplaintService CreteComplaintService();
+        ITreatmentService CreateTreatmentService();
     }
 }

@@ -32,6 +32,7 @@ namespace HospitalDAL.Repositories
             db.Entry(pd).Reference(c => c.Diagnosis);
             pd.Diagnosis = db.Diagnoses.Where(d=>d.IdDiagnosis==pd.DiagnosisIdDiagnosis).FirstOrDefault();
             return pd;
+            db.SaveChanges();
         }
 
         public IEnumerable<Patient_Diagnosis> GetAll()
@@ -44,6 +45,8 @@ namespace HospitalDAL.Repositories
                item.Diagnosis = db.Diagnoses.Where(d => d.IdDiagnosis == item.DiagnosisIdDiagnosis).FirstOrDefault();
             }
             return dps;
+
+            db.SaveChanges();
         }
     }
 }

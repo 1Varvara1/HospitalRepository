@@ -1,5 +1,6 @@
 ﻿using HospitalBLL.Comparers;
 using HospitalBLL.Interfaces;
+using HospitalDAL.Entities;
 using HospitalDAL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,13 @@ namespace HospitalBLL.Models
             Database = uow;
         }
 
-     
-
         public List<DrugBLL> GetAllDrags()
         {
             var drugs = Database.DrugsRepository.GetAll().ToList();
             var model = new List<DrugBLL>();
             foreach (var d in drugs)
             {
-                model.Add(new DrugBLL(d.IdDrugs, d.DrugsName));
+                model.Add(new DrugBLL(d.IdDrugs, d.DrugsName, d.PathPh));
             }
             model.Sort(new DrugsNameComparer());
 
@@ -75,6 +74,25 @@ namespace HospitalBLL.Models
             model.Sort(new DiagnosisNameComparer());
 
             return model;
+        }
+
+        public void MatchPatientDiagnosis(int idComplaint, int idDiagnosis)
+        {
+            var diagnosis = Database.DiagnosisRepository.Get(idDiagnosis);
+            var complaint = Database.ComplaintRepository.Get(idComplaint);
+            //var pd = Database.Patient_DiagnosisRepository.GetAll().
+            //    Where(d => d.ComplaintIdComplaint == idComplaint).FirstOrDefault();
+            var PD = new Patient_Diagnosis
+            {
+                ComplaintIdComplaint = idComplaint,
+                DiagnosisIdDiagnosis = idDiagnosis,
+                Diagnosis = diagnosis,
+                Complaint = complaint
+            };
+
+            // Create new row int the table
+            Database.Patient_DiagnosisRepository.Create(PD);
+
         }
     }
 }

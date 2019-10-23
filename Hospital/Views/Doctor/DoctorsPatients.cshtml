@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<HospitalBLL.Models.PatientBLL>
+@using Microsoft.AspNet.Identity
+
 
 @{
     ViewBag.Title = "DoctorsPatients";
@@ -59,9 +61,96 @@
                         }
                         else
                         {
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#diagnosisModal">
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#diagnosisModal_@item.IdComplaint" onclick="diagModalOpen()">
                                 Определить диагноз
                             </button>
+
+
+
+                            <!-- The Modal -->
+                            <div class="modal fade" id="diagnosisModal_@item.IdComplaint">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Modal Heading</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body" style="min-height:400px;">
+                                            <img class="rightImg" src="~/Images/doctor2.png" style="float:left;" height="350" width="200" />
+                                            <ul style="display:flex; list-style-image:none; ">
+                                                <li click="" id="а">А</li>
+                                                <li click="" id="б">Б</li>
+                                                <li click="" id="в">В</li>
+                                                <li click="" id="г">Г</li>
+                                                <li click="" id="д">Д</li>
+                                                <li click="" id="е">Е</li>
+                                                <li click="" id="ё">Ё</li>
+                                                <li click="" id="ж">Ж</li>
+                                                <li click="" id="з">З</li>
+                                                <li click="" id="и">И</li>
+                                                <li click="" id="й">Й</li>
+                                                <li click="" id="к">К</li>
+                                                <li click="" id="л">Л</li>
+                                                <li click="" id="м">М</li>
+                                                <li click="" id="н">Н</li>
+                                                <li click="" id="о">О</li>
+                                                <li click="" id="п">П</li>
+                                                <li click="" id="р">Р</li>
+                                                <li click="" id="с">С</li>
+                                                <li click="" id="т">Т</li>
+                                                <li click="" id="у">У</li>
+                                                <li click="" id="ф">Ф</li>
+                                                <li click="" id="х">Х</li>
+                                                <li click="" id="ц">Ц</li>
+                                                <li click="" id="ч">Ч</li>
+                                                <li click="" id="ш">Ш</li>
+                                                <li click="" id="щ">Щ</li>
+                                                <li click="" id="ю">Ю</li>
+                                                <li click="" id="я">Я</li>
+                                            </ul>
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Диагноз</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var i in ViewBag.Diagnosis)
+                                                    {
+                                                        using (Html.BeginForm("MatchDiagnosis", "Treatment", FormMethod.Post))
+                                                        {
+
+                                                            <tr class="diagnosisTableEl" name="@i.DiagnosisName">
+                                                                <td>
+                                                                    @i.DiagnosisName
+                                                                    <input type="hidden" name="idDiagnosis" value="@i.IdDiagnosis" />
+                                                                    <input type="hidden" name="idComplaint" value="@item.IdComplaint" />
+                                                                </td>
+
+                                                                <td><button class="btn btn-primary" type="submit">Выбрать</button></td>
+                                                            </tr>
+                                                        }
+                                                    }
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
 
                         }
 
@@ -69,21 +158,212 @@
 
 
                     <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DrugsModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DrugsModal_@item.IdComplaint">
                             Просмотр
                         </button>
 
+                        <!-- The Modal -->
+                        <div class="modal fade" id="DrugsModal_@item.IdComplaint">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Modal Heading</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body" style="min-height:400px;">
+                                        <img class="rightImg" src="~/Images/doctor5.png" style="float:left;" height="350" width="200" />
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Лекарство</th>
+                                                    <th>Выдано</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var i in item.DrugsPrescriptions)
+                                                {
+                                                    <tr>
+                                                        <td>@i.drugs.DrugsName</td>
+                                                        @if (i.Complited != null)
+                                                        {
+                                                            <td>@i.Complited</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><button class="btn btn-primary" type="button">Выдать</button> </td>
+                                                        }
+
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ProcedureModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ProcedureModal_@item.IdComplaint">
                             Просмотр
                         </button>
+
+                        <!-- The Modal -->
+                        <div class="modal fade" id="ProcedureModal_@item.IdComplaint">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Modal Heading</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body" style="min-height:400px;">
+                                        <img class="rightImg" src="~/Images/doctor1.png" style="float:left;" height="350" width="200" />
+                                        <table class="table table-hover" , style="float: right;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Процедура</th>
+                                                    <th>Выполнение</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var i in item.ProcedurePrescriptions)
+                                                {
+                                                    <tr>
+                                                        <td>@i.procedure.ProcedureName</td>
+                                                        @if (i.Complited != null)
+                                                        {
+                                                            <td>@i.Complited</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><button class="btn btn-primary" type="button">Выполнить</button> </td>
+                                                        }
+
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+
+
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Процедура</th>
+                                                    <th>Рекомендации</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var i in ViewBag.Procedures)
+                                                {
+                                                    using (Html.BeginForm("AddProcedurePatient", "Treatment", FormMethod.Post))
+                                                    {
+
+                                                        <tr class="diagnosisTableEl" name="@i.ProcedureName ">
+                                                            <td>
+                                                                @i.ProcedureName
+                                                                <input type="hidden" name="procedureId" value="@i.IdProcedure " />
+                                                                <input type="hidden" name="ComplaintIdComplaint" value="@item.IdComplaint" />
+                                                                <input type="hidden" name="ComplaintIdComplaint" value="@item.IdComplaint" />
+                                                                <input type="hidden" name="DoctorIdDoctor" value="@User.Identity.GetUserId()" />
+                                                            </td>
+                                                            <td>
+                                                                <textarea name="Recomendations" rows="4" cols="50"></textarea>
+                                                            </td>
+                                                            <td><button class="btn btn-primary" type="submit">Выбрать</button></td>
+                                                        </tr>
+                                                    }
+                                                }
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
                     </td>
 
                     <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#OperationModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#OperationModal_@item.IdComplaint">
                             Просмотр
                         </button>
+
+                        <!-- The Modal -->
+                        <div class="modal fade" id="OperationModal_@item.IdComplaint">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Modal Heading</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body" style="min-height:400px;">
+                                        <img class="rightImg" src="~/Images/doctor4.png" style="float:left;" height="350" width="200" />
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Процедура</th>
+                                                    <th>Выполнение</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var i in item.OperatonPrescriptions)
+                                                {
+                                                    <tr>
+                                                        <td>@i.operation.OperationName</td>
+                                                        @if (i.Complited != null)
+                                                        {
+                                                            <td>@i.Complited</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><button class="btn btn-primary" type="button">Выполнить</button> </td>
+                                                        }
+
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
 
                     </td>
                     <td>
@@ -119,120 +399,53 @@
 
 
 
-<!-- The Modal -->
-<div class="modal fade" id="diagnosisModal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+@*
+     <!-- The Modal -->
+    <div class="modal fade" id="DrugsModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" style="min-height:400px;">
+                    <img class="rightImg" src="~/Images/doctor5.png" style="float:left;" height="350" width="200" />
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Лекарство</th>
+                                <th>Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John</td>
+                                <td>Doe</td>
+                                <td>john@example.com</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
             </div>
-
-            <!-- Modal body -->
-            <div class="modal-body" style="min-height:400px;">
-                <img class="rightImg" src="~/Images/doctor2.png" style="float:left;" height="350" width="200" />
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-
         </div>
     </div>
-</div>
 
 
+*@
 
 
-<!-- The Modal -->
-<div class="modal fade" id="DrugsModal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body" style="min-height:400px;">
-                <img class="rightImg" src="~/Images/doctor5.png" style="float:left;" height="350" width="200" />
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-
-
-
-<!-- The Modal -->
-<div class="modal fade" id="ProcedureModal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body" style="min-height:400px;">
-                <img class="rightImg" src="~/Images/doctor1.png" style="float:left;" height="350" width="200" />
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-
-
-
-<!-- The Modal -->
-<div class="modal fade" id="OperationModal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body" style="min-height:400px;">
-                <img class="rightImg" src="~/Images/doctor4.png" style="float:left;" height="350" width="200" />
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 
 <!-- The Modal -->
@@ -266,19 +479,30 @@
 <script>
 
     function CheckTreatment(obj) {
-       
+
         if (obj.value == "false") {
             Swal.fire({
                 type: 'error',
                 title: 'Oops...',
                 html: "<p class='SwText'>Похоже что пациент не может быть выписан<p>Выполние все предписания</p></p>",
-                
+
             });
         }
         else if (obj.value == "true") {
             Swal.fire('OK');
         }
 
+
+    }
+
+    function diagModalOpen() {
+        //var diagnosis = $('.diagnosisTableEl');
+        //alert(diagnosis);
+        //for (var i in diagnosis) {
+        //    if (i.name.substr(0,1) != 'A') {
+        //        i.style.display = 'none';
+        //    }
+        //}
 
     }
 

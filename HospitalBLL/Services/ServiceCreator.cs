@@ -20,6 +20,10 @@ namespace HospitalBLL.Services
         public DoctorFilterService CreateDoctorFilterService() {
             return new DoctorFilterService(new IdentityUnitOfWork(connection));
         }
+        public ITreatmentService CreateTreatmentService()
+        {
+            return new TreatmentService(new IdentityUnitOfWork(connection));
+        }
 
         public IUserService CreateUserService()
         {
