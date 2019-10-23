@@ -44,6 +44,11 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.NonGeneric, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.NonGeneric.4.3.0\lib\net46\System.Collections.NonGeneric.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -56,16 +61,24 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Comparers\BirthUserComparer.cs" />
+    <Compile Include="Comparers\DiagnosisNameComparer.cs" />
     <Compile Include="Comparers\DoctorAmountPatientsBeingTreatedComparer.cs" />
     <Compile Include="Comparers\DoctorAmountPatientsComparer.cs" />
+    <Compile Include="Comparers\DrugsNameComparer.cs" />
+    <Compile Include="Comparers\OperationNameComparer.cs" />
+    <Compile Include="Comparers\ProcedureNameComparer.cs" />
     <Compile Include="Comparers\SurnameDoctorComparer.cs" />
     <Compile Include="Comparers\SurnameUserComparer.cs" />
     <Compile Include="Infrastructure\OperationDetails.cs" />
     <Compile Include="Interfaces\IComplaintService.cs" />
+    <Compile Include="Interfaces\IDiagnosisService.cs" />
     <Compile Include="Interfaces\IDoctorService.cs" />
     <Compile Include="Interfaces\IDrugsService.cs" />
+    <Compile Include="Interfaces\IOperationService.cs" />
+    <Compile Include="Interfaces\IProcedureService.cs" />
     <Compile Include="Interfaces\IServiceCreator.cs" />
     <Compile Include="Interfaces\ISpecialityService.cs" />
+    <Compile Include="Interfaces\ITreatmentService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Models\ClientProfileBLL.cs" />
     <Compile Include="Models\ComplaintBLL.cs" />
@@ -78,6 +91,7 @@
     <Compile Include="Models\PatientBLL.cs" />
     <Compile Include="Models\ProcedureBLL.cs" />
     <Compile Include="Models\ProcedurePrescriptonBLL.cs" />
+    <Compile Include="Models\TreatmentService.cs" />
     <Compile Include="Services\DoctorFilterService.cs" />
     <Compile Include="Models\DrugBLL.cs" />
     <Compile Include="Models\SpecialityBLL.cs" />

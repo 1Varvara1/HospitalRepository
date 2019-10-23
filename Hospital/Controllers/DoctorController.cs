@@ -96,6 +96,7 @@ namespace Hospital.Controllers
 
         public ActionResult DoctorsPatients()
         {
+            ViewBag.Diagnosis;
             var model = DoctorService.GetPatients(UserService.GetId(User.Identity.Name));
             return View(model);
         }

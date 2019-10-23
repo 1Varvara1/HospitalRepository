@@ -382,6 +382,7 @@
     <Content Include="Content\loginForm.css" />
     <Content Include="Content\loginValidationForm.css" />
     <Content Include="Content\navbar.css" />
+    <Content Include="Content\sweetStyle.css" />
     <Content Include="Content\w3.css" />
     <Content Include="Images\d1.png" />
     <Content Include="Images\h1.png" />
