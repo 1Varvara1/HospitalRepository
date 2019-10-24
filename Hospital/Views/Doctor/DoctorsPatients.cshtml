@@ -13,7 +13,7 @@
 }
 
 <h2>DoctorsPatients</h2>
-<div class="container row">
+<div class="container-fluid row" style="margin-left:20px">
 
     <table class="table table-hover col-lg-11 col-md-11 col-sm-12 col-xs-12" id="myTable">
         <thead class="thead-ligth">
@@ -175,7 +175,7 @@
 
                                     <!-- Modal body -->
                                     <div class="modal-body" style="min-height:400px;">
-                                        <img class="rightImg" src="~/Images/doctor5.png" style="float:left;" height="350" width="200" />
+                                        <img class="rightImg" src="~/Images/doctor5.png" style="float:right;" height="350" width="200" />
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
@@ -186,22 +186,63 @@
                                             <tbody>
                                                 @foreach (var i in item.DrugsPrescriptions)
                                                 {
-                                                    <tr>
-                                                        <td>@i.drugs.DrugsName</td>
-                                                        @if (i.Complited != null)
-                                                        {
-                                                            <td>@i.Complited</td>
-                                                        }
-                                                        else
-                                                        {
-                                                            <td><button class="btn btn-primary" type="button">Выдать</button> </td>
-                                                        }
+                                                    using (Html.BeginForm("CompleteDrugPrescription", "Treatment", FormMethod.Post))
+                                                    {
+                                                        <tr>
+                                                            <td>@i.drugs.DrugsName</td>
+                                                            @if (i.Complited != null)
+                                                            {
+                                                                <td>@i.Complited</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>
+                                                                    <input type="hidden" name="idDrugs" value="@i.drugs.IdDrugs" />
+                                                                    <input type="hidden" name="idComplaint" value="@item.IdComplaint" />
+                                                                    <button class="btn btn-primary" type="submit">Выдать</button>
+                                                                </td>
+                                                            }
 
-                                                    </tr>
+                                                        </tr>
+                                                    }
+
                                                 }
 
                                             </tbody>
                                         </table>
+
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Лекарство</th>
+                                                    <th>Рекомендации</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var i in ViewBag.Drugs)
+                                                {
+                                                    using (Html.BeginForm("AddDrugPatient", "Treatment", FormMethod.Post))
+                                                    {
+
+                                                        <tr class="diagnosisTableEl" name="@i.DrugsName ">
+                                                            <td>
+                                                                @i.DrugsName
+                                                                <input type="hidden" name="drugsId" value="@i.IdDrugs" />
+                                                                <input type="hidden" name="ComplaintIdComplaint" value="@item.IdComplaint" />
+                                                                <input type="hidden" name="DoctorIdDoctor" value="@User.Identity.GetUserId()" />
+                                                            </td>
+                                                            <td>
+                                                                <textarea name="Recomendations" rows="4" cols="25"></textarea>
+                                                            </td>
+                                                            <td><button class="btn btn-primary" type="submit">Выбрать</button></td>
+                                                        </tr>
+                                                    }
+                                                }
+
+                                            </tbody>
+                                        </table>
+
                                     </div>
 
                                     <!-- Modal footer -->
@@ -232,7 +273,7 @@
                                     <!-- Modal body -->
                                     <div class="modal-body" style="min-height:400px;">
                                         <img class="rightImg" src="~/Images/doctor1.png" style="float:left;" height="350" width="200" />
-                                        <table class="table table-hover" , style="float: right;">
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Процедура</th>
@@ -242,18 +283,28 @@
                                             <tbody>
                                                 @foreach (var i in item.ProcedurePrescriptions)
                                                 {
-                                                    <tr>
-                                                        <td>@i.procedure.ProcedureName</td>
-                                                        @if (i.Complited != null)
-                                                        {
-                                                            <td>@i.Complited</td>
-                                                        }
-                                                        else
-                                                        {
-                                                            <td><button class="btn btn-primary" type="button">Выполнить</button> </td>
-                                                        }
+                                                    using (Html.BeginForm("CompleteProcedurePrescription", "Treatment", FormMethod.Post))
+                                                    {
+                                                        <tr>
+                                                            <td>@i.procedure.ProcedureName</td>
+                                                            @if (i.Complited != null)
+                                                            {
+                                                                <td>@i.Complited</td>
+                                                            }
+                                                            else
+                                                            {
 
-                                                    </tr>
+                                                                <td>
+                                                                    <input type="hidden" name="procedureId" value="@i.procedure.IdProcedure" />
+                                                                    <input type="hidden" name="idComplaint" value="@item.IdComplaint" />
+
+                                                                    <button class="btn btn-primary" type="submit">Выполнить</button>
+                                                                </td>
+                                                            }
+
+                                                        </tr>
+                                                    }
+
                                                 }
 
                                             </tbody>
@@ -283,7 +334,7 @@
                                                                 <input type="hidden" name="DoctorIdDoctor" value="@User.Identity.GetUserId()" />
                                                             </td>
                                                             <td>
-                                                                <textarea name="Recomendations" rows="4" cols="50"></textarea>
+                                                                <textarea name="Recomendations" rows="4" cols="25"></textarea>
                                                             </td>
                                                             <td><button class="btn btn-primary" type="submit">Выбрать</button></td>
                                                         </tr>
@@ -337,22 +388,63 @@
                                             <tbody>
                                                 @foreach (var i in item.OperatonPrescriptions)
                                                 {
-                                                    <tr>
-                                                        <td>@i.operation.OperationName</td>
-                                                        @if (i.Complited != null)
-                                                        {
-                                                            <td>@i.Complited</td>
-                                                        }
-                                                        else
-                                                        {
-                                                            <td><button class="btn btn-primary" type="button">Выполнить</button> </td>
-                                                        }
+                                                    using (Html.BeginForm("CompleteOperationPrescription", "Treatment", FormMethod.Post))
+                                                    {
+                                                        <tr>
+                                                            <td>@i.operation.OperationName</td>
+                                                            @if (i.Complited != null)
+                                                            {
+                                                                <td>@i.Complited</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>
+                                                                    <input type="hidden" name="operationId" value="@i.operation.IdOperation" />
+                                                                    <input type="hidden" name="idComplaint" value="@item.IdComplaint" />
+                                                                    <button class="btn btn-primary" type="submit">Выполнить</button>
+                                                                </td>
+                                                            }
 
-                                                    </tr>
+                                                        </tr>
+                                                    }
+
                                                 }
 
                                             </tbody>
                                         </table>
+
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Лекарство</th>
+                                                    <th>Рекомендации</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var i in ViewBag.Operations)
+                                                {
+                                                    using (Html.BeginForm("AddOperationPatient", "Treatment", FormMethod.Post))
+                                                    {
+
+                                                        <tr class="diagnosisTableEl" name="@i.OperationName">
+                                                            <td>
+                                                                @i.OperationName
+                                                                <input type="hidden" name="operationId" value="@i.IdOperation " />
+                                                                <input type="hidden" name="ComplaintIdComplaint" value="@item.IdComplaint" />
+                                                                <input type="hidden" name="DoctorIdDoctor" value="@User.Identity.GetUserId()" />
+                                                            </td>
+                                                            <td>
+                                                                <textarea name="Recomendations" rows="4" cols="25"></textarea>
+                                                            </td>
+                                                            <td><button class="btn btn-primary" type="submit">Выбрать</button></td>
+                                                        </tr>
+                                                    }
+                                                }
+
+                                            </tbody>
+                                        </table>
+
                                     </div>
 
                                     <!-- Modal footer -->

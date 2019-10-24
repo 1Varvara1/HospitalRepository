@@ -12,5 +12,6 @@ namespace HospitalDAL.Interfaces
         IEnumerable<DrugsPrescription> GetAll();
         DrugsPrescription Get(int idDP);
         void Create(DrugsPrescription dp);
+        void Save();
     }
 }

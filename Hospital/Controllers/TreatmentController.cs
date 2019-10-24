@@ -1,5 +1,7 @@
 ﻿using HospitalBLL.Interfaces;
+using HospitalBLL.Models;
 using HospitalBLL.Services;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
@@ -46,15 +48,71 @@ namespace Hospital.Controllers
         {
             TreatmentService.MatchPatientDiagnosis(idComplaint, idDiagnosis);
 
-            ViewBag.Diagnosis = TreatmentService.GetDiagnosis();
-
             return RedirectToAction("DoctorsPatients", "Doctor");
         }
 
         [HttpPost]
-        public ActionResult AddProcedurePatient(int idComplaint, int idDiagnosis)
+        public ActionResult AddProcedurePatient(ProcedurePrescriptonBLL procPrescr, string recomendations)
         {
+            procPrescr.Recomendations = recomendations;
+
+            // Create 
+            TreatmentService.AddProcedurePrescriptionPatient(procPrescr);
+            return RedirectToAction("DoctorsPatients", "Doctor");
 
         }
+
+        [HttpPost]
+        public ActionResult AddDrugPatient(DrugPrescriptionBLL dPrescr, string recomendations)
+        {
+            dPrescr.Recomendations = recomendations;
+
+            // Create 
+            TreatmentService.AddDrugPrescriptionPatient(dPrescr);
+
+            return RedirectToAction("DoctorsPatients", "Doctor");
+
+        }
+
+        [HttpPost]
+        public ActionResult AddOperationPatient(OperationPrescriptionsBLL oPrescr, string recomendations)
+        {
+            oPrescr.Recomendations = recomendations;
+
+            // Create 
+            TreatmentService.AddOperationPrescriptionPatient(oPrescr);
+
+            return RedirectToAction("DoctorsPatients", "Doctor");
+
+        }
+
+        [HttpPost]
+        public ActionResult CompleteDrugPrescription(int idDrugs, int idComplaint)
+        {
+            var idDoctor= User.Identity.GetUserId();
+            TreatmentService.CompleteDrugPrescription(idDrugs, idComplaint, idDoctor);
+            return RedirectToAction("DoctorsPatients", "Doctor");
+
+        }
+
+        [HttpPost]
+        public ActionResult CompleteProcedurePrescription(int procedureId, int idComplaint)
+        {
+            var idDoctor = User.Identity.GetUserId();
+            TreatmentService.CompleteProcedurePrescription(procedureId, idComplaint, idDoctor);
+            return RedirectToAction("DoctorsPatients", "Doctor");
+
+        }
+
+        [HttpPost]
+        public ActionResult CompleteOperationPrescription(int operationId, int idComplaint)
+        {
+            var idDoctor = User.Identity.GetUserId();
+            TreatmentService.CompleteOperationPrescription(operationId, idComplaint, idDoctor);
+            return RedirectToAction("DoctorsPatients", "Doctor");
+
+        }
+
     }
+
 }

@@ -10,6 +10,7 @@ namespace HospitalBLL.Models
     {
         public int IdDrugsPrescription { get; set; }
         public int ComplaintIdComplaint { get; set; }
+        public int drugsId { get; set; }
         public DrugBLL drugs { get; set; }
         public string Recomendations { get; set; }
         public DateTime? Complited { get; set; }

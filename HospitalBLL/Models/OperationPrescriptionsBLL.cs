@@ -11,7 +11,7 @@ namespace HospitalBLL.Models
         public int IdOperationPrescription { get; set; }
 
         public int ComplaintIdComplaint { get; set; }
-      
+        public int operationId { get; set; }
         public OperationBLL operation { get; set; }
 
         public string Recomendations { get; set; }

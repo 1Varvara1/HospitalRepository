@@ -13,5 +13,7 @@ namespace HospitalDAL.Interfaces
         OperationPrescription Get(int idOP);
         void Create(OperationPrescription op);
 
+        void Save();
+
     }
 }

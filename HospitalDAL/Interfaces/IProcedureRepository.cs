@@ -11,5 +11,7 @@ namespace HospitalDAL.Interfaces
     {
         IEnumerable<Procedure> GetAll();
         Procedure Get(int idProcedureRepository);
+
+
     }
 }

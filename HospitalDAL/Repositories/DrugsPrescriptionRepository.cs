@@ -50,5 +50,10 @@ namespace HospitalDAL.Repositories
 
             return dps;
         }
+
+        public void Save()
+        {
+            db.SaveChanges();
+        }
     }
 }

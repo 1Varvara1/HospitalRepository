@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace HospitalBLL.Models
 {
@@ -93,6 +94,127 @@ namespace HospitalBLL.Models
             // Create new row int the table
             Database.Patient_DiagnosisRepository.Create(PD);
 
+        }
+
+        public void AddProcedurePrescriptionPatient(ProcedurePrescriptonBLL procPrescr)
+           
+        {
+            var complaint = Database.ComplaintRepository.Get(procPrescr.ComplaintIdComplaint);
+            var doctor = Database.DoctorRepository.GetAll().
+                Where(doc => doc.ClientProfileIdClientProfile == procPrescr.DoctorIdDoctor).
+                FirstOrDefault();
+            var prosedure = Database.ProcedureRepository.Get(procPrescr.procedureId);
+            var d = Database.DiagnosisRepository.GetAll();
+            // Create a row
+            var prescription = new ProcedurePrescription
+            {
+                ComplaintIdComplaint = procPrescr.ComplaintIdComplaint,
+                Complaint = complaint,
+                ProcedureIdProcedure = procPrescr.procedureId,
+                Procedure = prosedure,
+                Recomendations = procPrescr.Recomendations,
+                Complited = null,
+                DoctorIdDoctor = procPrescr.DoctorIdDoctor,
+                Doctor = doctor
+            };
+           
+
+            Database.ProcedurePrescriptionRepository.Create(prescription);
+
+    }
+
+        public void AddDrugPrescriptionPatient(DrugPrescriptionBLL dPrescr)
+        {
+            var complaint = Database.ComplaintRepository.Get(dPrescr.ComplaintIdComplaint);
+            var doctor = Database.DoctorRepository.GetAll().
+                Where(d => d.ClientProfileIdClientProfile == dPrescr.DoctorIdDoctor).
+                FirstOrDefault();
+            var drug = Database.DrugsRepository.Get(dPrescr.drugsId);
+
+            // Create a row
+            var drugs = new DrugsPrescription
+            {
+                ComplaintIdComplaint = dPrescr.ComplaintIdComplaint,
+                Complaint = complaint,
+                DrugsIdDrugs = dPrescr.drugsId,
+                Drugs = drug,
+                Recomendations = dPrescr.Recomendations,
+                Complited = null,
+                DoctorIdDoctor = dPrescr.DoctorIdDoctor,
+                Doctor = doctor
+            };
+
+            Database.DrugsPrescriptionRepository.Create(drugs);
+        }
+
+        public void AddOperationPrescriptionPatient(OperationPrescriptionsBLL opPrescr)
+        {
+            var complaint = Database.ComplaintRepository.Get(opPrescr.ComplaintIdComplaint);
+            var doctor = Database.DoctorRepository.GetAll().
+                Where(d => d.ClientProfileIdClientProfile == opPrescr.DoctorIdDoctor).
+                FirstOrDefault();
+            var op = Database.OperationRepository.Get(opPrescr.operationId);
+
+            // Create a row
+            var operation = new OperationPrescription
+            {
+                ComplaintIdComplaint = opPrescr.ComplaintIdComplaint,
+                Complaint = complaint,
+                OperationIdOperation = opPrescr.operationId,
+                Operation = op,
+                Recomendations = opPrescr.Recomendations,
+                Complited = null,
+                DoctorIdDoctor = opPrescr.DoctorIdDoctor,
+                Doctor = doctor
+            };
+
+            Database.OperationPrescriptionRepository.Create(operation);
+        }
+
+        public void CompleteDrugPrescription(int idDrugs, int idComplaint, string idDoctor)
+        {
+          
+            var drPrescription= Database.DrugsPrescriptionRepository.GetAll().
+                 Where(dp => dp.ComplaintIdComplaint == idComplaint && dp.DrugsIdDrugs==idDrugs
+                 && dp.Complited == null)
+                 .FirstOrDefault();
+
+            // Add information about person who has given drugs and when 
+            drPrescription.Complited = DateTime.Now;
+            drPrescription.DoctorIdDoctor = idDoctor;
+
+
+            Database.DrugsPrescriptionRepository.Save();
+            
+        }
+
+        public void CompleteProcedurePrescription(int procedureId, int idComplaint, string idDoctor)
+        {
+
+            var prPrescription = Database.ProcedurePrescriptionRepository.GetAll().
+                 Where(dp => dp.ComplaintIdComplaint == idComplaint
+                 && dp.ProcedureIdProcedure == procedureId && dp.Complited==null)
+                 .FirstOrDefault();
+
+            // Add information about person who has appointed procedure and when 
+            prPrescription.Complited = DateTime.Now;
+            prPrescription.DoctorIdDoctor = idDoctor;
+
+
+            Database.ProcedurePrescriptionRepository.Save();
+        }
+
+        public void CompleteOperationPrescription(int operationId, int idComplaint, string idDoctor)
+        {
+            var opPrescription = Database.OperationPrescriptionRepository.GetAll()
+                .Where(op => op.ComplaintIdComplaint == idComplaint &&
+                op.OperationIdOperation == operationId && op.Complited == null)
+                .FirstOrDefault();
+
+            opPrescription.Complited= DateTime.Now;
+            opPrescription.DoctorIdDoctor = idDoctor;
+
+            Database.OperationPrescriptionRepository.Save();
         }
     }
 }
