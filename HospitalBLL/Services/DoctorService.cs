@@ -149,8 +149,11 @@ namespace HospitalBLL.Services
 
             var discharges = Database.DischargeRepository.GetAll().ToList();
 
+            //var sc_new = new List<Complaint_Doctor>();
+            //doctor_complaints.CopyTo(sc_new);
+
             // Check if someody of patients has been already discharged
-            foreach (var item in doctor_complaints)
+            foreach (var item in doctor_complaints.ToArray())
             {
                 if (discharges.Any(d => d.ComplaintIdComplaint == item.ComplaintIdComplaint))
                 {

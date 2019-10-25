@@ -108,6 +108,8 @@ namespace Hospital.Controllers
             ViewBag.Drugs = TreatmentService.GetAllDrags();
             ViewBag.Operations = TreatmentService.GetOperations();
             ViewBag.Procedures = TreatmentService.GetProcedures();
+            var diagnosis = TreatmentService.GetDiagnosis();
+            ViewBag.Diagnosis= new SelectList(diagnosis, "IdDiagnosis", "DiagnosisName");
             var model = DoctorService.GetPatients(UserService.GetId(User.Identity.Name));
           
             return View(model);

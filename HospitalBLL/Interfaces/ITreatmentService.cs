@@ -15,9 +15,8 @@ namespace HospitalBLL.Interfaces
         void AddDrugPrescriptionPatient(DrugPrescriptionBLL dPrescr);
         void AddOperationPrescriptionPatient(OperationPrescriptionsBLL opPrescr);
         void CompleteDrugPrescription(int idDrugs, int idComplaint, string idDoctor);
-
         void CompleteProcedurePrescription(int procedureId, int idComplaint, string idDoctor);
-
         void CompleteOperationPrescription(int operationId, int idComplaint, string idDoctor);
+        void DischagePatient(int idComplaint, string recomendations, int IdDiagnosis);
     }
 }

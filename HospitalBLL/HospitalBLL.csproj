@@ -83,6 +83,7 @@
     <Compile Include="Models\ClientProfileBLL.cs" />
     <Compile Include="Models\ComplaintBLL.cs" />
     <Compile Include="Models\DiagnosisBLL.cs" />
+    <Compile Include="Models\DischargeBLL.cs" />
     <Compile Include="Models\DoctorBLL.cs" />
     <Compile Include="Models\DoctorSortModel.cs" />
     <Compile Include="Models\DrugPrescriptionBLL.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Models\PatientBLL.cs" />
     <Compile Include="Models\ProcedureBLL.cs" />
     <Compile Include="Models\ProcedurePrescriptonBLL.cs" />
+    <Compile Include="Models\SessionBLL.cs" />
     <Compile Include="Models\TreatmentService.cs" />
     <Compile Include="Services\DoctorFilterService.cs" />
     <Compile Include="Models\DrugBLL.cs" />

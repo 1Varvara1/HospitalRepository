@@ -216,5 +216,19 @@ namespace HospitalBLL.Models
 
             Database.OperationPrescriptionRepository.Save();
         }
+
+        public void DischagePatient(int idComplaint, string recomendations, int IdDiagnosis)
+        {
+            var discharge = new Discharge
+            {
+                ComplaintIdComplaint = idComplaint,
+                DateDisharged = DateTime.Now,
+                DiagnosisIdDiagnosis = IdDiagnosis,
+                Recomendations = recomendations
+            };
+
+            Database.DischargeRepository.Create(discharge);
+
+    }
     }
 }

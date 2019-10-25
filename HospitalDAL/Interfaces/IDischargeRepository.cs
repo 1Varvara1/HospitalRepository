@@ -12,5 +12,6 @@ namespace HospitalDAL.Interfaces
         IEnumerable<Discharge> GetAll();
         Discharge Get(int idDischarge);
         void Create(Discharge discharge);
+        void Save();
     }
 }

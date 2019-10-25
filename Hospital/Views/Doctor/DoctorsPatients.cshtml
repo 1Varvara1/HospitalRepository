@@ -9,7 +9,7 @@
 @section Style{
     <link rel="stylesheet" href="~/Content/bootstrap.css">
     <link rel="stylesheet" href="~/Content/sweetStyle.css">
-
+    <link rel="stylesheet" href="~/Content/select.css">
 }
 
 <h2>DoctorsPatients</h2>
@@ -330,7 +330,6 @@
                                                                 @i.ProcedureName
                                                                 <input type="hidden" name="procedureId" value="@i.IdProcedure " />
                                                                 <input type="hidden" name="ComplaintIdComplaint" value="@item.IdComplaint" />
-                                                                <input type="hidden" name="ComplaintIdComplaint" value="@item.IdComplaint" />
                                                                 <input type="hidden" name="DoctorIdDoctor" value="@User.Identity.GetUserId()" />
                                                             </td>
                                                             <td>
@@ -463,19 +462,69 @@
 
                     </td>
                     <td>
-                        @if (item.DrugsPrescriptions.Any(d => d.Complited == null) ||
-                        item.ProcedurePrescriptions.Any(d => d.Complited == null) ||
-                        item.OperatonPrescriptions.Any(d => d.Complited == null))
+                        @using (Html.BeginForm("PatientCard", "Treatment", FormMethod.Post))
                         {
-                            <button type="button" id="@item+'@item.IdComplaint'" value="false" class="btn btn-primary" onclick="CheckTreatment(this)">
-                                Выписать пациента
-                            </button>
-                        }
-                        else
-                        {
-                            <button type="button" id="@item+'@item.IdComplaint'" value="true" class="btn btn-primary" onclick="CheckTreatment(this)">
-                                Выписать пациента
-                            </button>
+                            if (item.DrugsPrescriptions.Any(d => d.Complited == null) ||
+                            item.ProcedurePrescriptions.Any(d => d.Complited == null) ||
+                            item.OperatonPrescriptions.Any(d => d.Complited == null))
+                            {
+                                <button type="button" id="@item+'@item.IdComplaint'" value="false" class="btn btn-primary" onclick="CheckTreatment(this)">
+                                    Выписать пациента
+                                </button>
+                            }
+                            else
+                            {
+
+                                <input type="hidden" name="idComplaint" value="@item.IdComplaint" />
+                                @*<button type="submit" id="@item+'@item.IdComplaint'" value="true" class="btn btn-primary">
+                                        Выписать пациента
+                                    </button>*@
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DischargeModal_@item.IdComplaint">
+                                    Выписать пациента
+                                </button>
+                            }
+
+
+
+                            <!-- The Modal -->
+                            <div class="modal fade" id="DischargeModal_@item.IdComplaint">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Выписка</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body" style="min-height:400px;">
+
+                                            <img class="rightImg" src="~/Images/doctor4.png" style="float:left;" height="350" width="200" />
+                                            <div style="margin:auto;">
+                                                <img src="~/Images/NumbOne.png" style="height:60px" />Поствьте пациенту окончательный диагноз
+                                                @Html.DropDownList("IdDiagnosis", ViewBag.Diagnosis as SelectList
+                                                   , new { @class = "select-css", id = "drop" })
+                                                <br />
+                                                <img src="~/Images/NumberTwo.png" style="height:60px" />Оставьте рекомендации
+                                                <p>
+                                                    <textarea name="recomendations" rows="4" cols="25"></textarea>
+                                                </p>
+                                                <button class="ctn ctn-primary" type="submit">Выписать</button>
+                                                <input type="hidden" name="idDiagnosis" id="IdDiagnosis" value="" />
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         }
 
                     </td>
@@ -489,85 +538,18 @@
 
 </div>
 
-
-
-
-@*
-     <!-- The Modal -->
-    <div class="modal fade" id="DrugsModal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body" style="min-height:400px;">
-                    <img class="rightImg" src="~/Images/doctor5.png" style="float:left;" height="350" width="200" />
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Лекарство</th>
-                                <th>Статус</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>John</td>
-                                <td>Doe</td>
-                                <td>john@example.com</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-*@
-
-
-
-
-<!-- The Modal -->
-<div class="modal fade" id="DischargeModal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Выписка</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body" style="min-height:400px;">
-
-                <img class="rightImg" src="~/Images/doctor4.png" style="float:left;" height="350" width="200" />
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
+@if (ViewBag.SuccessDischarge == true)
+{
+    <script>
+        Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Пациент успешно выписан',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+}
 <script>
 
     function CheckTreatment(obj) {
@@ -576,7 +558,7 @@
             Swal.fire({
                 type: 'error',
                 title: 'Oops...',
-                html: "<p class='SwText'>Похоже что пациент не может быть выписан<p>Выполние все предписания</p></p>",
+                html: "<p class='SwText'>Похоже что пациент не может быть выписан<p>Выполните все назначения</p></p>",
 
             });
         }
@@ -597,6 +579,20 @@
         //}
 
     }
+
+    var Select = document.getElementById("drop");
+
+    function changeOption() {
+
+
+        var selectedOption = Select.options[Select.selectedIndex];
+        //$('#specField').css('display', 'inline-block');
+        //$('#dropText').text(selectedOption.text);
+        $('#IdDiagnosis').attr('value', selectedOption.value);
+
+    }
+
+    Select.addEventListener("change", changeOption);
 
 
 </script>

@@ -41,5 +41,10 @@ namespace HospitalDAL.Repositories
             }
             return discharges;
         }
+
+        public void Save()
+        {
+            db.SaveChanges();
+        }
     }
 }

@@ -113,6 +113,15 @@ namespace Hospital.Controllers
 
         }
 
+
+        [HttpPost]
+        public ActionResult PatientCard(int idComplaint, string recomendations, int IdDiagnosis)
+        {
+            TreatmentService.DischagePatient(idComplaint,recomendations, IdDiagnosis);
+            ViewBag.SuccessDischarge=true;
+            return RedirectToAction("DoctorsPatients", "Doctor");
+        }
+
     }
 
 }
