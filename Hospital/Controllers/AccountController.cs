@@ -133,11 +133,13 @@ namespace Hospital.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult DoctorRegister()
         {
             
             var specialities= SpecialityService.GetAllSpecialities();
             ViewBag.Specialities = new SelectList(specialities,"IdSpeciality", "NameSpeciality");
+            ViewBag.Registred = false;
             return View();
         }
 
@@ -151,20 +153,27 @@ namespace Hospital.Controllers
             // returns Speciality object by guven id
             var speciality = SpecialityService.GetAllSpecialities().Where(s=>s.IdSpeciality== model.IdSpeciality).FirstOrDefault();
 
+            if (DateTime.Now.Subtract(model.Birth).Days<18*365)
+            {
+                ModelState.AddModelError("Birth", "Доктор должен быть старше 18 лет");
+                ViewBag.Success = false;
+            }
+            ViewBag.Success = false;
             if (ModelState.IsValid)
             {
                 UserBLL user = new UserBLL(model.Name, model.Surname, model.SecondName, model.Birth, model.Address, model.Email, "doctor", model.Password);
                 OperationDetails operationDetails = await DoctorService.Create(user, speciality);
                 if (operationDetails.Succedeed)
                 {
-                    ViewBag.Succes = true;
-                    return View(model);
+                    ViewBag.Success = true;
+                    //return View(model);
+                    return View(new DoctorRegisterModel());
                 }
 
                 else
                 {
-                    ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
-                    ViewBag.Succes = true;
+                    ModelState.AddModelError("Email", operationDetails.Message);
+                    ViewBag.Success = false;
                 }
 
             }

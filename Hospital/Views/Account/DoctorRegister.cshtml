@@ -6,6 +6,8 @@
 
 @section Style{
     <link rel="stylesheet" href="~/Content/loginValidationForm.css">
+    <link rel="stylesheet" href="~/Content/Site.css">
+
 }
 
 <div class="validation">
@@ -17,39 +19,186 @@
         </div>
 
         <div class="container">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+            <table>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Name, "Имя")
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Name, new { placeholder = "Введите имя", id = "Name" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Surname, "Фамилия")
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Surname, new { placeholder = "Введите фамилию", id = "Surname" })
+                    </td>
+                    <td>
+                    </td>
+                </tr>
 
-            @Html.LabelFor(m => m.Name, "Имя")
-            @Html.TextBoxFor(m => m.Name, new { placeholder = "Введите имя пациента", id = "Name" })
 
-            @Html.LabelFor(m => m.Surname, "Фамилия")
-            @Html.TextBoxFor(m => m.Surname, new { placeholder = "Введите фамилию пациента", id = "Surname" })
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.SecondName, "Отчество")
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.SecondName, new { placeholder = "Введите отчество", id = "SecondName" })
+                    </td>
+                    <td>
+                    </td>
+                </tr>
 
-            @Html.LabelFor(m => m.SecondName, "Отчество")
-            @Html.TextBoxFor(m => m.SecondName, new { placeholder = "Введите отчество пациента", id = "SecondName" })
 
-            @Html.LabelFor(m => m.Password, "Пароль")
-            @Html.TextBoxFor(m => m.Password, new { placeholder = "Придумайте пароль", id = "Password" })
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Password, "Пароль")
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Password, new
+                   {
+                       placeholder = "Придумайте пароль",
+                       id = "Password",
+                       type = "password"
+                   })
+                    </td>
+                    <td>
+                        @Html.ValidationMessageFor(model => model.Password)
+                    </td>
+                </tr>
 
-            @Html.LabelFor(m => m.ConfirmPassword, "Повтовторный ввод пароля")
-            @Html.TextBoxFor(m => m.ConfirmPassword, new { placeholder = "Повторите введение пароля", id = "ConfirmPassword" })
-           
-            @Html.LabelFor(m => m.IdSpeciality, "Специальность")
-            @Html.DropDownListFor(model => model.IdSpeciality, ViewBag.Specialities as SelectList)
+                @*<div href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">*@
 
-            @Html.LabelFor(m => m.Birth, "Дата рождения")
-            @Html.TextBoxFor(m => m.Birth, new { id = "Name", type = "date" })
-            <br />
-            @Html.LabelFor(m => m.Address, "Адрес")
-            @Html.TextBoxFor(m => m.Address, new { placeholder = "Введите адрес пациента", id = "Address" })
 
-            @Html.LabelFor(m => m.Email, "Email")
-            @Html.TextBoxFor(m => m.Email, new { placeholder = "Введите email пациента", id = "Email", type = "email" })
+
+
+                @*</div>*@
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.ConfirmPassword, "Повтовторный ввод пароля")
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.ConfirmPassword, new
+                   {
+                       placeholder = "Повторите введение пароля",
+                       id = "ConfirmPassword",
+                       type = "password"
+                   })
+                    </td>
+                    <td>
+                    </td> @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.IdSpeciality, "Специальность")
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.IdSpeciality, ViewBag.Specialities as SelectList)
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Birth, "Дата рождения")
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Birth, new { id = "Birth", type = "date" })
+
+                    </td>
+                    <td>
+                        @Html.ValidationMessageFor(model => model.Birth)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Address, "Адрес")
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Address, new { placeholder = "Введите адрес пациента", id = "Address" })
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Email, "Email")
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Email, new { placeholder = "Введите email пациента", id = "Email", type = "email" })
+
+                    </td>
+                    <td>
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </td>
+                </tr>
+            </table>
+
             <button type="submit">Login</button>
+
+
         </div>
     }
 
 
 </div>
+
+@if (ViewBag.Registred == false)
+{
+
+}
+else if (ViewBag.Success == false)
+{
+    <script>
+        Swal.fire({
+            type: 'error',
+            title: 'Упсс...',
+            text: 'Неверно введенные данные!',
+           
+        })
+    </script>
+
+}
+else if (ViewBag.Success ==true)
+{
+    <script>
+        Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Отлично, добавлен новый доктор',
+            showConfirmButton: false,
+            timer: 2000
+        })
+    </script>
+}
+
+@*<script>
+
+        function PassKeyPressed() {
+            $("[data-toggle='popover']").popover('show');
+        }
+
+        //$("#Password").keypress(function () {
+
+        //    //$("[data-toggle='popover']").attr('data-content', i);
+        //    $("[data-toggle='popover']").popover('show');
+        //});
+
+
+
+    </script>*@
+
+
 
 
