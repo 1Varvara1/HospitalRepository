@@ -18,5 +18,7 @@ namespace HospitalBLL.Interfaces
         void CompleteProcedurePrescription(int procedureId, int idComplaint, string idDoctor);
         void CompleteOperationPrescription(int operationId, int idComplaint, string idDoctor);
         void DischagePatient(int idComplaint, string recomendations, int IdDiagnosis);
+
+        List<SessionBLL> GetPatientTreatmentHistory(string idPatient);
     }
 }

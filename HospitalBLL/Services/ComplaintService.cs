@@ -25,11 +25,15 @@ namespace HospitalBLL.Services
             var complaintsBLL = new List<ComplaintBLL>();
             foreach (var item in complaints)
             {
-                complaintsBLL.Add(new ComplaintBLL(item.ClientProfile, item.Speciality,
-                    item.ComplaintInformation, item.Date, item.IsProccesed));
+                var comp = new ComplaintBLL(item.ClientProfile, item.Speciality,
+                    item.ComplaintInformation, item.Date, item.IsProccesed);
+                comp.IdComplaint = item.IdComplaint;
+                complaintsBLL.Add(comp);
+                
             }
             return complaintsBLL;
         }
+        
 
         public async Task<int> Create(string IdClientProfle, int idSpeciality)
         {

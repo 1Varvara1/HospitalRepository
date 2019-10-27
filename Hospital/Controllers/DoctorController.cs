@@ -104,7 +104,7 @@ namespace Hospital.Controllers
 
         public ActionResult DoctorsPatients()
         {
-            ViewBag.Diagnosis= TreatmentService.GetDiagnosis();
+            ViewBag.Diagnos= TreatmentService.GetDiagnosis();
             ViewBag.Drugs = TreatmentService.GetAllDrags();
             ViewBag.Operations = TreatmentService.GetOperations();
             ViewBag.Procedures = TreatmentService.GetProcedures();

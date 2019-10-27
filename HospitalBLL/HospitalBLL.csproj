@@ -76,6 +76,7 @@
     <Compile Include="Infrastructure\OperationDetails.cs" />
     <Compile Include="Interfaces\IComplaintService.cs" />
     <Compile Include="Interfaces\IDiagnosisService.cs" />
+    <Compile Include="Interfaces\IDischargeService.cs" />
     <Compile Include="Interfaces\IDoctorService.cs" />
     <Compile Include="Interfaces\IDrugsService.cs" />
     <Compile Include="Interfaces\IOperationService.cs" />
@@ -98,6 +99,8 @@
     <Compile Include="Models\ProcedurePrescriptonBLL.cs" />
     <Compile Include="Models\SessionBLL.cs" />
     <Compile Include="Models\TreatmentService.cs" />
+    <Compile Include="Services\DischargeDocumentCreator.cs" />
+    <Compile Include="Services\DischargeService.cs" />
     <Compile Include="Services\DoctorFilterService.cs" />
     <Compile Include="Models\DrugBLL.cs" />
     <Compile Include="Models\SpecialityBLL.cs" />
@@ -113,6 +116,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <Content Include="Templates\discharge.docx" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

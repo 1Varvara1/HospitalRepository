@@ -121,12 +121,12 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach (var i in ViewBag.Diagnosis)
+                                                    @foreach (var i in ViewBag.Diagnos)
                                                     {
                                                         using (Html.BeginForm("MatchDiagnosis", "Treatment", FormMethod.Post))
                                                         {
 
-                                                            <tr class="diagnosisTableEl" name="@i.DiagnosisName">
+                                                            <tr class="diagnosisTableEl" >
                                                                 <td>
                                                                     @i.DiagnosisName
                                                                     <input type="hidden" name="idDiagnosis" value="@i.IdDiagnosis" />
@@ -225,7 +225,8 @@
                                                     using (Html.BeginForm("AddDrugPatient", "Treatment", FormMethod.Post))
                                                     {
 
-                                                        <tr class="diagnosisTableEl" name="@i.DrugsName " id="myImg" src="@Url.Content(i.Path)">
+                                                        @*<tr class="diagnosisTableEl" name="@i.DrugsName " id="myImg" src="@Url.Content(i.Path)">*@
+                                                        <tr class="diagnosisTableEl" name="@i.DrugsName " id="myImg">
                                                             <td>
                                                                 @i.DrugsName
                                                                 <input type="hidden" name="drugsId" value="@i.IdDrugs" />
@@ -415,7 +416,7 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>Лекарство</th>
+                                                    <th>Операция</th>
                                                     <th>Рекомендации</th>
                                                     <th></th>
                                                 </tr>
@@ -458,11 +459,14 @@
 
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary">Больничная карта</button>
-
+                        @using (Html.BeginForm("PatientCard", "Treatment", FormMethod.Get))
+                        {
+                            <input type="hidden" name="idPatient" value="@item.ClientProfile.IdClientProfile"/>
+                            <button type="submit" class="btn btn-primary">Больничная карта</button>
+                        }
                     </td>
                     <td>
-                        @using (Html.BeginForm("PatientCard", "Treatment", FormMethod.Post))
+                        @using (Html.BeginForm("PatientDischage", "Treatment", FormMethod.Post))
                         {
                             if (item.DrugsPrescriptions.Any(d => d.Complited == null) ||
                             item.ProcedurePrescriptions.Any(d => d.Complited == null) ||

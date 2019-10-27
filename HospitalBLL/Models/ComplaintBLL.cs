@@ -10,6 +10,7 @@ namespace HospitalBLL.Models
 {
     public class ComplaintBLL
     {
+        public int IdComplaint { get; set; }
         public ClientProfile ClientProfile { get; set; }
         public string ComplaintInformation { get; set; }
         public Speciality Speciality { get; set; }

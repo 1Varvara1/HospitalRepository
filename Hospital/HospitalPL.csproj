@@ -231,6 +231,12 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
@@ -386,6 +392,8 @@
     <Content Include="Content\loginForm.css" />
     <Content Include="Content\loginValidationForm.css" />
     <Content Include="Content\navbar.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\PatientCard.css" />
     <Content Include="Content\select.css" />
     <Content Include="Content\sweetStyle.css" />
     <Content Include="Content\w3.css" />
@@ -547,6 +555,8 @@
     <Content Include="Views\Patient\ComplaintRegstration.cshtml" />
     <Content Include="Views\Account\PersonalPage.cshtml" />
     <Content Include="Views\Doctor\DoctorsPatients.cshtml" />
+    <Content Include="Views\Treatment\PatientCard.cshtml" />
+    <Content Include="Views\Treatment\Pages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
@@ -573,7 +583,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Patient\Images\" />
-    <Folder Include="Views\Treatment\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

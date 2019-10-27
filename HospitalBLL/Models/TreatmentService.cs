@@ -97,7 +97,7 @@ namespace HospitalBLL.Models
         }
 
         public void AddProcedurePrescriptionPatient(ProcedurePrescriptonBLL procPrescr)
-           
+
         {
             var complaint = Database.ComplaintRepository.Get(procPrescr.ComplaintIdComplaint);
             var doctor = Database.DoctorRepository.GetAll().
@@ -117,11 +117,11 @@ namespace HospitalBLL.Models
                 DoctorIdDoctor = procPrescr.DoctorIdDoctor,
                 Doctor = doctor
             };
-           
+
 
             Database.ProcedurePrescriptionRepository.Create(prescription);
 
-    }
+        }
 
         public void AddDrugPrescriptionPatient(DrugPrescriptionBLL dPrescr)
         {
@@ -173,9 +173,9 @@ namespace HospitalBLL.Models
 
         public void CompleteDrugPrescription(int idDrugs, int idComplaint, string idDoctor)
         {
-          
-            var drPrescription= Database.DrugsPrescriptionRepository.GetAll().
-                 Where(dp => dp.ComplaintIdComplaint == idComplaint && dp.DrugsIdDrugs==idDrugs
+
+            var drPrescription = Database.DrugsPrescriptionRepository.GetAll().
+                 Where(dp => dp.ComplaintIdComplaint == idComplaint && dp.DrugsIdDrugs == idDrugs
                  && dp.Complited == null)
                  .FirstOrDefault();
 
@@ -185,7 +185,7 @@ namespace HospitalBLL.Models
 
 
             Database.DrugsPrescriptionRepository.Save();
-            
+
         }
 
         public void CompleteProcedurePrescription(int procedureId, int idComplaint, string idDoctor)
@@ -193,7 +193,7 @@ namespace HospitalBLL.Models
 
             var prPrescription = Database.ProcedurePrescriptionRepository.GetAll().
                  Where(dp => dp.ComplaintIdComplaint == idComplaint
-                 && dp.ProcedureIdProcedure == procedureId && dp.Complited==null)
+                 && dp.ProcedureIdProcedure == procedureId && dp.Complited == null)
                  .FirstOrDefault();
 
             // Add information about person who has appointed procedure and when 
@@ -211,7 +211,7 @@ namespace HospitalBLL.Models
                 op.OperationIdOperation == operationId && op.Complited == null)
                 .FirstOrDefault();
 
-            opPrescription.Complited= DateTime.Now;
+            opPrescription.Complited = DateTime.Now;
             opPrescription.DoctorIdDoctor = idDoctor;
 
             Database.OperationPrescriptionRepository.Save();
@@ -229,6 +229,162 @@ namespace HospitalBLL.Models
 
             Database.DischargeRepository.Create(discharge);
 
-    }
+        }
+
+        public List<SessionBLL> GetPatientTreatmentHistory(string idPatient)
+        {
+            var complaints = Database.ComplaintRepository.GetAll().
+                Where(c => c.ClientProfileIdClientProfile == idPatient).
+                ToList();
+
+            List<SessionBLL> sesionList = new List<SessionBLL>();
+            foreach (var c in complaints)
+            {
+                SessionBLL session = new SessionBLL();
+                ComplaintBLL complaint = new ComplaintBLL(c.ClientProfile, c.Speciality,
+                    c.ComplaintInformation, c.Date);
+
+                //Initialize Complaint field 
+                session.Complaint = complaint;
+
+
+                if (Database.Complaint_DoctorRepository.GetAll().
+                    Where(cd => cd.ComplaintIdComplaint == c.IdComplaint) != null)
+                {
+                    //Initialize Doctor field 
+                    session.Doctor = Database.Complaint_DoctorRepository.GetAll().
+                    Where(cd => cd.ComplaintIdComplaint == c.IdComplaint).
+                    FirstOrDefault().Doctor;
+
+                    if (Database.Patient_DiagnosisRepository.GetAll().
+                    Where(cd => cd.ComplaintIdComplaint == c.IdComplaint) != null)
+                    {
+                        var diagnosis = Database.Patient_DiagnosisRepository.GetAll().
+                            Where(cd => cd.ComplaintIdComplaint == c.IdComplaint).
+                            FirstOrDefault().Diagnosis;
+
+                        //Initialize Diagnosis field 
+                        session.Diagnosiis = new DiagnosisBLL
+                        {
+                            IdDiagnosis = diagnosis.IdDiagnosis,
+                            DiagnosisName = diagnosis.DiagnosisName
+                        };
+
+                    }
+                    else
+                    {
+                        session.Diagnosiis = null;
+                    }
+                    /////
+                    if (Database.DrugsPrescriptionRepository.GetAll().
+                        Where(dp => dp.ComplaintIdComplaint == c.IdComplaint) != null)
+                    {
+                        var drugsPrescriptions = Database.DrugsPrescriptionRepository.GetAll().
+                        Where(dp => dp.ComplaintIdComplaint == c.IdComplaint);
+
+                        // Initialize List<DrugPrescriptions> field 
+                        foreach (var dp in drugsPrescriptions)
+                        {
+                            session.DrugPrescriptions.Add(new DrugPrescriptionBLL
+                            {
+                                IdDrugsPrescription = dp.IdDrugsPrescription,
+                                ComplaintIdComplaint = dp.ComplaintIdComplaint,
+                                drugsId = dp.DrugsIdDrugs,
+                                drugs = new DrugBLL(dp.Drugs.IdDrugs, dp.Drugs.DrugsName, dp.Drugs.PathPh),
+                                Recomendations = dp.Recomendations,
+                                Complited = dp.Complited,
+                                DoctorIdDoctor = dp.DoctorIdDoctor
+                            });
+
+
+                        }
+                    }
+                 
+                    ///////////////
+                    if (Database.ProcedurePrescriptionRepository.GetAll().
+                       Where(dp => dp.ComplaintIdComplaint == c.IdComplaint) != null)
+                    {
+                        var procedurePrescriptions = Database.ProcedurePrescriptionRepository.GetAll().
+                        Where(dp => dp.ComplaintIdComplaint == c.IdComplaint);
+
+                        // Initialize List<ProcedurePrescriptions> field 
+                        foreach (var dp in procedurePrescriptions)
+                        {
+                            session.ProcedurePrescriptions.Add(new ProcedurePrescriptonBLL
+                            {
+                                IdProcedurePrescription = dp.IdProcedurePrescription,
+                                ComplaintIdComplaint = dp.ComplaintIdComplaint,
+                                procedureId = dp.ProcedureIdProcedure,
+                                procedure = new ProcedureBLL(dp.Procedure.IdProcedure, dp.Procedure.ProcedureName),
+                                Recomendations = dp.Recomendations,
+                                Complited = dp.Complited,
+                                DoctorIdDoctor = dp.DoctorIdDoctor
+                            });
+
+
+                        }
+                    }
+                    ///////////
+                    if (Database.OperationPrescriptionRepository.GetAll().
+                      Where(dp => dp.ComplaintIdComplaint == c.IdComplaint) != null)
+                    {
+                        var operationPrescriptions = Database.OperationPrescriptionRepository.GetAll().
+                        Where(dp => dp.ComplaintIdComplaint == c.IdComplaint);
+
+                        // Initialize List<OperationPrescriptions> field 
+                        foreach (var dp in operationPrescriptions)
+                        {
+                            session.OperatonPrescriptions.Add(new OperationPrescriptionsBLL
+                            {
+                                IdOperationPrescription = dp.IdOperationPrescription,
+                                ComplaintIdComplaint = dp.ComplaintIdComplaint,
+                                operationId = dp.OperationIdOperation,
+                                operation = new OperationBLL(dp.Operation.IdOperation, dp.Operation.OperationName),
+                                Recomendations = dp.Recomendations,
+                                Complited = dp.Complited,
+                                DoctorIdDoctor = dp.DoctorIdDoctor
+                            });
+
+
+                        }
+                    }
+                    ////////////////
+                    // Initialize Discharge field 
+                    if (Database.DischargeRepository.GetAll().
+                      Where(dp => dp.ComplaintIdComplaint == c.IdComplaint).FirstOrDefault()
+                            != null)
+                    {
+                        var discharge = Database.DischargeRepository.GetAll().
+                      Where(dp => dp.ComplaintIdComplaint == c.IdComplaint).
+                      FirstOrDefault();
+
+                        session.Diascharge = new DischargeBLL
+                        {
+                            Complaint = new ComplaintBLL(discharge.Complaint.ClientProfile,
+                            discharge.Complaint.Speciality, discharge.Complaint.ComplaintInformation,
+                            discharge.Complaint.Date),
+                            DateDisharged = discharge.DateDisharged,
+                            Diagnosis = new DiagnosisBLL
+                            {
+                                IdDiagnosis = discharge.Diagnosis.IdDiagnosis,
+                                DiagnosisName = discharge.Diagnosis.DiagnosisName
+                            },
+                            Recomendations = discharge.Recomendations
+                        };
+
+                    }
+                    else
+                    {
+                        session.Diascharge= null;
+                    }
+                }
+                else
+                {
+                    session.Doctor = null;
+                }
+                sesionList.Add(session);
+            }
+            return sesionList;
+        }
     }
 }

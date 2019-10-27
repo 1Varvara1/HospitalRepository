@@ -3,6 +3,7 @@ using HospitalBLL.Models;
 using HospitalBLL.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,10 @@ namespace Hospital.Controllers
     public class TreatmentController : Controller
     {
         ServiceCreator creator;
+        List<SessionBLL> sessions;
         public TreatmentController()
         {
+            List<SessionBLL> sessions = new List<SessionBLL>();
             creator = new ServiceCreator();
 
         }
@@ -26,6 +29,14 @@ namespace Hospital.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<IUserService>();
             }
         }
+        private IComplaintService ComplaintService
+        {
+            get
+            {
+                return creator.CreteComplaintService();
+            }
+        }
+
 
         private ITreatmentService TreatmentService
         {
@@ -115,12 +126,35 @@ namespace Hospital.Controllers
 
 
         [HttpPost]
-        public ActionResult PatientCard(int idComplaint, string recomendations, int IdDiagnosis)
+        public ActionResult PatientDischage(int idComplaint, string recomendations, int IdDiagnosis)
         {
             TreatmentService.DischagePatient(idComplaint,recomendations, IdDiagnosis);
             ViewBag.SuccessDischarge=true;
             return RedirectToAction("DoctorsPatients", "Doctor");
         }
+
+        [HttpGet]
+        public ActionResult PatientCard(string idPatient, int? page)
+        {
+            //var id = ComplaintService.GetAll().Where(c => c.IdComplaint == idComplaint).FirstOrDefault();
+            sessions = TreatmentService.GetPatientTreatmentHistory(idPatient);
+
+            int pageSize = 1;
+            int pageNumber = (page ?? 1);
+            return View(sessions.ToPagedList(pageNumber, pageSize));
+        //    return RedirectToAction("Pages");
+        }
+
+        public ActionResult Pages(int? page)
+        {
+            //var id = ComplaintService.GetAll().Where(c => c.IdComplaint == idComplaint).FirstOrDefault();
+           // sessions = TreatmentService.GetPatientTreatmentHistory(idPatient);
+
+            int pageSize = 1;
+            int pageNumber = (page ?? 1);
+            return View(sessions.ToPagedList(pageNumber, pageSize));
+        }
+
 
     }
 
