@@ -45,5 +45,10 @@ namespace HospitalBLL.Services
         {
             return new ComplaintService(new IdentityUnitOfWork(connection));
         }
+
+        public DischargeDocumentCreator CreateDischargeDocumentCreator()
+        {
+            return new DischargeDocumentCreator(new IdentityUnitOfWork(connection));
+        }
     }
 }

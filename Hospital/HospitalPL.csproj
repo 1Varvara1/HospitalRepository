@@ -67,6 +67,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -398,6 +401,8 @@
     <Content Include="Content\sweetStyle.css" />
     <Content Include="Content\w3.css" />
     <Content Include="Images\d1.png" />
+    <Content Include="Images\drugs.png" />
+    <Content Include="Images\drugs1.png" />
     <Content Include="Images\h1.png" />
     <Content Include="Images\h10.png" />
     <Content Include="Images\h11.png" />
@@ -447,7 +452,9 @@
     <Content Include="Images\loadAnimation.gif" />
     <Content Include="Images\nerve.png" />
     <Content Include="Images\onc.png" />
+    <Content Include="Images\operation.png" />
     <Content Include="Images\permanent.png" />
+    <Content Include="Images\procedures.png" />
     <Content Include="Images\surgery.png" />
     <Content Include="Images\tooth.png" />
     <Content Include="Images\travm.png" />
@@ -542,6 +549,12 @@
     <Content Include="Views\Doctor\DoctorSearch.cshtml" />
     <Content Include="Views\Doctor\SearchPartial.cshtml" />
     <Content Include="Views\Patient\PatientSearch.cshtml" />
+    <Content Include="Views\Patient\SearchPartial.cshtml" />
+    <Content Include="Views\Patient\ComplaintRegstration.cshtml" />
+    <Content Include="Views\Account\PersonalPage.cshtml" />
+    <Content Include="Views\Doctor\DoctorsPatients.cshtml" />
+    <Content Include="Views\Treatment\PatientCard.cshtml" />
+    <Content Include="Views\Treatment\Pages.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -551,15 +564,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Patient\SearchPartial.cshtml" />
-    <Content Include="Views\Patient\ComplaintRegstration.cshtml" />
-    <Content Include="Views\Account\PersonalPage.cshtml" />
-    <Content Include="Views\Doctor\DoctorsPatients.cshtml" />
-    <Content Include="Views\Treatment\PatientCard.cshtml" />
-    <Content Include="Views\Treatment\Pages.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -583,6 +587,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Patient\Images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -52,6 +52,13 @@ namespace Hospital.Controllers
                 return creator.CreateDoctorService();
             }
         }
+        private DischargeDocumentCreator DischargeDocumentCreator
+        {
+            get
+            {
+                return creator.CreateDischargeDocumentCreator();
+            }
+        }
 
 
         [HttpPost]
@@ -129,6 +136,9 @@ namespace Hospital.Controllers
         public ActionResult PatientDischage(int idComplaint, string recomendations, int IdDiagnosis)
         {
             TreatmentService.DischagePatient(idComplaint,recomendations, IdDiagnosis);
+            var disacharge = TreatmentService.GetDischarge(idComplaint);
+            var dischargeId = TreatmentService.GetIdDischarge(idComplaint);
+            DischargeDocumentCreator.CreateDischargeDocument(disacharge, dischargeId);
             ViewBag.SuccessDischarge=true;
             return RedirectToAction("DoctorsPatients", "Doctor");
         }

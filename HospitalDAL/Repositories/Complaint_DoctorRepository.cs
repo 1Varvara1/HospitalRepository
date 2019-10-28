@@ -50,7 +50,11 @@ namespace HospitalDAL.Repositories
             {
                 db.Entry(cd).Reference(c => c.Complaint).Load();
                 db.Entry(cd).Reference(c => c.Doctor).Load();
+                db.Entry(cd.Doctor).Reference(c => c.ClientProfile).Load();
+                db.Entry(cd.Doctor.ClientProfile).Reference(c => c.ApplicationUser).Load();
+                db.Entry(cd.Doctor).Reference(c => c.Speciality).Load();
                 db.Entry(cd.Complaint).Reference(c => c.ClientProfile).Load();
+             //   cd.Doctor.ClientProfile=db.ClientProfiles.Where()
             }
 
             return comp_doctors;

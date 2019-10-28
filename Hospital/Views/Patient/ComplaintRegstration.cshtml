@@ -15,18 +15,20 @@
             <h2 class="h2new">Оформление жалобы</h2>
             <div class="step step1">
                 <img src="~/Images/NumbOne.png" style="height:60px" />
-                Pick Patient
-
-                <button type="button" class="btn btn-primary">Register</button>
+                <span class="compRegFont">
+                    Выберете пациента 
+                </span>
                 <button type="button" class="btn btn-primary"
                         data-toggle="modal" data-target="#ModalPatients">
-                    Pick existed
+                    <span class="compRegFont">Выбрать</span>
                 </button>
             </div>
             <div class="step step2">
 
                 <img src="~/Images/NumberTwo.png" style="height:60px" />
-                Pick Speciality
+                <span class="compRegFont">
+                    Выберете специализацию
+                </span>
 
                 @Html.DropDownList("IdSpeciality", ViewBag.Specialities as SelectList
                , new { @class = "select-css", id = "drop" })
@@ -37,14 +39,13 @@
             <div class="step step3">
 
                 <img src="~/Images/NumberTree.png" style="height:60px" />
-                Doctor
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DoctorsModal">Pick now</button>
-                <button type="button" class="btn btn-primary">Pick after</button>
+                <span class="compRegFont">Выберете доктора/span>
+                <button type="button" class="btn btn-primary compRegFont" data-toggle="modal" data-target="#DoctorsModal">Выбрать сейчас</button>
             </div>
 
             <div class="step step4">
                 <img src="~/Images/NumberFour.png" style="height:60px" />
-                Check Data
+                <span class="compRegFont">Проверте данные</span>
                 <br />
                 <div id="patient">
                     @if (Model.UserBLL.IdClientProfile != "")

@@ -34,7 +34,8 @@ namespace HospitalDAL.Repositories
             var comp=db.Complaints.Where(obj=>obj.IdComplaint==id).FirstOrDefault();
             db.Entry(comp).Reference(c => c.ClientProfile).Load();
             db.Entry(comp).Reference(c => c.Speciality).Load();
-         //   db.Entry(comp).Reference(c => c.).Load();
+            db.Entry(comp.ClientProfile).Reference(c => c.ApplicationUser).Load();
+            //   db.Entry(comp).Reference(c => c.).Load();
 
             return comp;
         }
@@ -47,6 +48,7 @@ namespace HospitalDAL.Repositories
             foreach (var comp in complaints)
             {
                 db.Entry(comp).Reference(c => c.ClientProfile).Load();
+                db.Entry(comp.ClientProfile).Reference(c => c.ApplicationUser).Load();
                 db.Entry(comp).Reference(c => c.Speciality).Load();
             }
 

@@ -1,4 +1,5 @@
 ﻿using HospitalBLL.Models;
+using HospitalDAL.Entities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +19,9 @@ namespace HospitalBLL.Interfaces
         void CompleteProcedurePrescription(int procedureId, int idComplaint, string idDoctor);
         void CompleteOperationPrescription(int operationId, int idComplaint, string idDoctor);
         void DischagePatient(int idComplaint, string recomendations, int IdDiagnosis);
-
+        List<Doctor> GetAllDoctors();
+        DischargeBLL GetDischarge(int idComplaint);
+        int GetIdDischarge(int idComplaint);
         List<SessionBLL> GetPatientTreatmentHistory(string idPatient);
     }
 }

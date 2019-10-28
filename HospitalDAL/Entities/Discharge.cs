@@ -20,5 +20,7 @@ namespace HospitalDAL.Entities
         public int DiagnosisIdDiagnosis { get; set; }
         public Diagnosis Diagnosis { get; set; }
         public string Recomendations { get; set; }
+        public string DocumentPath { get; set; }
     }
+   
 }

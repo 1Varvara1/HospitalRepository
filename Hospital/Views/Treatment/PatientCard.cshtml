@@ -2,6 +2,7 @@
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/PatientCard.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="~/Content/bootstrap.css">
 @{
     ViewBag.Title = "PatientCard";
 }
@@ -18,29 +19,202 @@
 
     @foreach (var item in Model)
     {
-        <form action="/action_page.php" method="post">
-            <div class="imgcontainer">
-                <img src="@Url.Content(item.Complaint.Speciality.PathPh)" alt="Speciality" class="spImage">
-            </div>
 
-            <div class="container">
-                <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
+        <div class="imgcontainer">
+            <img src="@Url.Content(item.Complaint.Speciality.PathPh)" alt="Speciality" class="spImage">
+        </div>
 
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
+        <div class="container">
 
-                <button type="submit">Login</button>
-                <label>
-                    <input type="checkbox" checked="checked" name="remember"> Remember me
-                </label>
-            </div>
+            <label>Жалоба</label>
+            <b>@Html.DisplayTextFor(m => item.Complaint.Speciality.NameSpeciality)</b>
+            <br />
+            <label>Дата поступления</label>
+            <b>@Html.DisplayTextFor(m => item.Complaint.Date)</b>
+            <br />
+            <label>Лечащий врач</label>
+            @if (item.Doctor != null)
+            {
+                <b>@Html.DisplayFor(m => item.Doctor.ClientProfile.Surname)</b>
+                @Html.DisplayFor(m => item.Doctor.ClientProfile.Name)
+            }
+            else
+            {
+                <span>Не назначен</span>
+            }
 
-            <div class="container" style="background-color:#f1f1f1">
-                <button type="button" class="cancelbtn">Cancel</button>
-                <span class="psw">Forgot <a href="#">password?</a></span>
-            </div>
-        </form>
+            <br />
+            <label>Диагноз</label>
+            @if (item.Diagnosiis != null)
+            {
+                <b>@Html.DisplayTextFor(m => item.Diagnosiis.DiagnosisName)</b>
+
+            }
+            else
+            {
+                <span>Не определен</span>
+            }
+
+            <br />
+
+            <label style="text-align:center;">Назначеные лекарства</label>
+            <img  class="PrImage" src="~/Images/drugs1.png" style="float:left;" />
+            @if (item.DrugPrescriptions.Count == 0)
+            {
+                <span>Не назначено</span>
+            }
+            else
+            {
+                <div class="container">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Лекарство</th>
+                                <th>Выдано</th>
+                                <th>Рекомендаци</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var dr in item.DrugPrescriptions)
+                            {
+                                <tr>
+                                    <td>@dr.drugs.DrugsName</td>
+                                    @if (dr.Complited == null)
+                                    {
+                                        <td>не выдано</td>
+                                        <td>не выдано</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@dr.Complited</td>
+                                        <td>@dr.Recomendations</td>
+                                    }
+
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+
+            <br />
+            <label style="text-align:center;">Назначеные поцедуры</label>
+            <img   class="PrImage" src="~/Images/procedures.png" style="float:left;" />
+            @if (item.ProcedurePrescriptions.Count == 0)
+            {
+                <span>Не назначено</span>
+            }
+            else
+            {
+                <div class="container">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Процедура</th>
+                                <th>Проведена</th>
+                                <th>Рекомендаци</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var dr in item.ProcedurePrescriptions)
+                            {
+                                <tr>
+                                    <td>@dr.procedure.ProcedureName</td>
+                                    @if (dr.Complited == null)
+                                    {
+                                        <td>не проведено</td>
+                                        <td>не проведено</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@dr.Complited</td>
+                                        <td>@dr.Recomendations</td>
+                                    }
+
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+
+            <br />
+            <label style="text-align:center;">Назначеные операции</label>
+            <img  class="PrImage" src="~/Images/operation.png" style="float:left;" />
+          
+            @if (item.OperatonPrescriptions.Count == 0)
+            {
+                <span>Не назначено</span>
+            }
+            else
+            {
+                <div class="container">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Операция</th>
+                                <th>Проведена</th>
+                                <th>Рекомендаци</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var dr in item.OperatonPrescriptions)
+                            {
+                                <tr>
+                                    <td>@dr.operation.OperationName</td>
+                                    @if (dr.Complited == null)
+                                    {
+                                        <td>не проведена</td>
+                                        <td>не проведена</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@dr.Complited</td>
+                                        <td>@dr.Recomendations</td>
+                                    }
+
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            <br />
+
+            <label>Выписка</label>
+            <br />
+            @if (item.Diascharge == null)
+            {
+                <span>Не выписан</span>
+            }
+            else
+            {
+                <label>Окончательный диагноз</label>
+                <b> @Html.DisplayTextFor(model => item.Diascharge.Diagnosis.DiagnosisName)</b>  
+                <br />
+                <label>Рекомендации</label>
+                @Html.DisplayTextFor(model => item.Diascharge.Recomendations)
+                <br />
+                <label>Дата выписки</label>
+                <b>@Html.DisplayTextFor(model => item.Diascharge.DateDisharged)</b>
+
+            }
+        </div>
+
+
+
     }
 
     <br />

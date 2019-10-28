@@ -257,7 +257,7 @@ namespace HospitalBLL.Models
                     FirstOrDefault().Doctor;
 
                     if (Database.Patient_DiagnosisRepository.GetAll().
-                    Where(cd => cd.ComplaintIdComplaint == c.IdComplaint) != null)
+                    Where(cd => cd.ComplaintIdComplaint == c.IdComplaint).Count()>0)
                     {
                         var diagnosis = Database.Patient_DiagnosisRepository.GetAll().
                             Where(cd => cd.ComplaintIdComplaint == c.IdComplaint).
@@ -385,6 +385,37 @@ namespace HospitalBLL.Models
                 sesionList.Add(session);
             }
             return sesionList;
+        }
+
+        public List<Doctor> GetAllDoctors()
+        {
+           return Database.DoctorRepository.GetAll().ToList();
+        }
+
+        public DischargeBLL GetDischarge(int idComplaint)
+        {
+            var disharge= Database.DischargeRepository.GetAll().
+                Where(d => d.ComplaintIdComplaint == idComplaint).
+                FirstOrDefault();
+            var c = Database.ComplaintRepository.Get(idComplaint);
+            var complaint = new ComplaintBLL(c.ClientProfile, c.Speciality, c.ComplaintInformation, c.Date);
+           var r=new DischargeBLL {
+                Complaint= complaint,
+               
+                DateDisharged=disharge.DateDisharged,
+                Diagnosis= new DiagnosisBLL { IdDiagnosis= disharge.Diagnosis.IdDiagnosis,
+                    DiagnosisName =disharge.Diagnosis.DiagnosisName},
+                Recomendations= disharge.Recomendations
+            };
+            r.Complaint.IdComplaint = idComplaint;
+            return r;
+    }
+
+        public int GetIdDischarge(int idComplaint)
+        {
+            return Database.DischargeRepository.GetAll().
+                Where(d => d.ComplaintIdComplaint == idComplaint).
+                FirstOrDefault().IdDischarge;
         }
     }
 }

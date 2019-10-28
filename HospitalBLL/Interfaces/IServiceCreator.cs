@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HospitalBLL.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,8 @@ namespace HospitalBLL.Interfaces
         ISpecialityService CreateSpecialityService();
         IComplaintService CreteComplaintService();
         ITreatmentService CreateTreatmentService();
+
+        DischargeDocumentCreator CreateDischargeDocumentCreator();
+       
     }
 }
