@@ -17,10 +17,11 @@
 
 </head>
 <body>
+    
     <div class="navbar" style="border-bottom-width: 0px;margin-bottom: 0px; border-right-width: 0px; border-left-width: 0px;border-top-width: 0px;">
 
 
-        <div onclick="openNav()"><a class="active" href="#"><i class="fa fa-fw fa-bars">  </i></a></div>
+        <div onclick="openNav()" style="margin-left:20px;"><a class="active" href="#"><i class="fa fa-fw fa-bars">  </i></a></div>
 
         @if (!User.Identity.IsAuthenticated)
         {
@@ -73,7 +74,7 @@
     </div>
 
     <div id="mySidenav" class="sidenav">
-        <img src="~/Images/hospital_sign.png" width="50%">
+        <img src="~/Images/hospital_sign.png" id="sideImg" alt="sign">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
         @if (User.IsInRole("admin"))
@@ -130,7 +131,9 @@
 
     </div>
     <div>
-        @RenderBody()
+        <div class="bodyRender"> @RenderBody()
+        </div>
+       
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - мое приложение ASP.NET</p>

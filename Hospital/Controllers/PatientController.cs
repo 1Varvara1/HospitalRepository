@@ -129,7 +129,8 @@ namespace Hospital.Controllers
 
             if (Idpatient != null)
             {
-                model = UserService.GetPatients().Where(p => p.IdClientProfile == Idpatient).FirstOrDefault();
+                model = UserService.GetPatients().Where(p => p.IdClientProfile == Idpatient).
+                    FirstOrDefault();
                 //  return View(model);
             }
 
@@ -156,12 +157,27 @@ namespace Hospital.Controllers
         [HttpPost]
         public async Task<ActionResult> PatientComplaintRegistration(ComplaintRegistration complaintRegistration)
         {
-            // Create complaint
-            int idComplaint = await ComplaintService.Create(complaintRegistration.IdPatient, complaintRegistration.IdSpeciality);
-
-            if (complaintRegistration.IdDoctor != null)
+            ComplaintRegistrationService service;
+            
+            if (complaintRegistration.IdPatient == null)
             {
-                ComplaintService.MatchComplaintDoctor(idComplaint, complaintRegistration.IdDoctor);
+                ViewBag.PatientError = true;
+
+            }
+            else if (complaintRegistration.IdSpeciality==0)
+            {
+                ViewBag.SpecialityError = true;
+              
+            }
+            else
+            {
+                // Create complaint
+                int idComplaint = await ComplaintService.Create(complaintRegistration.IdPatient, complaintRegistration.IdSpeciality);
+
+                if (complaintRegistration.IdDoctor != null)
+                {
+                    ComplaintService.MatchComplaintDoctor(idComplaint, complaintRegistration.IdDoctor);
+                }
             }
 
             // Fill SelectList  
@@ -171,7 +187,7 @@ namespace Hospital.Controllers
             ViewBag.Sp = specialities;
             ViewBag.SuccessRegistration = true;
 
-            var service = FormComplaintRegistrationService();
+            service = FormComplaintRegistrationService();
             return View("ComplaintRegstration", service);
         }
     }

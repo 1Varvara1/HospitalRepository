@@ -391,6 +391,7 @@
     <Content Include="Content\complaint.css" />
     <Content Include="Content\computer-3343887.jpg" />
     <Content Include="Content\doctor56.jpg" />
+    <Content Include="Content\doctorSearch.css" />
     <Content Include="Content\DropDown.css" />
     <Content Include="Content\loader.css" />
     <Content Include="Content\loginForm.css" />

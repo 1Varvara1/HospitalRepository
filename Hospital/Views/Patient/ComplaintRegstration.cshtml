@@ -12,7 +12,7 @@
 
 }
 
-<div class="row cont">
+<div class="row cont" onload="Load()">
     <div class="imgBack col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form bottom-left col-lg-4 col-md-5 col-sm-7 col-sm-offset-1 col-xs-10 col-xs-offset-1">
             <h2 class="h2new">Оформление жалобы</h2>
@@ -64,7 +64,7 @@
                         <div class="chip" id="patientField" style="display:none;">
                             <img class="chPhoto" src="~/Images/h1.png" alt="Person" width="96" height="96" onclick="ChangePh(this)">
                             <span id="TextPatient"></span>
-                            <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                            <span class="closebtn" onclick="ClosebtnPatientClick(this)">&times;</span>
                         </div>
                     }
 
@@ -73,7 +73,7 @@
                     <div class="chip" id="specField" style="display:none;">
                         <img id="SpPhoto" class="chPhoto" src="~/Images/permanent.png" alt="Person" width="96" height="96">
                         <span id="dropText"></span>
-                        <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                        <span class="closebtn" onclick="ClosebtnClick(this)">&times;</span>
                     </div>
 
                     @*<div class="chip">
@@ -86,7 +86,7 @@
                     <div class="chip" id="DoctorField" style="display:none;">
                         <img class="chPhoto" src="~/Images/d1.png" alt="doctor" width="96" height="96">
                         <span id="DoctorText"></span>
-                        <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                        <span class="closebtn" onclick="ClosebtnDocClick(this)">&times;</span>
                     </div>
                 </div>
 
@@ -281,6 +281,30 @@
     </script>
 }
 
+@if (ViewBag.SpecialityError == true)
+{
+    <script>
+        Swal.fire({
+            type: 'error',
+            title: 'Ошибка',
+            text: 'Необходимо выбрать специализцию'
+
+        })
+    </script>
+}
+
+
+@if (ViewBag.PatientError == true)
+{
+    <script>
+        Swal.fire({
+            type: 'error',
+            title: 'Ошибка',
+            text: 'Необходимо выбрать пациента'
+        })
+    </script>
+}
+
 <script>
     var Select = document.getElementById("drop");
 
@@ -344,6 +368,24 @@
         }
     }
 
+    function ClosebtnClick(obj) {
+        obj.parentElement.style.display = 'none';
+        $('#IdSpeciality').attr('value', '0');
+    }
+
+    function ClosebtnPatientClick(obj) {
+        obj.parentElement.style.display = 'none';
+        $('#IdPatient').attr('value', "");
+
+    }
+
+    function ClosebtnDocClick(obj) {
+        obj.parentElement.style.display = 'none';
+        $('#IdDoctor').attr('value', "");
+
+    }
+
+
     function ChangePh(obj) {
         let n = Math.floor((Math.random() * 12) + 1);
         obj.src = "/Images/h" + n + ".png";
@@ -358,5 +400,6 @@
         //obj.src = s + n + ".png";
 
     }
+
 
 </script>

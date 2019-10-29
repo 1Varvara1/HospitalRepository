@@ -6,7 +6,8 @@
 
 @section Style{
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
-    <link rel="stylesheet" href="~/Content/DropDown.css">
+    @*<link rel="stylesheet" href="~/Content/DropDown.css">*@
+    <link rel="stylesheet" href="~/Content/doctorSearch.css">
 
 }
 
@@ -20,14 +21,16 @@
             OnFailure = "OnFailure"
         }))
     {
-        @Html.DropDownList("IdSpeciality", ViewBag.Specialities as SelectList)
-        <select name="SurnameField">
+        @Html.DropDownList("IdSpeciality", ViewBag.Specialities as SelectList
+        , new { @class = "select-css", id = "drop" })
+
+        <select class = "select-css"  name="SurnameField">
             <option>none</option>
             <option value="A-Z">А-Я</option>
             <option value="Z-A">Я-А</option>
 
         </select>
-        <select name="PatientField">
+        <select class = "select-css" name="PatientField">
             <option>none</option>
             <option value="IncreaseAll">По возрастанию (все пациенты)</option>
             <option value="DecreaseAll">По убыванию (все пациенты)</option>
