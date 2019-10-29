@@ -117,6 +117,15 @@
                 @Html.ActionLink("Мои пациенты", "DoctorsPatients", "Doctor")
             </div>
         }
+        @if (User.IsInRole("nurse"))
+        {
+            <div>
+                @Html.ActionLink("Пациенты", "PersonalPage", "Nurse")
+            </div>
+            <div>
+                @Html.ActionLink("Личный кабинет", "DoctorsPatients", "Nurse")
+            </div>
+        }
 
 
     </div>

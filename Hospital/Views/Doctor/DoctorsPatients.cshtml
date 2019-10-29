@@ -82,7 +82,7 @@
                                         <!-- Modal body -->
                                         <div class="modal-body" style="min-height:400px;">
                                             <img class="rightImg" src="~/Images/doctor2.png" style="float:left;" height="350" width="200" />
-                                            <ul style="display:flex; list-style-image:none; ">
+                                            @*<ul style="display:flex; list-style-image:none; ">
                                                 <li click="" id="а">А</li>
                                                 <li click="" id="б">Б</li>
                                                 <li click="" id="в">В</li>
@@ -112,7 +112,7 @@
                                                 <li click="" id="щ">Щ</li>
                                                 <li click="" id="ю">Ю</li>
                                                 <li click="" id="я">Я</li>
-                                            </ul>
+                                            </ul>*@
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
@@ -180,6 +180,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Лекарство</th>
+                                                    <th>Рекомендации</th>
                                                     <th>Выдано</th>
                                                 </tr>
                                             </thead>
@@ -188,22 +189,23 @@
                                                 {
                                                     using (Html.BeginForm("CompleteDrugPrescription", "Treatment", FormMethod.Post))
                                                     {
-                                                        <tr>
-                                                            <td>@i.drugs.DrugsName</td>
-                                                            @if (i.Complited != null)
-                                                            {
-                                                                <td>@i.Complited</td>
-                                                            }
-                                                            else
-                                                            {
-                                                                <td>
-                                                                    <input type="hidden" name="idDrugs" value="@i.drugs.IdDrugs" />
-                                                                    <input type="hidden" name="idComplaint" value="@item.IdComplaint" />
-                                                                    <button class="btn btn-primary" type="submit">Выдать</button>
-                                                                </td>
-                                                            }
+                                                <tr>
+                                                    <td>@i.drugs.DrugsName</td>
+                                                    @if (i.Complited != null)
+                                                    {
+                                                        <td>@i.Complited</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@i.Recomendations</td>
+                                                        <td>
+                                                            <input type="hidden" name="idDrugs" value="@i.drugs.IdDrugs" />
+                                                            <input type="hidden" name="idComplaint" value="@item.IdComplaint" />
+                                                            <button class="btn btn-primary" type="submit">Выдать</button>
+                                                        </td>
+                                                    }
 
-                                                        </tr>
+                                                </tr>
                                                     }
 
                                                 }
@@ -278,6 +280,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Процедура</th>
+                                                    <th>Рекомендации</th>
                                                     <th>Выполнение</th>
                                                 </tr>
                                             </thead>
@@ -286,24 +289,24 @@
                                                 {
                                                     using (Html.BeginForm("CompleteProcedurePrescription", "Treatment", FormMethod.Post))
                                                     {
-                                                        <tr>
-                                                            <td>@i.procedure.ProcedureName</td>
-                                                            @if (i.Complited != null)
-                                                            {
-                                                                <td>@i.Complited</td>
-                                                            }
-                                                            else
-                                                            {
+                                                <tr>
+                                                    <td>@i.procedure.ProcedureName</td>
+                                                    @if (i.Complited != null)
+                                                    {
+                                                        <td>@i.Complited</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@i.Recomendations</td>
+                                                        <td>
+                                                            <input type="hidden" name="procedureId" value="@i.procedure.IdProcedure" />
+                                                            <input type="hidden" name="idComplaint" value="@item.IdComplaint" />
 
-                                                                <td>
-                                                                    <input type="hidden" name="procedureId" value="@i.procedure.IdProcedure" />
-                                                                    <input type="hidden" name="idComplaint" value="@item.IdComplaint" />
+                                                            <button class="btn btn-primary" type="submit">Выполнить</button>
+                                                        </td>
+                                                    }
 
-                                                                    <button class="btn btn-primary" type="submit">Выполнить</button>
-                                                                </td>
-                                                            }
-
-                                                        </tr>
+                                                </tr>
                                                     }
 
                                                 }
@@ -382,6 +385,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Процедура</th>
+                                                    <th>Рекомендации</th>
                                                     <th>Выполнение</th>
                                                 </tr>
                                             </thead>
@@ -390,22 +394,23 @@
                                                 {
                                                     using (Html.BeginForm("CompleteOperationPrescription", "Treatment", FormMethod.Post))
                                                     {
-                                                        <tr>
-                                                            <td>@i.operation.OperationName</td>
-                                                            @if (i.Complited != null)
-                                                            {
-                                                                <td>@i.Complited</td>
-                                                            }
-                                                            else
-                                                            {
-                                                                <td>
-                                                                    <input type="hidden" name="operationId" value="@i.operation.IdOperation" />
-                                                                    <input type="hidden" name="idComplaint" value="@item.IdComplaint" />
-                                                                    <button class="btn btn-primary" type="submit">Выполнить</button>
-                                                                </td>
-                                                            }
+                                                <tr>
+                                                    <td>@i.operation.OperationName</td>
+                                                    @if (i.Complited != null)
+                                                    {
+                                                        <td>@i.Complited</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@i.Recomendations</td>
+                                                        <td>
+                                                            <input type="hidden" name="operationId" value="@i.operation.IdOperation" />
+                                                            <input type="hidden" name="idComplaint" value="@item.IdComplaint" />
+                                                            <button class="btn btn-primary" type="submit">Выполнить</button>
+                                                        </td>
+                                                    }
 
-                                                        </tr>
+                                                </tr>
                                                     }
 
                                                 }

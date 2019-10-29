@@ -6,6 +6,9 @@
 @section Style{
     <link rel="stylesheet" href="~/Content/complaint.css">
     <link rel="stylesheet" href="~/Content/bootstrap.css">
+    <link rel="stylesheet" href="~/fonts/Montserrat-Black.ttf">
+
+
 
 }
 
@@ -16,11 +19,11 @@
             <div class="step step1">
                 <img src="~/Images/NumbOne.png" style="height:60px" />
                 <span class="compRegFont">
-                    Выберете пациента 
+                    Выберете пациента
                 </span>
                 <button type="button" class="btn btn-primary"
                         data-toggle="modal" data-target="#ModalPatients">
-                    <span class="compRegFont">Выбрать</span>
+                    <span>Выбрать</span>
                 </button>
             </div>
             <div class="step step2">
@@ -39,7 +42,7 @@
             <div class="step step3">
 
                 <img src="~/Images/NumberTree.png" style="height:60px" />
-                <span class="compRegFont">Выберете доктора/span>
+                <span class="compRegFont">Выберете доктора</span>
                 <button type="button" class="btn btn-primary compRegFont" data-toggle="modal" data-target="#DoctorsModal">Выбрать сейчас</button>
             </div>
 
@@ -268,7 +271,13 @@
 @if (ViewBag.SuccessRegistration == true)
 {
     <script>
-    Swal.fire('Any fool can use a computer');
+        Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Жалоба успешно оформлена',
+            showConfirmButton: false,
+            timer: 1500
+        })
     </script>
 }
 
@@ -282,7 +291,7 @@
         $('#specField').css('display', 'inline-block');
         $('#dropText').text(selectedOption.text);
         $('#IdSpeciality').attr('value', selectedOption.value);
-      //  $('#SpPhoto').attr('src', '"/Images/'selectedOption.value);
+        //  $('#SpPhoto').attr('src', '"/Images/'selectedOption.value);
     }
 
     Select.addEventListener("change", changeOption);

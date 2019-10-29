@@ -161,7 +161,16 @@ namespace Hospital.Controllers
             ViewBag.Success = false;
             if (ModelState.IsValid)
             {
-                UserBLL user = new UserBLL(model.Name, model.Surname, model.SecondName, model.Birth, model.Address, model.Email, "doctor", model.Password);
+                UserBLL user;
+                if (speciality.NameSpeciality == "nurse")
+                {
+                    user = new UserBLL(model.Name, model.Surname, model.SecondName, model.Birth, model.Address, model.Email, "nurse", model.Password);
+                }
+                else
+                {
+                     user = new UserBLL(model.Name, model.Surname, model.SecondName, model.Birth, model.Address, model.Email, "doctor", model.Password);
+                }
+              
                 OperationDetails operationDetails = await DoctorService.Create(user, speciality);
                 if (operationDetails.Succedeed)
                 {

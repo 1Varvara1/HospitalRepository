@@ -278,7 +278,8 @@ h2new {
 
 /*///////////////*/
 
-.compRegFont{
-    color:white;
-    font-size: 1rem;
+.compRegFont {
+    color: white;
+    font-size: 1.5rem;
+    font-family: 'Montserrat', sans-serif;
 }

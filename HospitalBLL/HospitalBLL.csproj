@@ -76,6 +76,7 @@
     <Compile Include="Comparers\ProcedureNameComparer.cs" />
     <Compile Include="Comparers\SurnameDoctorComparer.cs" />
     <Compile Include="Comparers\SurnameUserComparer.cs" />
+    <Compile Include="Infrastructure\MassageSender.cs" />
     <Compile Include="Infrastructure\OperationDetails.cs" />
     <Compile Include="Interfaces\IComplaintService.cs" />
     <Compile Include="Interfaces\IDiagnosisService.cs" />

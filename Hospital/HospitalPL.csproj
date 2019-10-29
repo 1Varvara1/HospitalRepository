@@ -371,6 +371,7 @@
     <Compile Include="Models\ComplaintRegistrationService.cs" />
     <Compile Include="Models\DoctorRegisterModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\NurseController.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -504,6 +505,7 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="fonts\Montserrat-Black.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -586,6 +588,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Nurse\" />
     <Folder Include="Views\Patient\Images\" />
   </ItemGroup>
   <ItemGroup>

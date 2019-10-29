@@ -143,25 +143,10 @@ namespace Hospital.Controllers
         {
             // Fill SelectList  
             var specialities = SpecialityService.GetAllSpecialities();
+            specialities.RemoveAll(s=>s.NameSpeciality== "Медсестренство");
             ViewBag.Specialities = new SelectList(specialities, "IdSpeciality", "NameSpeciality");
             ViewBag.Sp = specialities;
-             //var model = new UserBLL();
-
-            //// Fill List of Patients
-            //var patients = UserService.GetPatients();
-
-            //// Fill List of Patients of doctors
-            //var doctors = DoctorService.GetAll();
-
-
-            //if (Idpatient != null)
-            //{
-            //    model = UserService.GetPatients().Where(p => p.IdClientProfile == Idpatient).FirstOrDefault();
-            //    return View(model);
-            //}
-
-            ////Form model for the view
-            //var service = new ComplaintRegistrationService(model, patients, doctors);
+        
             var service = FormComplaintRegistrationService(Idpatient);
             return View(service);
         }
@@ -181,6 +166,7 @@ namespace Hospital.Controllers
 
             // Fill SelectList  
             var specialities = SpecialityService.GetAllSpecialities();
+            specialities.RemoveAll(s => s.NameSpeciality == "Медсестренство");
             ViewBag.Specialities = new SelectList(specialities, "IdSpeciality", "NameSpeciality");
             ViewBag.Sp = specialities;
             ViewBag.SuccessRegistration = true;
