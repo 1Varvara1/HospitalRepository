@@ -202,6 +202,13 @@ namespace Hospital.Controllers
             var user = UserService.GetProfile(name);
             return View(user);
         }
+        public ActionResult PersonalPage1()
+        {
+            var name = User.Identity.Name;
+            // UserService.
+            var user = UserService.GetProfile(name);
+            return View(user);
+        }
 
     }
 }
