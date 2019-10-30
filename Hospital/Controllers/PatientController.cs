@@ -54,12 +54,20 @@ namespace Hospital.Controllers
             }
         }
 
+        private ITreatmentService TreatmentService
+        {
+            get
+            {
+                return creator.CreateTreatmentService();
+            }
+        }
+
         [HttpGet]
         public ActionResult PatientSearch()
         {
             // var complaints = ComplaintService.GetAll();
             var models = UserService.GetPatients();
-
+           
             return View(models);
         }
 
@@ -152,7 +160,12 @@ namespace Hospital.Controllers
             return View(service);
         }
 
-
+        [HttpPost]
+        public ActionResult MatchDoctor(int idComplaint, string idDoctor)
+        {
+            ComplaintService.MatchComplaintDoctor(idComplaint, idDoctor);
+            return RedirectToAction("PatientSearch","Patient");
+        }
 
         [HttpPost]
         public async Task<ActionResult> PatientComplaintRegistration(ComplaintRegistration complaintRegistration)

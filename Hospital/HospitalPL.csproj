@@ -371,6 +371,7 @@
     <Compile Include="Models\ComplaintRegistrationService.cs" />
     <Compile Include="Models\DoctorRegisterModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MatchDoctor.cs" />
     <Compile Include="Models\NurseController.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -567,6 +568,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Treatment\MatchDoctor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

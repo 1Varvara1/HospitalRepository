@@ -15,6 +15,6 @@ namespace HospitalBLL.Interfaces
 
         void MatchComplaintDoctor(int idComplaint, string idDoctor);
 
-
+        List<ComplaintBLL> GetAllUnProcessed();
     }
 }

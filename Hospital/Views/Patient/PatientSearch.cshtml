@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<HospitalBLL.Models.UserBLL>
 
 @{
-    
+
 }
 @section Style{
 
@@ -64,7 +64,7 @@
 
 
 <div id="divload" style="display:none">
-    <img src="~/Images/loadAnimation.gif"  style="margin:auto;"/>
+    <img src="~/Images/loadAnimation.gif" style="margin:auto;" />
 </div>
 
 <div id="resultSearch">
@@ -100,64 +100,39 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    if (item.NeedDoctor)
-                    {
-                        <tr class="table-warning">
-                            <td>
-                                <b>@Html.DisplayFor(modelItem => item.Surname)</b>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SecondName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Birth)
-                            </td>
+                    <tr class="table-success">
+                        <td>
+                            <b>@Html.DisplayFor(modelItem => item.Surname)</b>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
 
-                            <td>
-                                <button type="submit" class="btn btn-primary">Больничная карта</button>
-                                @if (item.NeedDoctor)
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SecondName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Birth)
+                        </td>
+
+                        <td>
+                            <button type="submit" class="btn btn-primary">Больничная карта</button>
+                            @if (item.NeedDoctor)
+                            {
+                                using (Html.BeginForm("MatchDoctor", "Treatment", FormMethod.Post))
                                 {
+                                    <input type="hidden" name="idPatient" value="@item.IdClientProfile" />
                                     <button type="submit" class="btn btn-warning">Назначить доктора</button>
                                 }
 
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr class="table-success">
-                            <td>
-                                <b>@Html.DisplayFor(modelItem => item.Surname)</b>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
+                            }
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SecondName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Birth)
-                            </td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
 
-                            <td>
-                                <button type="submit" class="btn btn-primary">Больничная карта</button>
-                                @if (item.NeedDoctor)
-                                {
-                                    <button type="submit" class="btn btn-warning">Назначить доктора</button>
-                                }
-
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                    }
 
                 }
             </tbody>

@@ -417,5 +417,58 @@ namespace HospitalBLL.Models
                 Where(d => d.ComplaintIdComplaint == idComplaint).
                 FirstOrDefault().IdDischarge;
         }
+
+        public List<ComplaintBLL> GetUnprocessedComplaints()
+        {
+            
+            var complaints = Database.ComplaintRepository.GetAll().ToList();
+            var comp_doc = Database.Complaint_DoctorRepository.GetAll().ToList();
+            var complBll = new List<ComplaintBLL>();
+
+            // Get patients whoo needs doctor 
+            foreach (var item in complaints)
+            {
+                if (comp_doc.Where(cd => cd.ComplaintIdComplaint == item.IdComplaint).ToList().Count == 0)
+                {
+                    complBll.Add(new ComplaintBLL(item.ClientProfile, item.Speciality, 
+                        item.ComplaintInformation, item.Date));
+                }
+            }
+
+            return complBll;
+        }
+
+        public ComplaintMatchBLL GetUnprocessedComplaint(string idPatient)
+        {
+            var complaints = Database.ComplaintRepository.GetAll().
+                Where(c=>c.ClientProfile.IdClientProfile==idPatient).
+                ToList();
+
+            var comp_doc = Database.Complaint_DoctorRepository.GetAll().ToList();
+            var complBll = new ComplaintMatchBLL();
+
+          
+            // Get patients whoo needs doctor 
+            foreach (var item in complaints)
+            {
+                if (comp_doc.Where(cd => cd.ComplaintIdComplaint == item.IdComplaint).ToList().Count == 0)
+                {
+                    complBll = new ComplaintMatchBLL
+                    {
+                        ClientProfile = new ClientProfileBLL(item.ClientProfile.IdClientProfile,
+                        item.ClientProfile.Name, item.ClientProfile.Surname, item.ClientProfile.SecondName,
+                        item.ClientProfile.Birth, item.ClientProfile.ApplicationUser.Email, "user"),
+                        Speciality = new SpecialityBLL(item.Speciality.IdSpeciality, item.Speciality.NameSpeciality,
+                        item.Speciality.PathPh),
+                        IdComplaint = item.IdComplaint,
+                        ComplaintInformation = item.ComplaintInformation,
+                        Date = item.Date,
+                        IsProccesed = false
+                    };
+                }
+            }
+
+            return complBll;
+        }
     }
 }

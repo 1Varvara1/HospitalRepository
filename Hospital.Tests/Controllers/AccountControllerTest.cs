@@ -1,6 +1,7 @@
 ﻿using Hospital.Controllers;
 using Hospital.Models;
 using HospitalBLL.Interfaces;
+using HospitalBLL.Models;
 using HospitalBLL.Services;
 using HospitalDAL.Entities;
 using Microsoft.Owin.Security;
@@ -25,9 +26,8 @@ namespace Hospital.Tests.Controllers
         public void Setup()
         {
             controller = new AccountController();
-            var mock = new Mock<ISpecialityService>();
             creator = new ServiceCreator();
-            // result = controller.Index() as ViewResult;
+            
         }
      
         private IDoctorService DoctorService
@@ -42,21 +42,24 @@ namespace Hospital.Tests.Controllers
         public void Account()
         {
             //Arrange
-            // var appuser= 
-          // var  user = new ApplicationUser { Email = userBll.Email, UserName = userBll.Email };
-            var email = DoctorService.GetAll().First().ClientProfile.ApplicationUser.Email;
-        //    var email = m.GetPatients().First().Email;
-            var model = new LoginModel {
-                Email = email,
-                Password= "333333"
-            };
 
+            var mock = new Mock<IServiceCreator>();
+            mock.Setup(m => m.CreateDoctorService().GetAll()).Returns(new List<DoctorBLL>());
+            var doc = mock.Object.CreateDoctorService();
+            var email = doc.GetAll();
+           // var email = DoctorService.GetAll().First().ClientProfile.ApplicationUser.Email;
+           //    var email = m.GetPatients().First().Email;
+            //var model = new LoginModel {
+            //    Email = email,
+            //    Password= "333333"
+            //};
+          
             //Act
-            var result = controller.Login(model);
+          //  var result = controller.Login(model);
 
        //     var ar = controller.ModelState.Count;
             //Assert
-            Assert.IsFalse(controller.ModelState.IsValid);
+           // Assert.IsFalse(controller.ModelState.IsValid);
         }
 
     }

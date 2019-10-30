@@ -1,0 +1,66 @@
+﻿@model Hospital.Models.MatchDoctor
+
+@{
+    ViewBag.Title = "MatchDoctor";
+}
+@section Style{
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/CardFonts.css">
+    <style>
+
+        .chPhoto {
+            float: left;
+            margin: 0 10px 0 -25px;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+    </style>
+}
+
+<h2 style="text-align:center;">Результаты поиска  врача</h2>
+
+
+<div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-2">
+    <div class="row">
+        @foreach (var item in Model.Doctor)
+        {
+            using (Html.BeginForm("MatchDoctor", "Patient", FormMethod.Post))
+            {
+                <input type="hidden" name="idComplaint" value=@Model.Complaint.IdComplaint />
+                <input type="hidden" name="idDoctor" value=@item.ClientProfile />
+                <div class="card col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <img src="~/Images/doctor.png" alt="Avatar" style="width:100%">
+                    <div class="container">
+                        <span class="surnameFont"><b>@item.ClientProfile.Surname</b></span><br />
+                        <span class="nameFont">
+
+                            @item.ClientProfile.Name @item.ClientProfile.SecondName
+                        </span>
+                        <div class="titleFont">
+                            Специализация:
+                            <p class="spec">
+                                @* <img class="chPhoto" src="@Url.Content(item.PathPhoto)" alt="Person" width="96" height="96">*@
+                                <b>@item.Speciality.NameSpeciality</b>
+                            </p>
+                        </div>
+                        <div>
+                            Кол-во пациентов
+                            <span class="numberFont"><b>@item.AmountPatients</b></span>
+                        </div>
+                        <div>
+                            Находяться на лечении
+                            <span class="numberFont"><b>@item.AmountBeingTreated</b></span>
+                        </div>
+                        <br />
+                        <button class="btn btn-primary" type="submit" >Выбрать</button>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+
+
+</div>
+

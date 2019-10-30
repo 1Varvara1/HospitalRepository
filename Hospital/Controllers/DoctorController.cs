@@ -114,5 +114,20 @@ namespace Hospital.Controllers
           
             return View(model);
         }
+
+        [HttpGet]
+        public ActionResult DoctorsPatientsDischarged(string path)
+        {
+            ViewBag.Diagnos = TreatmentService.GetDiagnosis();
+            ViewBag.Drugs = TreatmentService.GetAllDrags();
+            ViewBag.Operations = TreatmentService.GetOperations();
+            ViewBag.Procedures = TreatmentService.GetProcedures();
+            var diagnosis = TreatmentService.GetDiagnosis();
+            ViewBag.Diagnosis = new SelectList(diagnosis, "IdDiagnosis", "DiagnosisName");
+            var model = DoctorService.GetPatients(UserService.GetId(User.Identity.Name));
+            ViewBag.DocumentPath = path;
+            ViewBag.SuccessDischarge = true;
+            return View("DoctorsPatients", model);
+        }
     }   
 }
