@@ -1,6 +1,6 @@
 ﻿.body{
     margin:0;
-    padding:0;
+    padding-left:25px;
 }
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
@@ -11,6 +11,7 @@
 
 /* The side navigation menu */
 .sidenav {
+    padding-left:20px;
     height: 100%; /* 100% Full-height */
     width: 0; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
@@ -26,7 +27,9 @@
 
     /* The navigation menu links */
     .sidenav a {
+        margin-left: 20px;
         padding: 8px 32px 8px 32px;
+        padding-bottom: 30px;
         text-decoration: none;
         font-size: 25px;
         color: #818181;
@@ -35,9 +38,9 @@
     }
 
         /* When you mouse over the navigation links, change their color */
-        .sidenav div:hover {
-            color: #f1f1f1;
-        }
+    .sidenav div:hover {
+        color: #66a3ff;
+    }
 
     /* Position and style the close button (top right corner) */
     .sidenav .closebtn {
@@ -113,7 +116,7 @@
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
-    background-color: #3e8e41;
+    background-color: #0066ff;
 }
 
 
@@ -131,6 +134,7 @@
         float: left;
         text-align: center;
         padding: 12px;
+      
         color: white;
         text-decoration: none;
         font-size: 17px;
@@ -143,9 +147,9 @@
         }
 
 /* Current/active navbar link */
-.active {
+/*.active {
     background-color: #4CAF50;
-}
+}*/
 
 /* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
 @media screen and (max-width: 500px) {
@@ -157,4 +161,50 @@
 
 .pointer{
     cursor:pointer;
+}
+
+#sideImg{
+    margin-left:20px;
+    width:50%;
+    margin-bottom:50px;
+}
+
+
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+
+    .bodyRender {
+        min-height:400px;
+    }
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .bodyRender {
+        min-height: 500px;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .bodyRender {
+        min-height: 600px;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .bodyRender {
+        min-height: 700px;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    .bodyRender {
+        min-height: 800px;
+    }
 }

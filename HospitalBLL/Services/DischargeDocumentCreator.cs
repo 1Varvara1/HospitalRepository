@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Office.Interop.Word;
 using System.Reflection;
+using Microsoft.Office.Interop.Word;
 using Word = Microsoft.Office.Interop.Word;
 using HospitalBLL.Models;
 using HospitalDAL.Interfaces;
 using HospitalDAL.Entities;
 using HospitalDAL;
+using log4net;
 
 namespace HospitalBLL.Services
 {
@@ -23,8 +24,8 @@ namespace HospitalBLL.Services
         private Microsoft.Office.Interop.Word.Application wordApp;
         private string TemplateFileName;
         IUnitOfWork Database { get; set; }
+        private static readonly ILog Log = LogManager.GetLogger(typeof(DischargeDocumentCreator));
 
-      
         public DischargeDocumentCreator(IUnitOfWork uow)
            
         {
@@ -41,6 +42,7 @@ namespace HospitalBLL.Services
             ClientProfile patient;
             Diagnosis diagnosis;
 
+            // Check if data exists in database
             try
             {
                 Database.DischargeRepository.Get(idDischarge);
@@ -76,13 +78,27 @@ namespace HospitalBLL.Services
                     "TemplatePath");
             }
 
-            // Form name for new document   TEMPLATE: TemplatePath\discharge[idDischarge]
-            // var documentName =TemplatePath + "disharge" + idDischarge.ToString()+".docx";
-            // var documentName = @"D:Discharges\discharge17.docx"; 
-            var documentName = @"D:\Discharges\"+ "discharge" + discharge.Complaint.IdComplaint.ToString() + ".docx";
-            // Create and save Copy
-            wordDoc.SaveAs(documentName);
-            wordDoc.Close();
+
+            string documentName = "";
+
+
+            // Check if document already exists
+            try {
+                 documentName = @"D:\Discharges\\" + "discharge" + discharge.Complaint.IdComplaint.ToString() + ".docx";
+                // Create and save Copy
+               
+            }
+            catch(Exception)
+            {
+                   Log.Warn("Document with name " + documentName+ "has already existed.");
+                   documentName = @"D:\Discharges\\" + "dischargeAdded" + discharge.Complaint.IdComplaint.ToString() + ".docx";
+                   Log.Warn("New name= " + documentName);
+            }
+            finally{
+                wordDoc.SaveAs(documentName);
+                wordDoc.Close();
+            }
+
 
             // Open File
             try
@@ -97,43 +113,6 @@ namespace HospitalBLL.Services
                     "TemplatePath");
             }
 
-            try
-            {
-                // Get all the bookmarks in the document 
-              //  var wBookmarks = wordDoc.Bookmarks;
-
-                // idDischarge, DateTime.Now, doctorName, doctorSpeciality, doctorEmail,
-                // patientName, patientBirth, patientEmail, firstDiagnosis, secondDiagnosis,
-                // recomendations
-
-                //    string[] data = new string[11] { idDischarge.ToString() , DateTime.Now.ToString(),
-                //    doctor.ClientProfile.Surname+doctor.ClientProfile.Name+doctor.ClientProfile.SecondName,
-                //    doctor.Speciality.NameSpeciality,doctor.ClientProfile.ApplicationUser.Email,
-                //    patient.Surname+patient.Name+patient.SecondName,patient.Birth.ToString(),
-                //    patient.ApplicationUser.Email, discharge.Diagnosis.DiagnosisName,
-                //    discharge.Diagnosis.DiagnosisName,  discharge.Recomendations
-                //};
-               
-
-                //int i = 0;
-                //Word.Range wRange;
-                //// add data into bookmarks
-                //foreach (Word.Bookmark mark in wBookmarks)
-                //{
-
-                //    wRange = mark.Range;
-                //    wRange.Text = data[i];
-                //    i++;
-                //}
-
-            }
-            catch (Exception ex )
-            {
-                var v = ex.Message;
-              
-                wordDoc.Save();
-                wordDoc.Close();
-            };
 
             List<DrugsPrescription> dp = Database.DrugsPrescriptionRepository.
                 GetAll().
@@ -167,10 +146,10 @@ namespace HospitalBLL.Services
 
                 // Fill Second table with information of doctor and patient 
 
-                DoctorPatientTb.Cell(2, 2).Range.Text = doctor.ClientProfile.Surname + doctor.ClientProfile.Name + doctor.ClientProfile.SecondName;
+                DoctorPatientTb.Cell(2, 2).Range.Text = doctor.ClientProfile.Surname+" " + doctor.ClientProfile.Name +" "+ doctor.ClientProfile.SecondName;
                 DoctorPatientTb.Cell(3, 2).Range.Text = doctor.Speciality.NameSpeciality;
                 DoctorPatientTb.Cell(4, 2).Range.Text = doctor.ClientProfile.ApplicationUser.Email;
-                DoctorPatientTb.Cell(2, 4).Range.Text = patient.Surname + patient.Name + patient.SecondName;
+                DoctorPatientTb.Cell(2, 4).Range.Text = patient.Surname+" " + patient.Name +" "+ patient.SecondName;
                 DoctorPatientTb.Cell(3, 4).Range.Text = patient.Birth.ToString();
                 DoctorPatientTb.Cell(4, 4).Range.Text = patient.ApplicationUser.Email;
 
@@ -224,7 +203,7 @@ namespace HospitalBLL.Services
                         tbOperations.Cell(i, 1).Range.Text = d.Operation.OperationName;
                         tbOperations.Cell(i, 2).Range.Text = d.Recomendations;
                         tbOperations.Cell(i, 3).Range.Text = d.Complited.ToString();
-                        tbOperations.Cell(i, 4).Range.Text = d.Doctor.ClientProfile.Surname +
+                        tbOperations.Cell(i, 4).Range.Text = d.Doctor.ClientProfile.Surname +" "+
                             d.Doctor.ClientProfile.Name;
                         i++;
                     }
@@ -233,6 +212,8 @@ namespace HospitalBLL.Services
                 SecondDiagnosis.Cell(1, 1).Range.Text = discharge.Diagnosis.DiagnosisName;
                 Recomendations.Cell(1, 1).Range.Text = discharge.Recomendations;
                 DateNow.Cell(1, 1).Range.Text = discharge.DateDisharged.ToString();
+
+                Database.DischargeRepository.UpdateDocPath(discharge.Complaint.IdComplaint, documentName);
 
             }
             catch (Exception ex)
@@ -245,7 +226,7 @@ namespace HospitalBLL.Services
                 wordDoc.Save();
                 wordDoc.Close();
             }
-            return new OperationDetails(true,"","");
+            return new OperationDetails(true,"Seccessfuly created",documentName);
         }
 
 

@@ -63,7 +63,7 @@ namespace Hospital.Controllers
         [HttpPost]
         public async Task<ActionResult> Login(LoginModel model)
         {
-           
+
             if (ModelState.IsValid)
             {
                 UserBLL userBLL = new UserBLL { Email = model.Email, Password = model.Password };
@@ -102,32 +102,37 @@ namespace Hospital.Controllers
 
             if (ModelState.IsValid)
             {
+                if (model.Birth > DateTime.Now || DateTime.Now.Subtract(model.Birth).TotalDays / 365 > 120)
+                {
+                    ModelState.AddModelError("Birth", "Проверте правильность ввода даты рожденния");
+                }
                 UserBLL user = new UserBLL(model.Name, model.Surname, model.SecondName, model.Birth, model.Address, model.Email, "user", "999999");
                 OperationDetails operationDetails = await UserService.Create(user);
-               
+
 
                 if (operationDetails.Succedeed)
                 {
-                   var userBll = UserService.GetPatients().
-                   Where(u => u.Name == model.Name && u.Surname == model.Surname
-                   && u.SecondName == model.SecondName && u.Birth == model.Birth).
-                   FirstOrDefault();
+                    var userBll = UserService.GetPatients().
+                    Where(u => u.Name == model.Name && u.Surname == model.Surname
+                    && u.SecondName == model.SecondName && u.Birth == model.Birth).
+                    FirstOrDefault();
 
                     ViewBag.Succes = true;
-                    if (redirect=="true")
+                    if (redirect == "true")
                     {
                         return RedirectToActionPermanent("ComplaintRegstration", "Patient",
-                            new { Idpatient = userBll.IdClientProfile }) ;
+                            new { Idpatient = userBll.IdClientProfile });
                     }
                 }
-          
-            else
-            {
-                ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
-                ViewBag.Succes = true;
-            }
 
-        }
+                else
+                {
+                    ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
+                    ViewBag.Succes = false;
+                }
+
+            }
+            else { ViewBag.Succes = false; }
 
             // return RedirectToAction("PatientSearch", "Patient");
             return View();
@@ -136,9 +141,9 @@ namespace Hospital.Controllers
         [HttpGet]
         public ActionResult DoctorRegister()
         {
-            
-            var specialities= SpecialityService.GetAllSpecialities();
-            ViewBag.Specialities = new SelectList(specialities,"IdSpeciality", "NameSpeciality");
+
+            var specialities = SpecialityService.GetAllSpecialities();
+            ViewBag.Specialities = new SelectList(specialities, "IdSpeciality", "NameSpeciality");
             ViewBag.Registred = false;
             return View();
         }
@@ -151,9 +156,9 @@ namespace Hospital.Controllers
             ViewBag.Specialities = new SelectList(specialities, "IdSpeciality", "NameSpeciality");
 
             // returns Speciality object by guven id
-            var speciality = SpecialityService.GetAllSpecialities().Where(s=>s.IdSpeciality== model.IdSpeciality).FirstOrDefault();
+            var speciality = SpecialityService.GetAllSpecialities().Where(s => s.IdSpeciality == model.IdSpeciality).FirstOrDefault();
 
-            if (DateTime.Now.Subtract(model.Birth).Days<18*365)
+            if (DateTime.Now.Subtract(model.Birth).Days < 18 * 365)
             {
                 ModelState.AddModelError("Birth", "Доктор должен быть старше 18 лет");
                 ViewBag.Success = false;
@@ -161,7 +166,16 @@ namespace Hospital.Controllers
             ViewBag.Success = false;
             if (ModelState.IsValid)
             {
-                UserBLL user = new UserBLL(model.Name, model.Surname, model.SecondName, model.Birth, model.Address, model.Email, "doctor", model.Password);
+                UserBLL user;
+                if (speciality.NameSpeciality == "nurse")
+                {
+                    user = new UserBLL(model.Name, model.Surname, model.SecondName, model.Birth, model.Address, model.Email, "nurse", model.Password);
+                }
+                else
+                {
+                    user = new UserBLL(model.Name, model.Surname, model.SecondName, model.Birth, model.Address, model.Email, "doctor", model.Password);
+                }
+
                 OperationDetails operationDetails = await DoctorService.Create(user, speciality);
                 if (operationDetails.Succedeed)
                 {

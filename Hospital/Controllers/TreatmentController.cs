@@ -1,4 +1,6 @@
-﻿using HospitalBLL.Interfaces;
+﻿using Hospital.Models;
+using HospitalBLL.Infrastructure;
+using HospitalBLL.Interfaces;
 using HospitalBLL.Models;
 using HospitalBLL.Services;
 using Microsoft.AspNet.Identity;
@@ -9,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Hospital.Controllers
 {
@@ -138,9 +141,10 @@ namespace Hospital.Controllers
             TreatmentService.DischagePatient(idComplaint,recomendations, IdDiagnosis);
             var disacharge = TreatmentService.GetDischarge(idComplaint);
             var dischargeId = TreatmentService.GetIdDischarge(idComplaint);
-            DischargeDocumentCreator.CreateDischargeDocument(disacharge, dischargeId);
+            string path= DischargeDocumentCreator.CreateDischargeDocument(disacharge, dischargeId).Property;
             ViewBag.SuccessDischarge=true;
-            return RedirectToAction("DoctorsPatients", "Doctor");
+            return RedirectToAction("DoctorsPatientsDischarged", "Doctor", new RouteValueDictionary
+            { { "path",path} }); ;
         }
 
         [HttpGet]
@@ -166,6 +170,24 @@ namespace Hospital.Controllers
         }
 
 
+
+        [HttpGet]
+        public ActionResult OpenFile(string path)
+        {
+            FileOpender opeder = new FileOpender();
+            opeder.OpenFile(path);
+            return View("DoctorsPatients","Doctor");
+        }
+
+
+        [HttpPost]
+        public ActionResult MatchDoctor(string idPatient)
+        {
+            var complaint = TreatmentService.GetUnprocessedComplaint(idPatient);
+            var doctors= DoctorService.GetDoctorsByIdSpeciality(complaint.Speciality.IdSpeciality);
+            var model = new MatchDoctor(complaint,doctors);
+            return View(model);
+        }
     }
 
 }

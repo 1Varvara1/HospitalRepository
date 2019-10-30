@@ -1,26 +1,29 @@
 ﻿@model Hospital.Models.ComplaintRegistrationService
 
 @{
-    ViewBag.Title = "ComplaintRegstration";
+    ViewBag.Title = "Регистрация жалобы";
 }
 @section Style{
     <link rel="stylesheet" href="~/Content/complaint.css">
     <link rel="stylesheet" href="~/Content/bootstrap.css">
+    <link rel="stylesheet" href="~/fonts/Montserrat-Black.ttf">
+
+
 
 }
 
-<div class="row cont">
+<div class="row cont" onload="Load()">
     <div class="imgBack col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form bottom-left col-lg-4 col-md-5 col-sm-7 col-sm-offset-1 col-xs-10 col-xs-offset-1">
             <h2 class="h2new">Оформление жалобы</h2>
             <div class="step step1">
                 <img src="~/Images/NumbOne.png" style="height:60px" />
                 <span class="compRegFont">
-                    Выберете пациента 
+                    Выберете пациента
                 </span>
                 <button type="button" class="btn btn-primary"
                         data-toggle="modal" data-target="#ModalPatients">
-                    <span class="compRegFont">Выбрать</span>
+                    <span>Выбрать</span>
                 </button>
             </div>
             <div class="step step2">
@@ -39,7 +42,7 @@
             <div class="step step3">
 
                 <img src="~/Images/NumberTree.png" style="height:60px" />
-                <span class="compRegFont">Выберете доктора/span>
+                <span class="compRegFont">Выберете доктора</span>
                 <button type="button" class="btn btn-primary compRegFont" data-toggle="modal" data-target="#DoctorsModal">Выбрать сейчас</button>
             </div>
 
@@ -61,7 +64,7 @@
                         <div class="chip" id="patientField" style="display:none;">
                             <img class="chPhoto" src="~/Images/h1.png" alt="Person" width="96" height="96" onclick="ChangePh(this)">
                             <span id="TextPatient"></span>
-                            <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                            <span class="closebtn" onclick="ClosebtnPatientClick(this)">&times;</span>
                         </div>
                     }
 
@@ -70,7 +73,7 @@
                     <div class="chip" id="specField" style="display:none;">
                         <img id="SpPhoto" class="chPhoto" src="~/Images/permanent.png" alt="Person" width="96" height="96">
                         <span id="dropText"></span>
-                        <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                        <span class="closebtn" onclick="ClosebtnClick(this)">&times;</span>
                     </div>
 
                     @*<div class="chip">
@@ -83,7 +86,7 @@
                     <div class="chip" id="DoctorField" style="display:none;">
                         <img class="chPhoto" src="~/Images/d1.png" alt="doctor" width="96" height="96">
                         <span id="DoctorText"></span>
-                        <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                        <span class="closebtn" onclick="ClosebtnDocClick(this)">&times;</span>
                     </div>
                 </div>
 
@@ -268,7 +271,37 @@
 @if (ViewBag.SuccessRegistration == true)
 {
     <script>
-    Swal.fire('Any fool can use a computer');
+        Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Жалоба успешно оформлена',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+}
+
+@if (ViewBag.SpecialityError == true)
+{
+    <script>
+        Swal.fire({
+            type: 'error',
+            title: 'Ошибка',
+            text: 'Необходимо выбрать специализцию'
+
+        })
+    </script>
+}
+
+
+@if (ViewBag.PatientError == true)
+{
+    <script>
+        Swal.fire({
+            type: 'error',
+            title: 'Ошибка',
+            text: 'Необходимо выбрать пациента'
+        })
     </script>
 }
 
@@ -282,7 +315,7 @@
         $('#specField').css('display', 'inline-block');
         $('#dropText').text(selectedOption.text);
         $('#IdSpeciality').attr('value', selectedOption.value);
-      //  $('#SpPhoto').attr('src', '"/Images/'selectedOption.value);
+        //  $('#SpPhoto').attr('src', '"/Images/'selectedOption.value);
     }
 
     Select.addEventListener("change", changeOption);
@@ -335,6 +368,24 @@
         }
     }
 
+    function ClosebtnClick(obj) {
+        obj.parentElement.style.display = 'none';
+        $('#IdSpeciality').attr('value', '0');
+    }
+
+    function ClosebtnPatientClick(obj) {
+        obj.parentElement.style.display = 'none';
+        $('#IdPatient').attr('value', "");
+
+    }
+
+    function ClosebtnDocClick(obj) {
+        obj.parentElement.style.display = 'none';
+        $('#IdDoctor').attr('value', "");
+
+    }
+
+
     function ChangePh(obj) {
         let n = Math.floor((Math.random() * 12) + 1);
         obj.src = "/Images/h" + n + ".png";
@@ -349,5 +400,6 @@
         //obj.src = s + n + ".png";
 
     }
+
 
 </script>

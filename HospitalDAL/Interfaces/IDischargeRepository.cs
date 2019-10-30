@@ -13,5 +13,7 @@ namespace HospitalDAL.Interfaces
         Discharge Get(int idDischarge);
         void Create(Discharge discharge);
         void Save();
+        void UpdateDocPath(int idDischarge, string path);
+       
     }
 }

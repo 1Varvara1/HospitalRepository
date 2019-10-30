@@ -54,12 +54,20 @@ namespace Hospital.Controllers
             }
         }
 
+        private ITreatmentService TreatmentService
+        {
+            get
+            {
+                return creator.CreateTreatmentService();
+            }
+        }
+
         [HttpGet]
         public ActionResult PatientSearch()
         {
             // var complaints = ComplaintService.GetAll();
             var models = UserService.GetPatients();
-
+           
             return View(models);
         }
 
@@ -129,7 +137,8 @@ namespace Hospital.Controllers
 
             if (Idpatient != null)
             {
-                model = UserService.GetPatients().Where(p => p.IdClientProfile == Idpatient).FirstOrDefault();
+                model = UserService.GetPatients().Where(p => p.IdClientProfile == Idpatient).
+                    FirstOrDefault();
                 //  return View(model);
             }
 
@@ -143,49 +152,55 @@ namespace Hospital.Controllers
         {
             // Fill SelectList  
             var specialities = SpecialityService.GetAllSpecialities();
+            specialities.RemoveAll(s=>s.NameSpeciality== "Медсестренство");
             ViewBag.Specialities = new SelectList(specialities, "IdSpeciality", "NameSpeciality");
             ViewBag.Sp = specialities;
-             //var model = new UserBLL();
-
-            //// Fill List of Patients
-            //var patients = UserService.GetPatients();
-
-            //// Fill List of Patients of doctors
-            //var doctors = DoctorService.GetAll();
-
-
-            //if (Idpatient != null)
-            //{
-            //    model = UserService.GetPatients().Where(p => p.IdClientProfile == Idpatient).FirstOrDefault();
-            //    return View(model);
-            //}
-
-            ////Form model for the view
-            //var service = new ComplaintRegistrationService(model, patients, doctors);
+        
             var service = FormComplaintRegistrationService(Idpatient);
             return View(service);
         }
 
-
+        [HttpPost]
+        public ActionResult MatchDoctor(int idComplaint, string idDoctor)
+        {
+            ComplaintService.MatchComplaintDoctor(idComplaint, idDoctor);
+            return RedirectToAction("PatientSearch","Patient");
+        }
 
         [HttpPost]
         public async Task<ActionResult> PatientComplaintRegistration(ComplaintRegistration complaintRegistration)
         {
-            // Create complaint
-            int idComplaint = await ComplaintService.Create(complaintRegistration.IdPatient, complaintRegistration.IdSpeciality);
-
-            if (complaintRegistration.IdDoctor != null)
+            ComplaintRegistrationService service;
+            
+            if (complaintRegistration.IdPatient == null)
             {
-                ComplaintService.MatchComplaintDoctor(idComplaint, complaintRegistration.IdDoctor);
+                ViewBag.PatientError = true;
+
+            }
+            else if (complaintRegistration.IdSpeciality==0)
+            {
+                ViewBag.SpecialityError = true;
+              
+            }
+            else
+            {
+                // Create complaint
+                int idComplaint = await ComplaintService.Create(complaintRegistration.IdPatient, complaintRegistration.IdSpeciality);
+
+                if (complaintRegistration.IdDoctor != null)
+                {
+                    ComplaintService.MatchComplaintDoctor(idComplaint, complaintRegistration.IdDoctor);
+                }
             }
 
             // Fill SelectList  
             var specialities = SpecialityService.GetAllSpecialities();
+            specialities.RemoveAll(s => s.NameSpeciality == "Медсестренство");
             ViewBag.Specialities = new SelectList(specialities, "IdSpeciality", "NameSpeciality");
             ViewBag.Sp = specialities;
             ViewBag.SuccessRegistration = true;
 
-            var service = FormComplaintRegistrationService();
+            service = FormComplaintRegistrationService();
             return View("ComplaintRegstration", service);
         }
     }

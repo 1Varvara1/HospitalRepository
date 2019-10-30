@@ -46,5 +46,12 @@ namespace HospitalDAL.Repositories
         {
             db.SaveChanges();
         }
+
+        public void UpdateDocPath(int idComplaint, string path)
+        {
+            var discharge = db.Discharges.Where(d => d.ComplaintIdComplaint == idComplaint).
+                FirstOrDefault().DocumentPath=path;
+            Save();
+        }
     }
 }

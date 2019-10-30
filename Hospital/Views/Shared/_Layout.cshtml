@@ -12,15 +12,16 @@
     @Styles.Render("~/Content/loginForm.css")
     @RenderSection("Style", required: false)
     @Scripts.Render("~/bundles/modernizr")
-
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
 </head>
 <body>
+    
     <div class="navbar" style="border-bottom-width: 0px;margin-bottom: 0px; border-right-width: 0px; border-left-width: 0px;border-top-width: 0px;">
 
 
-        <div onclick="openNav()"><a class="active" href="#"><i class="fa fa-fw fa-bars">  </i></a></div>
+        <div onclick="openNav()" style="margin-left:20px;"><a class="active" href="#"><i class="fa fa-fw fa-bars">  </i></a></div>
 
         @if (!User.Identity.IsAuthenticated)
         {
@@ -73,7 +74,7 @@
     </div>
 
     <div id="mySidenav" class="sidenav">
-        <img src="~/Images/hospital_sign.png" width="50%">
+        <img src="~/Images/hospital_sign.png" id="sideImg" alt="sign">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
         @if (User.IsInRole("admin"))
@@ -117,15 +118,90 @@
                 @Html.ActionLink("Мои пациенты", "DoctorsPatients", "Doctor")
             </div>
         }
+        @if (User.IsInRole("nurse"))
+        {
+            <div>
+                @Html.ActionLink("Пациенты", "PersonalPage", "Nurse")
+            </div>
+            <div>
+                @Html.ActionLink("Личный кабинет", "DoctorsPatients", "Nurse")
+            </div>
+        }
 
 
     </div>
     <div>
-        @RenderBody()
+        <div class="bodyRender"> @RenderBody()
+        </div>
+       
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - мое приложение ASP.NET</p>
-        </footer>
+     
+            <footer class="page-footer font-small unique-color-dark pt-0">
+                <div class="prefoot">
+                    <div class="primary-color">
+                        <div class="container">
+                            <div class="row py-4 d-flex align-items-center">
+                                <div class="col-md-6 col-lg-5 col-sm-6 text-center text-md-left mb-4 mb-md-0">
+                                    <h6 class="mb-0 white-text">Get connected with us on social networks</h6>
+                                </div>
+                                <div class="col-md-6 col-lg-7 col-sm-6 text-center text-md-right">
+                                    <a href="#" class="fb-ic ml-0">
+                                        <i class="fa fa-facebook white-text mr-4"></i>
+                                    </a>
+                                    <a href="#" class="fb-ic ml-0">
+                                        <i class="fa fa-twitter white-text mr-4"></i>
+                                    </a>
+                                    <a href="#" class="fb-ic ml-0">
+                                        <i class="fa fa-google white-text mr-4"></i>
+                                    </a>
+                                    <a href="#" class="fb-ic ml-0">
+                                        <i class="fa fa-instagram white-text mr-4"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="foot">
+                    <div class="container mb-4 text-center text-md-left">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
+                                <h6 class="text-uppercase font-weight-bold pt-5"><strong>Our company</strong></h6>
+                                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px">
+                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas tenetur laudantium velit, laborum ut cupiditate illum expedita quia asperiores, voluptatibus eum. Totam, quasi in tempora sunt nulla distinctio officiis excepturi?</p>
+                            </div>
+
+                            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                                <h6 class="text-uppercase font-weight-bold pt-5"><strong>Products</strong></h6>
+                                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px">
+                                <p><a href="#">Bootstrap</a></p>
+                                <p><a href="#">Bootstrap</a></p>
+                                <p><a href="#">Bootstrap</a></p>
+                                <p><a href="#">Bootstrap</a></p>
+                            </div>
+
+                            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                                <h6 class="text-uppercase font-weight-bold pt-5"><strong>Links</strong></h6>
+                                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px">
+                                <p><a href="#">Account</a></p>
+                                <p><a href="#">Help</a></p>
+                                <p><a href="#">Info</a></p>
+                                <p><a href="#">Bootstrap</a></p>
+                            </div>
+
+                            <div class="col-md-4 col-lg-3 col-xl-3">
+                                <h6 class="text-uppercase font-weight-bold pt-5"><strong>Contact</strong></h6>
+                                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px">
+                                <p><i claas="fa fa-home mr-3"></i>Kharkiv</p>
+                                <p><i claas="fa fa-envelope mr-3"></i>info@gmail.com</p>
+                                <p><i claas="fa fa-phone mr-3"></i>+380 954 12 17</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+       
     </div>
     <script>
         function openNav() {

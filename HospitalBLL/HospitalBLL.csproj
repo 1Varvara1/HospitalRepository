@@ -76,6 +76,8 @@
     <Compile Include="Comparers\ProcedureNameComparer.cs" />
     <Compile Include="Comparers\SurnameDoctorComparer.cs" />
     <Compile Include="Comparers\SurnameUserComparer.cs" />
+    <Compile Include="Infrastructure\FileOpender.cs" />
+    <Compile Include="Infrastructure\MassageSender.cs" />
     <Compile Include="Infrastructure\OperationDetails.cs" />
     <Compile Include="Interfaces\IComplaintService.cs" />
     <Compile Include="Interfaces\IDiagnosisService.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Models\ClientProfileBLL.cs" />
     <Compile Include="Models\ComplaintBLL.cs" />
+    <Compile Include="Models\ComplaintMatchBLL.cs" />
     <Compile Include="Models\DiagnosisBLL.cs" />
     <Compile Include="Models\DischargeBLL.cs" />
     <Compile Include="Models\DoctorBLL.cs" />

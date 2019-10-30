@@ -6,7 +6,7 @@
 
 @section Style{
     <link rel="stylesheet" href="~/Content/loginValidationForm.css">
-    
+
 }
 
 <h2>Регистрация</h2>
@@ -23,21 +23,26 @@
 
             @Html.LabelFor(m => m.Name, "Имя")
             @Html.TextBoxFor(m => m.Name, new { placeholder = "Введите имя пациента", id = "Name" })
+            @Html.ValidationMessageFor(model => model.Name)
 
             @Html.LabelFor(m => m.Surname, "Фамилия")
             @Html.TextBoxFor(m => m.Surname, new { placeholder = "Введите фамилию пациента", id = "Surname" })
+            @Html.ValidationMessageFor(model => model.Surname)
 
             @Html.LabelFor(m => m.SecondName, "Отчество")
             @Html.TextBoxFor(m => m.SecondName, new { placeholder = "Введите отчество пациента", id = "SecondName" })
+            @Html.ValidationMessageFor(model => model.SecondName)
 
             @Html.LabelFor(m => m.Birth, "Дата рождения")
             @Html.TextBoxFor(m => m.Birth, new { id = "Birth", type = "date" })
+            @Html.ValidationMessageFor(model => model.Birth)
             <br />
             @Html.LabelFor(m => m.Address, "Адрес")
             @Html.TextBoxFor(m => m.Address, new { placeholder = "Введите адрес пациента", id = "Address" })
 
             @Html.LabelFor(m => m.Email, "Email")
             @Html.TextBoxFor(m => m.Email, new { placeholder = "Введите email пациента", id = "Email", type = "email" })
+            @Html.ValidationMessageFor(model => model.Email)
             <br />
             @*<span>
                     <input type="checkbox" name="redirect" value="true" />
@@ -68,6 +73,18 @@
         })
     </script>
 }
+@if (ViewBag.Succes == false)
+{
+    <script>
+        Swal.fire({
+            type: 'error',
+            title: 'Пациент не бы зарегистрирован',
+            text: 'Неккоректное введенние данных',
+
+        })
+    </script>
+}
+
 
 <script>
 

@@ -76,5 +76,21 @@ namespace HospitalBLL.Services
             //Save changes
             Database.ComplaintRepository.Save();
         }
+
+        public List<ComplaintBLL> GetAllUnProcessed()
+        {
+            var complaints = GetAll();
+            var complaintList = new List<ComplaintBLL>();
+
+            // Remove processed 
+            foreach (var item in complaintList)
+            {
+                if (item.IsProccesed==false)
+                {
+                    complaints.Add(item);
+                }
+            }
+            return complaintList;
+        }
     }
 }

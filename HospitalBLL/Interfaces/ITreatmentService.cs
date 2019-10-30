@@ -23,5 +23,8 @@ namespace HospitalBLL.Interfaces
         DischargeBLL GetDischarge(int idComplaint);
         int GetIdDischarge(int idComplaint);
         List<SessionBLL> GetPatientTreatmentHistory(string idPatient);
+
+        List<ComplaintBLL> GetUnprocessedComplaints();
+        ComplaintMatchBLL GetUnprocessedComplaint(string idPatient);
     }
 }

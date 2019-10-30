@@ -50,7 +50,7 @@ namespace HospitalBLL.Services
             }
             else
             {
-                return new OperationDetails(false, "Пользователь с таким логином уже существует", "Email");
+                return new OperationDetails(false, "Пользователь с таким email уже существует", "Email");
             }
         }
 

@@ -371,6 +371,8 @@
     <Compile Include="Models\ComplaintRegistrationService.cs" />
     <Compile Include="Models\DoctorRegisterModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MatchDoctor.cs" />
+    <Compile Include="Models\NurseController.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -390,6 +392,7 @@
     <Content Include="Content\complaint.css" />
     <Content Include="Content\computer-3343887.jpg" />
     <Content Include="Content\doctor56.jpg" />
+    <Content Include="Content\doctorSearch.css" />
     <Content Include="Content\DropDown.css" />
     <Content Include="Content\loader.css" />
     <Content Include="Content\loginForm.css" />
@@ -504,6 +507,7 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="fonts\Montserrat-Black.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -564,6 +568,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Treatment\MatchDoctor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -586,6 +591,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Nurse\" />
     <Folder Include="Views\Patient\Images\" />
   </ItemGroup>
   <ItemGroup>
